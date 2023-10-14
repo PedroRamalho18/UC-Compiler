@@ -11,6 +11,7 @@
 
 NATURAL   [0-9]
 IDENTIFIER [a-zA-Z_][a-zA-Z_0-9]*
+DECIMAL ([0-9]+(\.[0-9]*)*|\.[0-9]+)([eE][-+]?[0-9]+)?
 
 
 CHAR "char"
@@ -84,7 +85,7 @@ error .
                         }
 
 {NATURAL}+              { printf("NATURAL\n"); }
-{NATURAL}*"."{NATURAL}+ { printf("DECIMAL\n"); }
+{DECIMAL}               { printf("DECIMAL %s\n",yytext); }
 {CHAR}                  { printf("CHAR\n");}
 {IF}                    { printf("IF\n");}
 {INT}                   { printf("INT\n");}
