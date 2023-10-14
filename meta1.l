@@ -9,11 +9,46 @@
 
 %X COMMENT WORD
 
-digit   [0-9]
-identifier [a-z][a-z0-9]*
-keywords "integer"|"double"|"if"|"then"|"else"
-ignore " "|"\t"|"\n"|"\r"|"\f,|"\\"|"\"
-punctuation [()=,*/+-]
+NATURAL   [0-9]
+IDENTIFIER [a-zA-Z_][a-zA-Z_0-9]*
+
+
+CHAR "char"
+ELSE "else"
+WHILE "while"
+IF "if"
+INT "int"
+SHORT "short"
+DOUBLE "double"
+RETURN "return"
+VOID "void"
+BITWISEAND "&"
+BITWISEOR "|"
+BITWISEXOR "ˆ"
+AND "&&"
+ASSIGN "="
+MUL "*"
+COMMA ","
+DIV "/"
+EQ "=="
+GE ">="
+GT ">"
+LBRACE "{"
+LE "<="
+LPAR "("
+LT "<"
+MINUS "-"
+MOD "%"
+NE "!="
+NOT "!"
+OR "||"
+PLUS "+"
+RBRACE "}"
+RPAR ")"
+SEMI ";"
+RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inline"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"
+IGNORE " "|"\t"|"\n"|"\r"|"\f,|"\\"|"\"
+
 error .
 
 
@@ -41,17 +76,50 @@ error .
 <WORD>.								{ strcat(palavra,yytext); }
 
 
-{ignore}                {   
+{IGNORE}                {   
                             if (*yytext == '\n'){
                                 row += 1;
                                 column = 0;
                             }
                         }
-{punctuation}           { printf("%s\n",yytext);}
-{digit}+                { printf("NATURAL %s\n",yytext); }
-{digit}*"."{digit}+     { printf("DECIMAL  %s\n",yytext); }
-{keywords}              { printf("%s\n",yytext);}
-{identifier}            { printf("IDENTIFIER %s\n",yytext);}
+
+{NATURAL}+              { printf("NATURAL\n"); }
+{NATURAL}*"."{NATURAL}+ { printf("DECIMAL\n"); }
+{CHAR}                  { printf("CHAR\n");}
+{IF}                    { printf("IF\n");}
+{INT}                   { printf("INT\n");}
+{SHORT}                 { printf("SHORT\n");}
+{DOUBLE}                { printf("DOUBLE\n");}
+{RETURN}                { printf("RETURN\n");}
+{VOID}                  { printf("VOID\n");}
+{BITWISEAND}            { printf("BITWISEAND\n");}
+{BITWISEOR}             { printf("BITWISEOR\n");}
+{BITWISEXOR}            { printf("BITWISEXOR\n");}
+{AND}                   { printf("AND\n");}
+{ASSIGN}                { printf("ASSIGN\n");}
+{MUL}                   { printf("MUL\n");}
+{COMMA}                 { printf("COMMA\n");}
+{DIV}                   { printf("DIV\n");}
+{EQ}                    { printf("EQ\n");}
+{GE}                    { printf("GE\n");}
+{GT}                    { printf("GT\n");}
+{LBRACE}                { printf("LBRACE\n");}
+{LE}                    { printf("LE\n");}
+{LT}                    { printf("LT\n");}
+{MINUS}                 { printf("MINUS\n");}
+{MOD}                   { printf("MOD\n");}
+{NE}                    { printf("NE\n");}
+{NOT}                   { printf("NOT\n");}
+{OR}                    { printf("OR\n");}
+{PLUS}                  { printf("PLUS\n");}
+{RBRACE}                { printf("RBRACE\n");}
+{RPAR}                  { printf("RPAR\n");}
+{SEMI}                  { printf("SEMI\n");}
+{RESERVED}              { printf("RESERVED\n");}
+
+
+
+{IDENTIFIER}            { printf("IDENTIFIER (%s)\n",yytext);}
 {error}                 { printf("Unrecognized character '%s' (line %d, column %d)\n", yytext, row, column); }
 
 %%
@@ -63,3 +131,4 @@ int main() {
 int yywrap() {  /* called on EOF, return 1 to terminate */
     return 1;
 }
+
