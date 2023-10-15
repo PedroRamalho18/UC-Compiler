@@ -2,17 +2,16 @@
 	#include <stdio.h>
 	#include <string.h>
 	
-	int row = 1, column = 0;
+	int row = 1, column = 0, error=0;
 	char palavra[100];
 	#define YY_USER_ACTION {column += yyleng;}
 %}
 
-%X COMMENT WORD
+%X COMMENT CHRLIT COMMENTLINE
 
 NATURAL   [0-9]
 IDENTIFIER [a-zA-Z_][a-zA-Z_0-9]*
 DECIMAL ([0-9]+(\.[0-9]*)*|\.[0-9]+)([eE][-+]?[0-9]+)?
-
 
 CHAR "char"
 ELSE "else"
@@ -55,27 +54,20 @@ error .
 
 %%
 
-"/*"			{BEGIN(COMMENT);}
-<COMMENT>.		{ECHO;}
-<COMMENT>\r|\n|\r\n {
-                        row += 1;
-                        column = 0;
-                    }		
-                                                                       
-<COMMENT>"*/"		{BEGIN(INITIAL);}
+"/*"                            { BEGIN(COMMENT); }
+<COMMENT>\n|\r|\r\n                {row += 1;
+                                 column = 0;}
+                                 
+<COMMENT>"*/"                    { BEGIN(INITIAL); }
+<COMMENT>.                        {;}
 
-\"									{ BEGIN(WORD); }
-<WORD>\\+[^fnrt\"]+					{ printf("error.. \n");
-									  BEGIN(INITIAL);
-									  strcpy(palavra,"\0");}
-<WORD>\"							{ BEGIN(INITIAL);
-									  printf("STRLIT (\"%s\")\n",palavra);
-									  strcpy(palavra,"\0"); }
-<WORD>"\n"							{ printf("error.. \n");
-									  BEGIN(INITIAL);
-									  strcpy(palavra,"\0"); }
-<WORD>.								{ strcat(palavra,yytext); }
-
+"//"                            {BEGIN(COMMENTLINE);}                                                          
+<COMMENTLINE>\r|\n|\r\n            {BEGIN(INITIAL);
+                                row += 1;
+                                column = 0;
+                                }
+<COMMENTLINE>.                    {;}
+                    
 
 {IGNORE}                {   
                             if (*yytext == '\n'){
@@ -86,6 +78,20 @@ error .
 
 {NATURAL}+              { printf("NATURAL\n"); }
 {DECIMAL}               { printf("DECIMAL %s\n",yytext); }
+
+\"                                    { BEGIN(CHRLIT); 
+                                      strcpy(palavra,"\0");}
+<CHRLIT>"\n"                            { printf("error.. \n");
+                                      BEGIN(INITIAL);}
+<CHRLIT>\"[^\"]                        { BEGIN(INITIAL);
+                                      if(error <= 1) printf("CHARLIT (\'%s')\n",palavra);
+                                      else printf("error.. \n");
+                                      error = 0;}
+<CHRLIT>\\[0-7]{0,3}                    { strcpy(palavra, yytext); error += 1;}
+<CHRLIT>\\[^\"'nt\\]                    { error = 2;}
+<CHRLIT>\\[\"'nt\\]                    { strcpy(palavra, yytext); error += 1;}
+<CHRLIT>.                                { strcpy(palavra, yytext); error += 1;}
+
 {CHAR}                  { printf("CHAR\n");}
 {IF}                    { printf("IF\n");}
 {INT}                   { printf("INT\n");}
