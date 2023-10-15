@@ -79,17 +79,17 @@ error .
 {NATURAL}+              { printf("NATURAL\n"); }
 {DECIMAL}               { printf("DECIMAL %s\n",yytext); }
 
-\"                                    { BEGIN(CHRLIT); 
+\'                                    { BEGIN(CHRLIT); 
                                       strcpy(palavra,"\0");}
 <CHRLIT>"\n"                            { printf("error.. \n");
                                       BEGIN(INITIAL);}
-<CHRLIT>\"[^\"]                        { BEGIN(INITIAL);
-                                      if(error <= 1) printf("CHARLIT (\'%s')\n",palavra);
-                                      else printf("error.. \n");
-                                      error = 0;}
 <CHRLIT>\\[0-7]{0,3}                    { strcpy(palavra, yytext); error += 1;}
 <CHRLIT>\\[^\"'nt\\]                    { error = 2;}
 <CHRLIT>\\[\"'nt\\]                    { strcpy(palavra, yytext); error += 1;}
+<CHRLIT>\'                            { BEGIN(INITIAL);
+                                      if(error <= 1) printf("CHRLIT ('%s')\n",palavra);
+                                      else printf("error.. \n");
+                                      error = 0;}
 <CHRLIT>.                                { strcpy(palavra, yytext); error += 1;}
 
 {CHAR}                  { printf("CHAR\n");}
@@ -112,6 +112,7 @@ error .
 {GT}                    { printf("GT\n");}
 {LBRACE}                { printf("LBRACE\n");}
 {LE}                    { printf("LE\n");}
+{LPAR}                  { printf("LPAR\n");}
 {LT}                    { printf("LT\n");}
 {MINUS}                 { printf("MINUS\n");}
 {MOD}                   { printf("MOD\n");}
