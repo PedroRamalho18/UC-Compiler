@@ -76,8 +76,8 @@ error .
                             }
                         }
 
-{NATURAL}+              { printf("NATURAL\n"); }
-{DECIMAL}               { printf("DECIMAL %s\n",yytext); }
+{NATURAL}+              { printf("NATURAL(%s)\n",yytext);}
+{DECIMAL}               { printf("DECIMAL(%s)\n",yytext); }
 
 \'                                    { BEGIN(CHRLIT); 
                                       strcpy(palavra,"\0");}
@@ -87,12 +87,14 @@ error .
 <CHRLIT>\\[^\"'nt\\]                    { error = 2;}
 <CHRLIT>\\[\"'nt\\]                    { strcpy(palavra, yytext); error += 1;}
 <CHRLIT>\'                            { BEGIN(INITIAL);
-                                      if(error <= 1) printf("CHRLIT ('%s')\n",palavra);
+                                      if(error <= 1) printf("CHRLIT('%s')\n",palavra);
                                       else printf("error.. \n");
                                       error = 0;}
 <CHRLIT>.                                { strcpy(palavra, yytext); error += 1;}
 
 {CHAR}                  { printf("CHAR\n");}
+{ELSE}                  { printf("ELSE\n");}
+{WHILE}                 { printf("WHILE\n");}
 {IF}                    { printf("IF\n");}
 {INT}                   { printf("INT\n");}
 {SHORT}                 { printf("SHORT\n");}
@@ -127,7 +129,7 @@ error .
 
 
 
-{IDENTIFIER}            { printf("IDENTIFIER (%s)\n",yytext);}
+{IDENTIFIER}            { printf("IDENTIFIER(%s)\n",yytext);}
 {error}                 { printf("Unrecognized character '%s' (line %d, column %d)\n", yytext, row, column); }
 
 %%
