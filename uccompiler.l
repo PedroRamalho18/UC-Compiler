@@ -24,7 +24,7 @@ RETURN "return"
 VOID "void"
 BITWISEAND "&"
 BITWISEOR "|"
-BITWISEXOR "ˆ"
+BITWISEXOR "^"
 AND "&&"
 ASSIGN "="
 MUL "*"
@@ -46,10 +46,10 @@ PLUS "+"
 RBRACE "}"
 RPAR ")"
 SEMI ";"
-RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inline"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"
+RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"_Bool"|"_Complex"|"_Imaginary"|"inline"
 IGNORE " "|"\t"|"\n"|"\r"|"\f,|"\\"|"\"
 
-error .
+erro .
 
 
 %%
@@ -69,6 +69,21 @@ error .
 <COMMENTLINE>.                    {;}
                     
 
+\'                                    { BEGIN(CHRLIT); 
+                                        strcpy(palavra,"\0");
+                                        error = 0;}
+<CHRLIT>"\n"                          { printf("Line %d, column %d: unterminated char constant\n",row,  column - error - 1);
+                                        row += 1;
+                                           column = 0;
+                                          BEGIN(INITIAL);}
+<CHRLIT>\\[0-7]{0,3}                  { strcpy(palavra, yytext); error += 1;}
+<CHRLIT>\\[^\"'nt\\]                  { error = 2;}
+<CHRLIT>\\[\"'nt\\]                   { strcpy(palavra, yytext); error += 1;}
+<CHRLIT>\'                            { BEGIN(INITIAL);
+                                        if(error == 1) printf("CHRLIT('%s')\n",palavra);
+                                        else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column - error - 1, palavra);}
+<CHRLIT>.                             { strcpy(palavra, yytext); error += 1;}
+
 {IGNORE}                {   
                             if (*yytext == '\n'){
                                 row += 1;
@@ -79,18 +94,6 @@ error .
 {NATURAL}+              { printf("NATURAL(%s)\n",yytext);}
 {DECIMAL}               { printf("DECIMAL(%s)\n",yytext); }
 
-\'                                    { BEGIN(CHRLIT); 
-                                      strcpy(palavra,"\0");}
-<CHRLIT>"\n"                            { printf("error.. \n");
-                                      BEGIN(INITIAL);}
-<CHRLIT>\\[0-7]{0,3}                    { strcpy(palavra, yytext); error += 1;}
-<CHRLIT>\\[^\"'nt\\]                    { error = 2;}
-<CHRLIT>\\[\"'nt\\]                    { strcpy(palavra, yytext); error += 1;}
-<CHRLIT>\'                            { BEGIN(INITIAL);
-                                      if(error <= 1) printf("CHRLIT('%s')\n",palavra);
-                                      else printf("error.. \n");
-                                      error = 0;}
-<CHRLIT>.                                { strcpy(palavra, yytext); error += 1;}
 
 {CHAR}                  { printf("CHAR\n");}
 {ELSE}                  { printf("ELSE\n");}
@@ -125,12 +128,12 @@ error .
 {RBRACE}                { printf("RBRACE\n");}
 {RPAR}                  { printf("RPAR\n");}
 {SEMI}                  { printf("SEMI\n");}
-{RESERVED}              { printf("RESERVED\n");}
+{RESERVED}              { printf("RESERVED(%s)\n",yytext);}
 
 
 
 {IDENTIFIER}            { printf("IDENTIFIER(%s)\n",yytext);}
-{error}                 { printf("Unrecognized character '%s' (line %d, column %d)\n", yytext, row, column); }
+{erro}                  { printf("Line %d, column %d: unrecognized character (%s)\n",row, column, yytext); }
 
 %%
 extern int yylex();
@@ -141,4 +144,3 @@ int main() {
 int yywrap() {  /* called on EOF, return 1 to terminate */
     return 1;
 }
-
