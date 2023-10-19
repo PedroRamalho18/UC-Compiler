@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include <string.h>
 	
-	int row = 1, column = 0, error=0;
+	int row = 1, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0;
 	char palavra[100];
 	#define YY_USER_ACTION {column += yyleng;}
 %}
@@ -24,7 +24,7 @@ RETURN "return"
 VOID "void"
 BITWISEAND "&"
 BITWISEOR "|"
-BITWISEXOR "^"
+BITWISEXOR "ˆ"
 AND "&&"
 ASSIGN "="
 MUL "*"
@@ -46,7 +46,7 @@ PLUS "+"
 RBRACE "}"
 RPAR ")"
 SEMI ";"
-RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"_Bool"|"_Complex"|"_Imaginary"|"inline"
+RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"
 IGNORE " "|"\t"|"\n"|"\r"|"\f,|"\\"|"\"
 
 erro .
@@ -54,35 +54,41 @@ erro .
 
 %%
 
-"/*"                            { BEGIN(COMMENT); }
-<COMMENT>\n|\r|\r\n                {row += 1;
-                                 column = 0;}
+"/*"                            { BEGIN(COMMENT); 
+                                  current_state_comment = 1;}
+<COMMENT>\n|\r|\r\n             {row += 1;
+                                column = 0;}
                                  
-<COMMENT>"*/"                    { BEGIN(INITIAL); }
-<COMMENT>.                        {;}
+<COMMENT>"*/"                   { BEGIN(INITIAL); 
+                                  current_state_comment = 0;}
+<COMMENT>.                      {;}
 
 "//"                            {BEGIN(COMMENTLINE);}                                                          
-<COMMENTLINE>\r|\n|\r\n            {BEGIN(INITIAL);
+<COMMENTLINE>\r|\n|\r\n         {BEGIN(INITIAL);
                                 row += 1;
                                 column = 0;
                                 }
-<COMMENTLINE>.                    {;}
+<COMMENTLINE>.                  {;}
                     
 
 \'                                    { BEGIN(CHRLIT); 
                                         strcpy(palavra,"\0");
-                                        error = 0;}
-<CHRLIT>"\n"                          { printf("Line %d, column %d: unterminated char constant\n",row,  column - error - 1);
+                                        error = 0;
+                                        column_chr = column;
+                                        current_state_char = 1;}
+<CHRLIT>\\*"\n"                       { printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
                                         row += 1;
-                                           column = 0;
-                                          BEGIN(INITIAL);}
-<CHRLIT>\\[0-7]{0,3}                  { strcpy(palavra, yytext); error += 1;}
-<CHRLIT>\\[^\"'nt\\]                  { error = 2;}
-<CHRLIT>\\[\"'nt\\]                   { strcpy(palavra, yytext); error += 1;}
+                                        column = 0;
+                                        BEGIN(INITIAL);
+                                        current_state_char = 0;}
+<CHRLIT>\\[0-7]{0,3}                  { strcat(palavra, yytext); error += 1;}
+<CHRLIT>\\[^\"'nt\\]                  { strcat(palavra, yytext); error = 2;}
+<CHRLIT>\\[\"'nt\\]                   { strcat(palavra, yytext); error += 1;}
 <CHRLIT>\'                            { BEGIN(INITIAL);
                                         if(error == 1) printf("CHRLIT('%s')\n",palavra);
-                                        else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column - error - 1, palavra);}
-<CHRLIT>.                             { strcpy(palavra, yytext); error += 1;}
+                                        else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column_chr, palavra); 
+                                        current_state_char = 0;}
+<CHRLIT>.                             { strcat(palavra, yytext); error += 1; }
 
 {IGNORE}                {   
                             if (*yytext == '\n'){
@@ -91,7 +97,7 @@ erro .
                             }
                         }
 
-{NATURAL}+              { printf("NATURAL(%s)\n",yytext);}
+{NATURAL}+              { printf("NATURAL(%s)\n",yytext); }
 {DECIMAL}               { printf("DECIMAL(%s)\n",yytext); }
 
 
@@ -142,5 +148,7 @@ int main() {
     return 0;
 }
 int yywrap() {  /* called on EOF, return 1 to terminate */
+    if (current_state_char == 1) printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
+    if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row, column_chr);
     return 1;
 }
