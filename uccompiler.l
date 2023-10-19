@@ -2,17 +2,17 @@
 	#include <stdio.h>
 	#include <string.h>
 	
-	int row = 1, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0;
-	char palavra[100];
+    int row = 1, row_comment = 0, column_comment = 0, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0;	
+    char palavra[100];
 	#define YY_USER_ACTION {column += yyleng;}
 %}
 
 %X COMMENT CHRLIT COMMENTLINE
 
 NATURAL   [0-9]
+RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"|"_Bool"|"_Complex"|"_Imaginary"|"inline"
 IDENTIFIER [a-zA-Z_][a-zA-Z_0-9]*
 DECIMAL ([0-9]+(\.[0-9]*)*|\.[0-9]+)([eE][-+]?[0-9]+)?
-
 CHAR "char"
 ELSE "else"
 WHILE "while"
@@ -24,7 +24,7 @@ RETURN "return"
 VOID "void"
 BITWISEAND "&"
 BITWISEOR "|"
-BITWISEXOR "ˆ"
+BITWISEXOR "^"
 AND "&&"
 ASSIGN "="
 MUL "*"
@@ -46,7 +46,6 @@ PLUS "+"
 RBRACE "}"
 RPAR ")"
 SEMI ";"
-RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"
 IGNORE " "|"\t"|"\n"|"\r"|"\f,|"\\"|"\"
 
 erro .
@@ -55,9 +54,11 @@ erro .
 %%
 
 "/*"                            { BEGIN(COMMENT); 
-                                  current_state_comment = 1;}
-<COMMENT>\n|\r|\r\n             {row += 1;
-                                column = 0;}
+                                  current_state_comment = 1;
+                                  row_comment = row;
+                                  column_comment = column - 1;}
+<COMMENT>\n|\r|\r\n             { row += 1;
+                                  column = 0;}
                                  
 <COMMENT>"*/"                   { BEGIN(INITIAL); 
                                   current_state_comment = 0;}
@@ -149,6 +150,6 @@ int main() {
 }
 int yywrap() {  /* called on EOF, return 1 to terminate */
     if (current_state_char == 1) printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
-    if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row, column_chr);
+    if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row_comment, column_comment);
     return 1;
 }

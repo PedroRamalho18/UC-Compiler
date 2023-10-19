@@ -1,6 +1,7 @@
-first
 CarriageReturn
-Code_Sample
+CharlitErrors erro lê tab como varios espaços
+Charlits erro quando lê o \t em formato espaço
+Code_Sample	
 Comentariosbarrabarra
 identifiers
 KeysIds
@@ -9,9 +10,28 @@ Realits
 Realit
 Sample
 Symbols
-funtions
-ilegal_char
+char_vars
+charliterrors2
+charlitErrors
+chrlit_test erro lê tab como varios espaços
 
+first
+funtions
+illegal_char
+illegalchar
+invalid_char -> cena dos tabs
+invalid_char2
+keywords2
+meta1Teste
+more_tests
+multipleTest
+multiple_tests
+multitest
+operators
+operatorsBracketsPonct
+ operators_brackets_pMarks
+test_comments
+ test_operators_brackets_punctuation
 
 
 
