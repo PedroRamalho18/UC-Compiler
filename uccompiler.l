@@ -14,7 +14,7 @@
 NATURAL   [0-9]
 RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"|"_Bool"|"_Complex"|"_Imaginary"|"inline"
 IDENTIFIER [a-zA-Z_][a-zA-Z_0-9]*
-DECIMAL ([0-9]+[eE][0-9]+|[0-9]+(\.[0-9]*)|\.[0-9]+)([eE][-+]?[0-9]+)?
+DECIMAL (\.[0-9]+([eE][-+]?[0-9]+)?)|([0-9]+(\.[0-9]*)?([eE][-+]?[0-9]+)?)
 CHAR "char"
 ELSE "else"
 WHILE "while"
