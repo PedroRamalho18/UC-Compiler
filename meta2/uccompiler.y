@@ -1,83 +1,135 @@
 %{
-#include <stdio.h>
+#include "ast.h"
+int yylex(void);
+void yyerror(char *);
+struct node *program;
 %}
 
-%token TYPE CHAR INT VOID SHORT DOUBLE IDENTIFIER NATURAL CHRLIT DECIMAL
-%left ','         /* Define a precedência do operador COMMA (à esquerda) */
-%left EQ NE       /* Define precedência e associatividade dos operadores relacionais */
-%left '<' '>' LE GE
-%left '+' '-'     /* Define precedência e associatividade dos operadores de adição/subtração */
-%left '*' '/' '%' /* Define precedência e associatividade dos operadores de multiplicação/divisão */
-%left OR          /* Define precedência e associatividade do operador OR */
-%left AND         /* Define precedência e associatividade do operador AND */
-%left '|'         /* Define precedência e associatividade do operador BITWISEOR */
-%left '^'         /* Define precedência e associatividade do operador BITWISEXOR */
-%left '&'         /* Define precedência e associatividade do operador BITWISEAND */
-%right UNARY      /* Define precedência do operador unário (à direita) */
-%left LPAR RPAR   /* Define precedência dos parênteses */
+%token CHAR DOUBLE INT SHORT ELSE WHILE IF RETURN VOID BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN MUL COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI IGNORE
+%token<token> IDENTIFIER NATURAL DECIMAL CHRLIT RESERVED
+%type<node> program FunctionsAndDeclarations FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declarations TypeSpec Declarator Statement Statements Expr ExprList
+
+%left COMMA  
+%left ASSIGN
+%left OR 
+%left AND 
+%left BITWISEOR 
+%left BITWISEXOR 
+%left BITWISEAND 
+%left EQ NE      
+%left LT LE GE GT  
+%left PLUS MINUS     
+%left MUL DIV MOD 
+%right NOT
+%left LPAR RPAR   
+
+%union{
+    char *token;
+    struct node *node;
+}
 
 %%
+program: FunctionsAndDeclarations {;} 
+    ;
 
-Program: FunctionsAndDeclarations { /* Código aqui */ }
+FunctionsAndDeclarations: FunctionDefinition {;}
+    | FunctionDeclaration {;}
+    | Declaration {;}
+    | FunctionDefinition FunctionsAndDeclarations {;}
+    | FunctionDeclaration FunctionsAndDeclarations {;}
+    | Declaration FunctionsAndDeclarations {;}
+    ;
 
-FunctionsAndDeclarations: FunctionDefinition { /* Código aqui */ }
-                      | FunctionDeclaration { /* Código aqui */ }
-                      | Declaration { /* Código aqui */ }
-                      | FunctionsAndDeclarations FunctionDefinition { /* Código aqui */ }
-                      | FunctionsAndDeclarations FunctionDeclaration { /* Código aqui */ }
-                      | FunctionsAndDeclarations Declaration { /* Código aqui */ }
+FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody {;}
+    ;
 
-FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody { /* Código aqui */ }
+FunctionBody: LBRACE DeclarationsAndStatements RBRACE {;}
+    | LBRACE RBRACE {;}
+    ;
 
-FunctionBody: LBRACE DeclarationsAndStatements RBRACE { /* Código aqui */ }
+DeclarationsAndStatements: Statement DeclarationsAndStatements {;}
+    | Declaration DeclarationsAndStatements {;}
+    | Statement {;}
+    | Declaration {;}
+    ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatements { /* Código aqui */ }
-                       | Declaration DeclarationsAndStatements { /* Código aqui */ }
-                       | Statement { /* Código aqui */ }
-                       | Declaration { /* Código aqui */ }
+FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {;}
+    ;
 
-FunctionDeclaration: TypeSpec FunctionDeclarator SEMI { /* Código aqui */ }
+FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR {;}
+    ;
 
-FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR { /* Código aqui */ }
+ParameterList: ParameterDeclaration {;}
+    | ParameterDeclaration COMMA ParameterList {;}
+    ;
 
-ParameterList: ParameterDeclaration { ',' ParameterDeclaration } { /* Código aqui */ }
+ParameterDeclaration: TypeSpec IDENTIFIER {;}
+    | TypeSpec {;}
+    ;
 
-ParameterDeclaration: TypeSpec [IDENTIFIER] { /* Código aqui */ }
+Declaration: TypeSpec Declarator Declarations SEMI {;}
+    ;
 
-Declaration: TypeSpec Declarator { ',' Declarator } SEMI { /* Código aqui */ }
+Declarations: ;
+    | Declarations COMMA Declarator {;}
 
-TypeSpec: CHAR | INT | VOID | SHORT | DOUBLE { /* Código aqui */ }
+TypeSpec: CHAR {;}
+    | INT {;}
+    | VOID {;}
+    | SHORT {;}
+    | DOUBLE {;}
+    ;
 
-Declarator: IDENTIFIER [ASSIGN Expr] { /* Código aqui */ }
+Declarator: IDENTIFIER {;}
+    | IDENTIFIER ASSIGN Expr {;}
+    ;
 
-Statement: [Expr] SEMI { /* Código aqui */ }
-         | LBRACE Statements RBRACE { /* Código aqui */ }
-         | IF LPAR Expr RPAR Statement [ELSE Statement] { /* Código aqui */ }
-         | WHILE LPAR Expr RPAR Statement { /* Código aqui */ }
-         | RETURN [Expr] SEMI { /* Código aqui */ }
+Statement: SEMI {;}
+    | Expr SEMI {;}
+    | LBRACE Statements RBRACE {;}
+    | IF LPAR Expr RPAR Statement ELSE Statement {;}
+    | IF LPAR Expr RPAR Statement {;}
+    | WHILE LPAR Expr RPAR Statement {;}
+    | RETURN SEMI {;}
+    | RETURN Expr SEMI {;}
+    ;
 
-Statements: Statement Statements { /* Código aqui */ }
-          | Statement { /* Código aqui */ }
+Statements: ; 
+    | Statements Statement {;}
+    ;
 
-Expr: Expr '=' Expr { /* Código aqui */ }
-    | Expr ',' Expr { /* Código aqui */ }
-    | Expr '+' Expr { /* Código aqui */ }
-    | Expr '-' Expr { /* Código aqui */ }
-    | Expr '*' Expr { /* Código aqui */ }
-    | Expr '/' Expr { /* Código aqui */ }
-    | Expr '%' Expr { /* Código aqui */ }
-    | Expr OR Expr { /* Código aqui */ }
-    | Expr AND Expr { /* Código aqui */ }
-    | Expr '|' Expr { /* Código aqui */ }
-    | Expr '^' Expr { /* Código aqui */ }
-    | Expr '&' Expr { /* Código aqui */ }
-    | UNARY Expr { /* Código aqui */ }
-    | IDENTIFIER LPAR [Expr { ',' Expr }] RPAR { /* Código aqui */ }
-    | IDENTIFIER { /* Código aqui */ }
-    | NATURAL { /* Código aqui */ }
-    | CHRLIT { /* Código aqui */ }
-    | DECIMAL { /* Código aqui */ }
-    | LPAR Expr RPAR { /* Código aqui */ }
+Expr: IDENTIFIER {;}
+    | NATURAL {;}
+    | CHRLIT {;}
+    | DECIMAL {;}
+    | LPAR Expr RPAR {;}
+    | Expr ASSIGN Expr {;}
+    | Expr COMMA Expr {;}
+    | Expr PLUS Expr {;}
+    | Expr MINUS Expr {;}
+    | Expr MUL Expr {;}
+    | Expr DIV Expr {;}
+    | Expr MOD Expr {;}
+    | Expr OR Expr {;}
+    | Expr AND Expr {;}
+    | Expr BITWISEOR Expr {;}
+    | Expr BITWISEXOR Expr {;}
+    | Expr BITWISEAND Expr {;}
+    | Expr EQ Expr {;}
+    | Expr NE Expr {;}
+    | Expr LE Expr {;}
+    | Expr GE Expr {;}
+    | Expr LT Expr {;}
+    | Expr GT Expr {;}
+    | MINUS Expr {;}
+    | PLUS Expr {;}
+    | NOT Expr {;}
+    | IDENTIFIER LPAR ExprList RPAR {;}
+    ;
+
+ExprList: ; 
+    | ExprList COMMA Expr {;}
+    ;
 
 %%
 
@@ -93,4 +145,4 @@ int yywrap() {
 int yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
     return 0;
-}
+}   
