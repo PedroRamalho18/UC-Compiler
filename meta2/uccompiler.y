@@ -3,52 +3,81 @@
 %}
 
 %token TYPE CHAR INT VOID SHORT DOUBLE IDENTIFIER NATURAL CHRLIT DECIMAL
-%token LBRACE RBRACE LPAR RPAR LBRACE RBRACE SEMI COMMA
-%token PLUS MINUS MUL DIV MOD OR AND BITWISEAND BITWISEOR BITWISEXOR
-%token EQ NE LE GE LT GT ASSIGN NOT IF ELSE WHILE RETURN
+%left ','         /* Define a precedência do operador COMMA (à esquerda) */
+%left EQ NE       /* Define precedência e associatividade dos operadores relacionais */
+%left '<' '>' LE GE
+%left '+' '-'     /* Define precedência e associatividade dos operadores de adição/subtração */
+%left '*' '/' '%' /* Define precedência e associatividade dos operadores de multiplicação/divisão */
+%left OR          /* Define precedência e associatividade do operador OR */
+%left AND         /* Define precedência e associatividade do operador AND */
+%left '|'         /* Define precedência e associatividade do operador BITWISEOR */
+%left '^'         /* Define precedência e associatividade do operador BITWISEXOR */
+%left '&'         /* Define precedência e associatividade do operador BITWISEAND */
+%right UNARY      /* Define precedência do operador unário (à direita) */
+%left LPAR RPAR   /* Define precedência dos parênteses */
 
 %%
 
-FunctionsAndDeclarations: (FunctionDefinition | FunctionDeclaration | Declaration) { /* Code here */ }
+Program: FunctionsAndDeclarations { /* Código aqui */ }
 
-FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody { /* Code here */ }
+FunctionsAndDeclarations: FunctionDefinition { /* Código aqui */ }
+                      | FunctionDeclaration { /* Código aqui */ }
+                      | Declaration { /* Código aqui */ }
+                      | FunctionsAndDeclarations FunctionDefinition { /* Código aqui */ }
+                      | FunctionsAndDeclarations FunctionDeclaration { /* Código aqui */ }
+                      | FunctionsAndDeclarations Declaration { /* Código aqui */ }
 
-FunctionBody: LBRACE DeclarationsAndStatements RBRACE { /* Code here */ }
+FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody { /* Código aqui */ }
 
-DeclarationsAndStatements: Statement DeclarationsAndStatements | Declaration DeclarationsAndStatements | Statement | Declaration { /* Code here */ }
+FunctionBody: LBRACE DeclarationsAndStatements RBRACE { /* Código aqui */ }
 
-FunctionDeclaration: TypeSpec FunctionDeclarator SEMI { /* Code here */ }
+DeclarationsAndStatements: Statement DeclarationsAndStatements { /* Código aqui */ }
+                       | Declaration DeclarationsAndStatements { /* Código aqui */ }
+                       | Statement { /* Código aqui */ }
+                       | Declaration { /* Código aqui */ }
 
-FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR { /* Code here */ }
+FunctionDeclaration: TypeSpec FunctionDeclarator SEMI { /* Código aqui */ }
 
-ParameterList: ParameterDeclaration { COMMA ParameterDeclaration } { /* Code here */ }
+FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR { /* Código aqui */ }
 
-ParameterDeclaration: TypeSpec [IDENTIFIER] { /* Code here */ }
+ParameterList: ParameterDeclaration { ',' ParameterDeclaration } { /* Código aqui */ }
 
-Declaration: TypeSpec Declarator { COMMA Declarator } SEMI { /* Code here */ }
+ParameterDeclaration: TypeSpec [IDENTIFIER] { /* Código aqui */ }
 
-TypeSpec: CHAR | INT | VOID | SHORT | DOUBLE { /* Code here */ }
+Declaration: TypeSpec Declarator { ',' Declarator } SEMI { /* Código aqui */ }
 
-Declarator: IDENTIFIER [ASSIGN Expr] { /* Code here */ }
+TypeSpec: CHAR | INT | VOID | SHORT | DOUBLE { /* Código aqui */ }
 
-Statement: [Expr] SEMI { /* Code here */ }
-    | LBRACE { /* Code here */ }
-    | LBRACE { /* Code here */ } RBRACE { /* Code here */ }
-    | IF LPAR Expr RPAR Statement [ELSE Statement] { /* Code here */ }
-    | WHILE LPAR Expr RPAR Statement { /* Code here */ }
-    | RETURN [Expr] SEMI { /* Code here */ }
+Declarator: IDENTIFIER [ASSIGN Expr] { /* Código aqui */ }
 
-Expr: Expr (ASSIGN | COMMA) Expr { /* Code here */ }
-    | Expr (PLUS | MINUS | MUL | DIV | MOD) Expr { /* Code here */ }
-    | Expr (OR | AND | BITWISEAND | BITWISEOR | BITWISEXOR) Expr { /* Code here */ }
-    | Expr (EQ | NE | LE | GE | LT | GT) Expr { /* Code here */ }
-    | (PLUS | MINUS | NOT) Expr { /* Code here */ }
-    | IDENTIFIER LPAR [Expr { COMMA Expr }] RPAR { /* Code here */ }
-    | IDENTIFIER { /* Code here */ }
-    | NATURAL { /* Code here */ }
-    | CHRLIT { /* Code here */ }
-    | DECIMAL { /* Code here */ }
-    | LPAR Expr RPAR { /* Code here */ }
+Statement: [Expr] SEMI { /* Código aqui */ }
+         | LBRACE Statements RBRACE { /* Código aqui */ }
+         | IF LPAR Expr RPAR Statement [ELSE Statement] { /* Código aqui */ }
+         | WHILE LPAR Expr RPAR Statement { /* Código aqui */ }
+         | RETURN [Expr] SEMI { /* Código aqui */ }
+
+Statements: Statement Statements { /* Código aqui */ }
+          | Statement { /* Código aqui */ }
+
+Expr: Expr '=' Expr { /* Código aqui */ }
+    | Expr ',' Expr { /* Código aqui */ }
+    | Expr '+' Expr { /* Código aqui */ }
+    | Expr '-' Expr { /* Código aqui */ }
+    | Expr '*' Expr { /* Código aqui */ }
+    | Expr '/' Expr { /* Código aqui */ }
+    | Expr '%' Expr { /* Código aqui */ }
+    | Expr OR Expr { /* Código aqui */ }
+    | Expr AND Expr { /* Código aqui */ }
+    | Expr '|' Expr { /* Código aqui */ }
+    | Expr '^' Expr { /* Código aqui */ }
+    | Expr '&' Expr { /* Código aqui */ }
+    | UNARY Expr { /* Código aqui */ }
+    | IDENTIFIER LPAR [Expr { ',' Expr }] RPAR { /* Código aqui */ }
+    | IDENTIFIER { /* Código aqui */ }
+    | NATURAL { /* Código aqui */ }
+    | CHRLIT { /* Código aqui */ }
+    | DECIMAL { /* Código aqui */ }
+    | LPAR Expr RPAR { /* Código aqui */ }
 
 %%
 

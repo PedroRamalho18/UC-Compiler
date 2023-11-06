@@ -10,9 +10,8 @@
 	#define YY_USER_ACTION {column += yyleng;}
 
 %}
-
 %X COMMENT CHRLIT COMMENTLINE
-NATURAL   [0-9]
+NATURAL   [0-9]+
 RESERVED "["|"]"|"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"|"_Bool"|"_Complex"|"_Imaginary"|"inline"
 IDENTIFIER [a-zA-Z_][a-zA-Z_0-9]*
 DECIMAL (\.[0-9]+([eE][-+]?[0-9]+)?)|([0-9]+(\.[0-9]*)?([eE][-+]?[0-9]+)?)
@@ -102,46 +101,46 @@ erro .
                             }
                         }
 
-{NATURAL}+              { if(flag==1) printf("NATURAL(%s)\n",yytext); }
-{DECIMAL}               { if(flag==1) printf("DECIMAL(%s)\n",yytext); }
+{NATURAL}               { if(flag==1) printf("NATURAL(%s)\n",yytext);return NATURAL;}
+{DECIMAL}               { if(flag==1) printf("DECIMAL(%s)\n",yytext);return DECIMAL; }
 
 
-{CHAR}                  {if(flag==1)   printf("CHAR\n");}
-{ELSE}                  {if(flag==1)   printf("ELSE\n");}
-{WHILE}                 {if(flag==1)   printf("WHILE\n");}
-{IF}                    {if(flag==1)   printf("IF\n");}
-{INT}                   {if(flag==1)   printf("INT\n");}
-{SHORT}                 {if(flag==1)   printf("SHORT\n");}
-{DOUBLE}                {if(flag==1)   printf("DOUBLE\n");}
-{RETURN}                {if(flag==1)   printf("RETURN\n");}
-{VOID}                  {if(flag==1)   printf("VOID\n");}
-{BITWISEAND}            {if(flag==1)   printf("BITWISEAND\n");}
-{BITWISEOR}             {if(flag==1)   printf("BITWISEOR\n");}
-{BITWISEXOR}            {if(flag==1)   printf("BITWISEXOR\n");}
-{AND}                   {if(flag==1)   printf("AND\n");}
-{ASSIGN}                {if(flag==1)   printf("ASSIGN\n");}
-{MUL}                   {if(flag==1)   printf("MUL\n");}
-{COMMA}                 {if(flag==1)   printf("COMMA\n");}
-{DIV}                   {if(flag==1)   printf("DIV\n");}
-{EQ}                    {if(flag==1)   printf("EQ\n");}
-{GE}                    {if(flag==1)   printf("GE\n");}
-{GT}                    {if(flag==1)   printf("GT\n");}
-{LBRACE}                {if(flag==1)   printf("LBRACE\n");}
-{LE}                    {if(flag==1)   printf("LE\n");}
-{LPAR}                  {if(flag==1)   printf("LPAR\n");}
-{LT}                    {if(flag==1)   printf("LT\n");}
-{MINUS}                 {if(flag==1)   printf("MINUS\n");}
-{MOD}                   {if(flag==1)   printf("MOD\n");}
-{NE}                    {if(flag==1)   printf("NE\n");}
-{NOT}                   {if(flag==1)   printf("NOT\n");}
-{OR}                    {if(flag==1)   printf("OR\n");}
-{PLUS}                  {if(flag==1)   printf("PLUS\n");}
-{RBRACE}                {if(flag==1)   printf("RBRACE\n");}
-{RPAR}                  {if(flag==1)   printf("RPAR\n");}
-{SEMI}                  {if(flag==1)   printf("SEMI\n");}
-{RESERVED}              {if(flag==1)   printf("RESERVED(%s)\n",yytext);}
-{IDENTIFIER}            {if(flag==1)   printf("IDENTIFIER(%s)\n",yytext);}
-{erro}                  { printf("Line %d, column %d: unrecognized character (%s)\n",row, column, yytext); }
+{CHAR}                  {if(flag==1)   printf("CHAR\n");return CHAR; }
+{ELSE}                  {if(flag==1)   printf("ELSE\n");return ELSE; }
+{WHILE}                 {if(flag==1)   printf("WHILE\n");return WHILE; }
+{IF}                    {if(flag==1)   printf("IF\n");return IF; }
+{INT}                   {if(flag==1)   printf("INT\n");return INT; }
+{SHORT}                 {if(flag==1)   printf("SHORT\n");return SHORT; }
+{DOUBLE}                {if(flag==1)   printf("DOUBLE\n");return DOUBLE; }
+{RETURN}                {if(flag==1)   printf("RETURN\n");return RETURN; }
+{VOID}                  {if(flag==1)   printf("VOID\n");return VOID; }
+{BITWISEAND}            {if(flag==1)   printf("BITWISEAND\n");return BITWISEAND; }
+{BITWISEOR}             {if(flag==1)   printf("BITWISEOR\n");return BITWISEOR; }
+{BITWISEXOR}            {if(flag==1)   printf("BITWISEXOR\n");return BITWISEXOR; }
+{AND}                   {if(flag==1)   printf("AND\n");return AND; }
+{ASSIGN}                {if(flag==1)   printf("ASSIGN\n");return ASSIGN;}
+{MUL}                   {if(flag==1)   printf("MUL\n");return MUL;}
+{COMMA}                 {if(flag==1)   printf("COMMA\n");return COMMA;}
+{DIV}                   {if(flag==1)   printf("DIV\n");return DIV;}
+{EQ}                    {if(flag==1)   printf("EQ\n");return EQ;}
+{GE}                    {if(flag==1)   printf("GE\n");return GE;}
+{GT}                    {if(flag==1)   printf("GT\n");return GT;}
+{LBRACE}                {if(flag==1)   printf("LBRACE\n");return LBRACE;}
+{LE}                    {if(flag==1)   printf("LE\n");return LE;}
+{LPAR}                  {if(flag==1)   printf("LPAR\n");return LPAR;}
+{LT}                    {if(flag==1)   printf("LT\n");return LT;}
+{MINUS}                 {if(flag==1)   printf("MINUS\n");return MINUS;}
+{MOD}                   {if(flag==1)   printf("MOD\n");return MOD;}
+{NE}                    {if(flag==1)   printf("NE\n");return NE;}
+{NOT}                   {if(flag==1)   printf("NOT\n");return NOT;}
+{OR}                    {if(flag==1)   printf("OR\n");return OR;}
+{PLUS}                  {if(flag==1)   printf("PLUS\n");return PLUS;}
+{RBRACE}                {if(flag==1)   printf("RBRACE\n");return RBRACE;}
+{RPAR}                  {if(flag==1)   printf("RPAR\n");return RPAR;}
+{SEMI}                  {if(flag==1)   printf("SEMI\n");return SEMI;}
+{RESERVED}              {if(flag==1)   printf("RESERVED(%s)\n",yytext);return RESERVED;}
+{IDENTIFIER}            {if(flag==1)   printf("IDENTIFIER(%s)\n",yytext);return IDENTIFIER;}
+{erro}                  { printf("Line %d, column %d: unrecognized character (%s)\n",row, column, yytext);return erro;}
 
 %%
 extern int yylex();
