@@ -22,6 +22,7 @@ struct node *program;
 %left MUL DIV MOD 
 %right NOT
 %left LPAR RPAR   
+%left ELSE
 
 %union{
     char *token;
@@ -67,11 +68,13 @@ ParameterDeclaration: TypeSpec IDENTIFIER {;}
     | TypeSpec {;}
     ;
 
-Declaration: TypeSpec Declarator Declarations SEMI {;}
+Declaration: TypeSpec Declarator SEMI {;}
+    | TypeSpec Declarator Declarations SEMI {;}
     ;
 
-Declarations: ;
+Declarations: COMMA Declarator {;}
     | Declarations COMMA Declarator {;}
+    ;
 
 TypeSpec: CHAR {;}
     | INT {;}
@@ -86,15 +89,16 @@ Declarator: IDENTIFIER {;}
 
 Statement: SEMI {;}
     | Expr SEMI {;}
+    | LBRACE RBRACE {;}
     | LBRACE Statements RBRACE {;}
-    | IF LPAR Expr RPAR Statement ELSE Statement {;}
     | IF LPAR Expr RPAR Statement {;}
+    | IF LPAR Expr RPAR Statement ELSE Statement {;}
     | WHILE LPAR Expr RPAR Statement {;}
     | RETURN SEMI {;}
     | RETURN Expr SEMI {;}
     ;
 
-Statements: ; 
+Statements: Statement {;}
     | Statements Statement {;}
     ;
 
@@ -124,25 +128,16 @@ Expr: IDENTIFIER {;}
     | MINUS Expr {;}
     | PLUS Expr {;}
     | NOT Expr {;}
+    | IDENTIFIER LPAR RPAR {;} 
     | IDENTIFIER LPAR ExprList RPAR {;}
     ;
 
-ExprList: ; 
+ExprList: COMMA Expr {;}
     | ExprList COMMA Expr {;}
     ;
 
 %%
 
-int main() {
-    yyparse();
-    return 0;
+void yyerror(char *s) {
+    printf("Error: %s\n", s);
 }
-
-int yywrap() {
-    return 1;
-}
-
-int yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
-    return 0;
-}   

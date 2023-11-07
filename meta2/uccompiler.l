@@ -1,5 +1,5 @@
-    /*Pedro Tiago Gomes Ramalho 2019248594
-    André Rodrigues Costa Pinto 2021213497 */
+ /*Pedro Tiago Gomes Ramalho 2019248594
+    AndrÃ© Rodrigues Costa Pinto 2021213497 */
 
 %{
     #include "y.tab.h"
@@ -20,9 +20,9 @@
 
 %}
 
-%option noyywrap
 
-%X COMMENT CHRLIT COMMENTLINE
+
+%X COMMENT chrlit COMMENTLINE
 
 %%
 
@@ -45,26 +45,26 @@
 <COMMENTLINE>.                  {;}
                     
 
-\'                                    { BEGIN(CHRLIT); 
+\'                                    { BEGIN(chrlit); 
                                         strcpy(palavra,"\0");
                                         error = 0;
                                         column_chr = column;
                                         current_state_char = 1;}
-<CHRLIT>\\*"\n"                       { printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
+<chrlit>\\*"\n"                       { printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
                                         row += 1;
                                         column = 0;
                                         BEGIN(INITIAL);
                                         current_state_char = 0;}
-<CHRLIT>\\[0-7]{0,3}                  { strcat(palavra, yytext); error += 1;}
-<CHRLIT>\\[^\"'nt\\]                  { strcat(palavra, yytext); error = 2;}
-<CHRLIT>\\[\"'nt\\]                   { strcat(palavra, yytext); error += 1;}
-<CHRLIT>\'                            { BEGIN(INITIAL);
+<chrlit>\\[0-7]{0,3}                  { strcat(palavra, yytext); error += 1;}
+<chrlit>\\[^\"'nt\\]                  { strcat(palavra, yytext); error = 2;}
+<chrlit>\\[\"'nt\\]                   { strcat(palavra, yytext); error += 1;}
+<chrlit>\'                            { BEGIN(INITIAL);
                                         if(error == 1){
                                             if(flag==1) printf("CHRLIT('%s')\n",palavra);PASS_TOKEN();return CHRLIT;
                                         }
                                         else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column_chr, palavra); 
                                         current_state_char = 0;}
-<CHRLIT>.                             { strcat(palavra, yytext); error += 1; }
+<chrlit>.                             { strcat(palavra, yytext); error += 1; }
 
 [ \t\n\r\f\\]+   {
                     if (*yytext == '\n') {
@@ -121,14 +121,16 @@
 
 %%
 extern int yylex();
+
 int main(int argc, char* argv[]) {
     if((argc >1) && (strcmp(argv[1],"-l")==0 )){
         flag=1;
     }
     
-    yylex();    /* run the lexical analysis automaton */
+    yyparse();    /* run the lexical analysis automaton */
     return 0;
 }
+
 int yywrap() {  /* called on EOF, return 1 to terminate */
     if (current_state_char == 1) printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
     if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row_comment, column_comment);

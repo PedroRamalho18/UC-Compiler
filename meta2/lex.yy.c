@@ -322,9 +322,6 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
-
-#define yywrap() (/*CONSTCOND*/1)
-#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -610,8 +607,8 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "uccompiler.l"
 #line 2 "uccompiler.l"
-    /*Pedro Tiago Gomes Ramalho 2019248594
-    André Rodrigues Costa Pinto 2021213497 */
+ /*Pedro Tiago Gomes Ramalho 2019248594
+    AndrÃ© Rodrigues Costa Pinto 2021213497 */
     #include "y.tab.h"
     #include "ast.h"
 	#include <stdio.h>
@@ -628,13 +625,13 @@ char *yytext;
     extern struct node *program;
 
 
-#line 632 "lex.yy.c"
+#line 629 "lex.yy.c"
 
-#line 634 "lex.yy.c"
+#line 631 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
-#define CHRLIT 2
+#define chrlit 2
 #define COMMENTLINE 3
 
 #ifndef YY_NO_UNISTD_H
@@ -853,7 +850,7 @@ YY_DECL
 #line 27 "uccompiler.l"
 
 
-#line 857 "lex.yy.c"
+#line 854 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -958,7 +955,7 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 48 "uccompiler.l"
-{ BEGIN(CHRLIT); 
+{ BEGIN(chrlit); 
                                         strcpy(palavra,"\0");
                                         error = 0;
                                         column_chr = column;
@@ -1217,10 +1214,10 @@ YY_RULE_SETUP
 #line 122 "uccompiler.l"
 ECHO;
 	YY_BREAK
-#line 1221 "lex.yy.c"
+#line 1218 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
-case YY_STATE_EOF(CHRLIT):
+case YY_STATE_EOF(chrlit):
 case YY_STATE_EOF(COMMENTLINE):
 	yyterminate();
 
@@ -2228,14 +2225,16 @@ void yyfree (void * ptr )
 #line 122 "uccompiler.l"
 
 extern int yylex();
+
 int main(int argc, char* argv[]) {
     if((argc >1) && (strcmp(argv[1],"-l")==0 )){
         flag=1;
     }
     
-    yylex();    /* run the lexical analysis automaton */
+    yyparse();    /* run the lexical analysis automaton */
     return 0;
 }
+
 int yywrap() {  /* called on EOF, return 1 to terminate */
     if (current_state_char == 1) printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
     if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row_comment, column_comment);

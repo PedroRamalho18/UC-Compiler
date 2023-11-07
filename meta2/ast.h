@@ -1,7 +1,8 @@
 #ifndef _AST_H
 #define _AST_H
 
-enum category { program, FunctionsAndDeclarations, FunctionDefinition, FunctionBody, DeclarationsAndStatements, FunctionDeclaration, FunctionDeclarator, ParameterList, ParameterDeclaration, Declaration, Declarations, TypeSpec, Declarator, Statement, Statements, Expr, ExprList, RESERVED, NATURAL, IDENTIFIER, DECIMAL, CHRLIT, CHAR, ELSE, WHILE, IF, INT, SHORT, DOUBLE, RETURN, VOID, BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LBRACE, LE, LPAR, LT, MINUS, MOD, NE, NOT, OR, PLUS, RBRACE, RPAR, SEMI, IGNORE};
+
+enum category { Program, Declaration, FuncDeclaration, FuncDefinition, ParamList, FuncBody, ParamDeclaration, Statements, StatList, If, While, Return, Or, And, Eq, Ne, Lt, Gt, Le, Ge, Add, Sub, Mul, Div, Mod, Not, Minus, Plus, Store, Comma, Call, BitWiseAnd, BitWiseXor, BitWiseOr, Terminais, Char, ChrLit, Identifier, Int, Short, Natural, Double, Decimal, Void};
 
 struct node {
     enum category category;
