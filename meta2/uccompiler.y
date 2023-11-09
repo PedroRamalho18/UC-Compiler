@@ -9,7 +9,7 @@ struct node *program;
 extern char *yytext;
 %}
 
-%token CHAR DOUBLE INT SHORT ELSE WHILE IF RETURN VOID BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN MUL COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI
+%token CHAR DOUBLE INT SHORT ELSE WHILE IF RETURN VOID BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN MUL COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI error
 %token<token> IDENTIFIER NATURAL DECIMAL CHRLIT RESERVED
 %type<node> program FunctionsAndDeclarations FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declarations TypeSpec Declarator Statement Statements Expr ExprList
 
@@ -96,7 +96,6 @@ StatementError: error SEMI {;}
     |Statement {;}
 
 Statement: LBRACE error RBRACE {;}
-    |error SEMI {;}
     |SEMI {;}
     | Expr SEMI {;}
     | LBRACE RBRACE {;}
