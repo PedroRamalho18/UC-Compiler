@@ -72,7 +72,8 @@ ParameterDeclaration: TypeSpec IDENTIFIER {;}
     | TypeSpec {;}
     ;
 
-Declaration: TypeSpec Declarator SEMI {;}
+Declaration: error SEMI {;} 
+    |TypeSpec Declarator SEMI {;}
     | TypeSpec Declarator Declarations SEMI {;}
     ;
 
@@ -91,6 +92,8 @@ Declarator: error SEMI {;}
     |IDENTIFIER {;}
     | IDENTIFIER ASSIGN Expr {;}
     ;
+StatementError: error SEMI {;}
+    |Statement {;}
 
 Statement: LBRACE error RBRACE {;}
     |error SEMI {;}
@@ -98,15 +101,15 @@ Statement: LBRACE error RBRACE {;}
     | Expr SEMI {;}
     | LBRACE RBRACE {;}
     | LBRACE Statements RBRACE {;}
-    | IF LPAR Expr RPAR Statement {;}
-    | IF LPAR Expr RPAR Statement ELSE Statement {;}
-    | WHILE LPAR Expr RPAR Statement {;}
+    | IF LPAR Expr RPAR StatementError {;}
+    | IF LPAR Expr RPAR StatementError ELSE StatementError {;}
+    | WHILE LPAR Expr RPAR StatementError {;}
     | RETURN SEMI {;}
     | RETURN Expr SEMI {;}
     ;
 
-Statements: Statement {;}
-    | Statements Statement {;}
+Statements: StatementError {;}
+    | Statements StatementError {;}
     ;
 
 Expr: IDENTIFIER LPAR error RPAR {;}
