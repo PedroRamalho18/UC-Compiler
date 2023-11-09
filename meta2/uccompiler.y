@@ -1,11 +1,15 @@
 %{
 #include "ast.h"
+#include <stdio.h>
+
 int yylex(void);
 void yyerror(char *);
 struct node *program;
+
+extern char *yytext;
 %}
 
-%token CHAR DOUBLE INT SHORT ELSE WHILE IF RETURN VOID BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN MUL COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI IGNORE
+%token CHAR DOUBLE INT SHORT ELSE WHILE IF RETURN VOID BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN MUL COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI
 %token<token> IDENTIFIER NATURAL DECIMAL CHRLIT RESERVED
 %type<node> program FunctionsAndDeclarations FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declarations TypeSpec Declarator Statement Statements Expr ExprList
 
@@ -83,11 +87,14 @@ TypeSpec: CHAR {;}
     | DOUBLE {;}
     ;
 
-Declarator: IDENTIFIER {;}
+Declarator: error SEMI {;}
+    |IDENTIFIER {;}
     | IDENTIFIER ASSIGN Expr {;}
     ;
 
-Statement: SEMI {;}
+Statement: LBRACE error RBRACE {;}
+    |error SEMI {;}
+    |SEMI {;}
     | Expr SEMI {;}
     | LBRACE RBRACE {;}
     | LBRACE Statements RBRACE {;}
@@ -102,7 +109,9 @@ Statements: Statement {;}
     | Statements Statement {;}
     ;
 
-Expr: IDENTIFIER {;}
+Expr: IDENTIFIER LPAR error RPAR {;}
+    |LPAR error RPAR {;}
+    |IDENTIFIER {;}
     | NATURAL {;}
     | CHRLIT {;}
     | DECIMAL {;}
@@ -136,8 +145,5 @@ ExprList: COMMA Expr {;}
     | ExprList COMMA Expr {;}
     ;
 
-%%
 
-void yyerror(char *s) {
-    printf("Error: %s\n", s);
-}
+%%

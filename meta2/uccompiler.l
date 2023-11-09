@@ -8,12 +8,11 @@
 	#include <string.h>
     #define YY_USER_ACTION {column += yyleng;}
     #define PASS_TOKEN() yylval.token = strdup(yytext);
-
-    int row = 1, row_comment = 0, column_comment = 0, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0,flag=0;	
+    
+    int row = 1, row_comment = 0, column_comment = 0, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0,flag1=0,flag2=0;	
     char palavra[100];
 
     int yyparse(void);
-    void yyerror(char *);
 
     extern struct node *program;
 
@@ -60,7 +59,7 @@
 <chrlit>\\[\"'nt\\]                   { strcat(palavra, yytext); error += 1;}
 <chrlit>\'                            { BEGIN(INITIAL);
                                         if(error == 1){
-                                            if(flag==1) printf("CHRLIT('%s')\n",palavra);PASS_TOKEN();return CHRLIT;
+                                            if(flag1==1) printf("CHRLIT('%s')\n",palavra);PASS_TOKEN();if(flag2==1) return CHRLIT;
                                         }
                                         else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column_chr, palavra); 
                                         current_state_char = 0;}
@@ -73,48 +72,48 @@
                     }
                 }
 
-[0-9]+              { if(flag==1)  printf("NATURAL(%s)\n",yytext);PASS_TOKEN();return NATURAL; }
+[0-9]+              { if(flag1==1)  printf("NATURAL(%s)\n",yytext);PASS_TOKEN();if(flag2==1) return NATURAL; }
 (\.[0-9]+([eE][-+]?[0-9]+)?)|([0-9]+(\.[0-9]*)?([eE][-+]?[0-9]+)?) {
-                    if(flag==1)  printf("DECIMAL(%s)\n",yytext);PASS_TOKEN();return DECIMAL;
+                    if(flag1==1)  printf("DECIMAL(%s)\n",yytext);PASS_TOKEN();if(flag2==1) return DECIMAL;
                 }
-"char"              { if(flag==1)  printf("CHAR\n"); return CHAR; }
-"else"              { if(flag==1)  printf("ELSE\n"); return ELSE; }
-"while"             { if(flag==1)  printf("WHILE\n"); return WHILE; }
-"if"                { if(flag==1)  printf("IF\n"); return IF; }
-"int"               { if(flag==1)  printf("INT\n"); return INT; }
-"short"             { if(flag==1)  printf("SHORT\n"); return SHORT; }
-"double"            { if(flag==1)  printf("DOUBLE\n"); return DOUBLE; }
-"return"            { if(flag==1)  printf("RETURN\n"); return RETURN; }
-"void"              { if(flag==1)  printf("VOID\n"); return VOID; }
-"&"                 { if(flag==1)  printf("BITWISEAND\n"); return BITWISEAND; }
-"|"                 { if(flag==1)  printf("BITWISEOR\n"); return BITWISEOR; }
-"^"                 { if(flag==1)  printf("BITWISEXOR\n"); return BITWISEXOR; }
-"&&"                { if(flag==1)  printf("AND\n"); return AND; }
-"="                 { if(flag==1)  printf("ASSIGN\n"); return ASSIGN; }
-"*"                 { if(flag==1)  printf("MUL\n"); return MUL; }
-","                 { if(flag==1)  printf("COMMA\n"); return COMMA; }
-"/"                 { if(flag==1)  printf("DIV\n"); return DIV; }
-"=="                { if(flag==1)  printf("EQ\n"); return EQ; }
-">="                { if(flag==1)  printf("GE\n"); return GE; }
-">"                 { if(flag==1)  printf("GT\n"); return GT; }
-"{"                 { if(flag==1)  printf("LBRACE\n"); return LBRACE; }
-"<="                { if(flag==1)  printf("LE\n"); return LE; }
-"("                 { if(flag==1)  printf("LPAR\n"); return LPAR; }
-"<"                 { if(flag==1)  printf("LT\n"); return LT; }
-"-"                 { if(flag==1)  printf("MINUS\n"); return MINUS; }
-"%"                 { if(flag==1)  printf("MOD\n"); return MOD; }
-"!="                { if(flag==1)  printf("NE\n"); return NE; }
-"!"                 { if(flag==1)  printf("NOT\n"); return NOT; }
-"||"                { if(flag==1)  printf("OR\n"); return OR; }
-"+"                 { if(flag==1)  printf("PLUS\n"); return PLUS; }
-"}"                 { if(flag==1)  printf("RBRACE\n"); return RBRACE; }
-")"                 { if(flag==1)  printf("RPAR\n"); return RPAR; }
-";"                 { if(flag==1)  printf("SEMI\n"); return SEMI; }
+"char"              { if(flag1==1)  printf("CHAR\n");if(flag2==1) return CHAR; }
+"else"              { if(flag1==1)  printf("ELSE\n");if(flag2==1) return ELSE; }
+"while"             { if(flag1==1)  printf("WHILE\n");if(flag2==1) return WHILE; }
+"if"                { if(flag1==1)  printf("IF\n");if(flag2==1) return IF; }
+"int"               { if(flag1==1)  printf("INT\n");if(flag2==1) return INT; }
+"short"             { if(flag1==1)  printf("SHORT\n");if(flag2==1) return SHORT; }
+"double"            { if(flag1==1)  printf("DOUBLE\n");if(flag2==1) return DOUBLE; }
+"return"            { if(flag1==1)  printf("RETURN\n");if(flag2==1) return RETURN; }
+"void"              { if(flag1==1)  printf("VOID\n");if(flag2==1) return VOID; }
+"&"                 { if(flag1==1)  printf("BITWISEAND\n");if(flag2==1) return BITWISEAND; }
+"|"                 { if(flag1==1)  printf("BITWISEOR\n");if(flag2==1) return BITWISEOR; }
+"^"                 { if(flag1==1)  printf("BITWISEXOR\n");if(flag2==1) return BITWISEXOR; }
+"&&"                { if(flag1==1)  printf("AND\n");if(flag2==1) return AND; }
+"="                 { if(flag1==1)  printf("ASSIGN\n");if(flag2==1) return ASSIGN; }
+"*"                 { if(flag1==1)  printf("MUL\n");if(flag2==1) return MUL; }
+","                 { if(flag1==1)  printf("COMMA\n");if(flag2==1) return COMMA; }
+"/"                 { if(flag1==1)  printf("DIV\n");if(flag2==1) return DIV; }
+"=="                { if(flag1==1)  printf("EQ\n");if(flag2==1) return EQ; }
+">="                { if(flag1==1)  printf("GE\n");if(flag2==1) return GE; }
+">"                 { if(flag1==1)  printf("GT\n");if(flag2==1) return GT; }
+"{"                 { if(flag1==1)  printf("LBRACE\n");if(flag2==1) return LBRACE; }
+"<="                { if(flag1==1)  printf("LE\n");if(flag2==1) return LE; }
+"("                 { if(flag1==1)  printf("LPAR\n");if(flag2==1) return LPAR; }
+"<"                 { if(flag1==1)  printf("LT\n");if(flag2==1) return LT; }
+"-"                 { if(flag1==1)  printf("MINUS\n");if(flag2==1) return MINUS; }
+"%"                 { if(flag1==1)  printf("MOD\n");if(flag2==1) return MOD; }
+"!="                { if(flag1==1)  printf("NE\n");if(flag2==1) return NE; }
+"!"                 { if(flag1==1)  printf("NOT\n");if(flag2==1) return NOT; }
+"||"                { if(flag1==1)  printf("OR\n");if(flag2==1) return OR; }
+"+"                 { if(flag1==1)  printf("PLUS\n");if(flag2==1) return PLUS; }
+"}"                 { if(flag1==1)  printf("RBRACE\n");if(flag2==1) return RBRACE; }
+")"                 { if(flag1==1)  printf("RPAR\n");if(flag2==1) return RPAR; }
+";"                 { if(flag1==1)  printf("SEMI\n");if(flag2==1) return SEMI; }
 "++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"|"_Bool"|"_Complex"|"_Imaginary"|"_inline" {
-                    if(flag==1)  printf("RESERVED(%s)\n",yytext);PASS_TOKEN();return RESERVED;
+                    if(flag1==1)  printf("RESERVED(%s)\n",yytext);PASS_TOKEN();if(flag2==1) return RESERVED;
                 }
 [a-zA-Z_][a-zA-Z_0-9]* {
-                    if(flag==1)  printf("IDENTIFIER(%s)\n",yytext);PASS_TOKEN();return IDENTIFIER;
+                    if(flag1==1)  printf("IDENTIFIER(%s)\n",yytext);PASS_TOKEN();if(flag2==1) return IDENTIFIER;
                 }
 .                   { printf("Line %d, column %d: unrecognized character (%s)\n",row, column, yytext); }
 
@@ -124,7 +123,10 @@ extern int yylex();
 
 int main(int argc, char* argv[]) {
     if((argc >1) && (strcmp(argv[1],"-l")==0 )){
-        flag=1;
+        flag1=1;
+    }
+    if((argc >1) && (strcmp(argv[1],"-t")==0 )){
+        flag2=1;
     }
     
     yyparse();    /* run the lexical analysis automaton */
@@ -135,4 +137,8 @@ int yywrap() {  /* called on EOF, return 1 to terminate */
     if (current_state_char == 1) printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
     if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row_comment, column_comment);
     return 1;
+}
+
+void yyerror ( char * s ) {
+    printf("Line %d, column %lu: %s: %s\n", row, column-strlen(yytext)+1, s, yytext);
 }
