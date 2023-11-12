@@ -4,8 +4,8 @@
 #include "ast.h"
 #include <stdio.h>
 
-int yylex(void);
-void yyerror(char *);
+int yylex();
+void yyerror(const char *);
 struct node *program;
 
 extern char *yytext;

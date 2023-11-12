@@ -1,0 +1,9 @@
+Passados:
+
+
+
+
+Chumbados:
+DecDefErrors.uc ->illegal
+empty_with_spaces.uc -> linhas mal
+declarations.uc -> linhas e colunas mal

@@ -9,7 +9,11 @@
     #define YY_USER_ACTION {column += yyleng;}
     #define PASS_TOKEN() yylval.token = strdup(yytext);
     
-    int row = 1, row_comment = 0, column_comment = 0, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0,flag1=0,flag2=0;	
+    int row = 1, row_comment = 0;
+    int column = 0, column_comment = 0, column_chr = 0;
+    int error=0;
+    int flag1=0, flag2=0;
+
     char palavra[100];
 
     int yyparse();
@@ -24,15 +28,14 @@
 
 %%
 
-"/*"                            { BEGIN(COMMENT); 
-                                  current_state_comment = 1;
+"/*"                            { BEGIN(COMMENT);
                                   row_comment = row;
                                   column_comment = column - 1;}
 <COMMENT>\n|\r|\r\n             { row += 1;
                                   column = 0;}
                                  
-<COMMENT>"*/"                   { BEGIN(INITIAL); 
-                                  current_state_comment = 0;}
+<COMMENT>"*/"                   { BEGIN(INITIAL); }
+<COMMENT><<EOF>>                { BEGIN(INITIAL); printf("Line %d, column %d: unterminated comment\n",row_comment, column_comment);}
 <COMMENT>.                      {;}
 
 "//"                            {BEGIN(COMMENTLINE);}                                                          
@@ -46,13 +49,11 @@
 \'                                    { BEGIN(chrlit); 
                                         strcpy(palavra,"\0");
                                         error = 0;
-                                        column_chr = column;
-                                        current_state_char = 1;}
+                                        column_chr = column;}
 <chrlit>\\*"\n"                       { printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
                                         row += 1;
                                         column = 0;
-                                        BEGIN(INITIAL);
-                                        current_state_char = 0;}
+                                        BEGIN(INITIAL);}
 <chrlit>\\[0-7]{0,3}                  { strcat(palavra, yytext); error += 1;}
 <chrlit>\\[^\"'nt\\]                  { strcat(palavra, yytext); error = 2;}
 <chrlit>\\[\"'nt\\]                   { strcat(palavra, yytext); error += 1;}
@@ -60,8 +61,8 @@
                                         if(error == 1){
                                             if(flag1==1) printf("CHRLIT('%s')\n",palavra);PASS_TOKEN();if(flag2==1) return CHRLIT;
                                         }
-                                        else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column_chr, palavra); 
-                                        current_state_char = 0;}
+                                        else printf("Line %d, column %d: invalid char constant ('%s')\n",row, column_chr, palavra);}
+<chrlit><<EOF>>                       { BEGIN(INITIAL); printf("Line %d, column %d: unterminated char constant\n",row, column_chr);}
 <chrlit>.                             { strcat(palavra, yytext); error += 1; }
 
 [ \t\n\r\f\\]+   {
@@ -139,8 +140,6 @@ int main(int argc, char* argv[]) {
 }
 
 int yywrap() {  /* called on EOF, return 1 to terminate */
-    if (current_state_char == 1) printf("Line %d, column %d: unterminated char constant\n",row, column_chr);
-    if (current_state_comment == 1) printf("Line %d, column %d: unterminated comment\n",row_comment, column_comment);
     return 1;
 }
 
