@@ -1,3 +1,5 @@
+ /*Pedro Tiago Gomes Ramalho 2019248594
+    André Rodrigues Costa Pinto 2021213497 */
 %{
 #include "ast.h"
 #include <stdio.h>
@@ -14,7 +16,7 @@ extern char *yytext;
 %type<node> program FunctionsAndDeclarations FunctionDefinition FunctionBody DeclarationsAndStatements FunctionDeclaration FunctionDeclarator ParameterList ParameterDeclaration Declaration Declarations TypeSpec Declarator Statement Statements Expr ExprList
 
 %left COMMA  
-%left ASSIGN
+%right ASSIGN
 %left OR 
 %left AND 
 %left BITWISEOR 
@@ -26,7 +28,8 @@ extern char *yytext;
 %left MUL DIV MOD 
 %right NOT
 %left LPAR RPAR   
-%left ELSE
+
+%nonassoc ELSE
 
 %union{
     char *token;
@@ -40,9 +43,9 @@ program: FunctionsAndDeclarations {;}
 FunctionsAndDeclarations: FunctionDefinition {;}
     | FunctionDeclaration {;}
     | Declaration {;}
-    | FunctionDefinition FunctionsAndDeclarations {;}
-    | FunctionDeclaration FunctionsAndDeclarations {;}
-    | Declaration FunctionsAndDeclarations {;}
+    | FunctionsAndDeclarations FunctionDefinition {;}
+    | FunctionsAndDeclarations FunctionDeclaration {;}
+    | FunctionsAndDeclarations Declaration {;}
     ;
 
 FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody {;}
@@ -52,8 +55,8 @@ FunctionBody: LBRACE DeclarationsAndStatements RBRACE {;}
     | LBRACE RBRACE {;}
     ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatements {;}
-    | Declaration DeclarationsAndStatements {;}
+DeclarationsAndStatements: DeclarationsAndStatements Statement {;}
+    | DeclarationsAndStatements Declaration {;}
     | Statement {;}
     | Declaration {;}
     ;
@@ -65,7 +68,7 @@ FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR {;}
     ;
 
 ParameterList: ParameterDeclaration {;}
-    | ParameterDeclaration COMMA ParameterList {;}
+    | ParameterList COMMA ParameterDeclaration  {;}
     ;
 
 ParameterDeclaration: TypeSpec IDENTIFIER {;}
@@ -73,11 +76,10 @@ ParameterDeclaration: TypeSpec IDENTIFIER {;}
     ;
 
 Declaration: error SEMI {;} 
-    |TypeSpec Declarator SEMI {;}
-    | TypeSpec Declarator Declarations SEMI {;}
+    | TypeSpec Declarations SEMI {;}
     ;
 
-Declarations: COMMA Declarator {;}
+Declarations: Declarator {;}
     | Declarations COMMA Declarator {;}
     ;
 
@@ -88,15 +90,12 @@ TypeSpec: CHAR {;}
     | DOUBLE {;}
     ;
 
-Declarator: error SEMI {;}
-    |IDENTIFIER {;}
+Declarator: IDENTIFIER {;}
     | IDENTIFIER ASSIGN Expr {;}
     ;
-StatementError: error SEMI {;}
-    |Statement {;}
 
 Statement: LBRACE error RBRACE {;}
-    |SEMI {;}
+    | SEMI {;}
     | Expr SEMI {;}
     | LBRACE RBRACE {;}
     | LBRACE Statements RBRACE {;}
@@ -107,13 +106,16 @@ Statement: LBRACE error RBRACE {;}
     | RETURN Expr SEMI {;}
     ;
 
+StatementError: error SEMI {;}
+    | Statement {;}
+
 Statements: StatementError {;}
     | Statements StatementError {;}
     ;
 
 Expr: IDENTIFIER LPAR error RPAR {;}
-    |LPAR error RPAR {;}
-    |IDENTIFIER {;}
+    | LPAR error RPAR {;}
+    | IDENTIFIER {;}
     | NATURAL {;}
     | CHRLIT {;}
     | DECIMAL {;}

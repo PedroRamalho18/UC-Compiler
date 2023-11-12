@@ -1,5 +1,5 @@
  /*Pedro Tiago Gomes Ramalho 2019248594
-    AndrÃ© Rodrigues Costa Pinto 2021213497 */
+    André Rodrigues Costa Pinto 2021213497 */
 
 %{
     #include "y.tab.h"
@@ -12,13 +12,12 @@
     int row = 1, row_comment = 0, column_comment = 0, column = 0, column_chr = 0, error=0, current_state_char =0 , current_state_comment = 0,flag1=0,flag2=0;	
     char palavra[100];
 
-    int yyparse(void);
+    int yyparse();
 
     extern struct node *program;
 
 
 %}
-
 
 
 %X COMMENT chrlit COMMENTLINE
@@ -119,17 +118,23 @@
 
 
 %%
-extern int yylex();
 
 int main(int argc, char* argv[]) {
-    if((argc >1) && (strcmp(argv[1],"-l")==0 )){
-        flag1=1;
-    }
-    if((argc >1) && (strcmp(argv[1],"-t")==0 )){
+    if (argc > 1){
+        if(strcmp(argv[1],"-l")==0 ){
+            flag1=1;
+            yylex();
+        }
+        if(strcmp(argv[1],"-t")==0 ){
+            yyparse();
+            flag2=1;
+        }
+    } else{
         flag2=1;
+        yyparse(); /* run the lexical analysis automaton */
+        yylex_destroy();
     }
-    
-    yyparse();    /* run the lexical analysis automaton */
+
     return 0;
 }
 
@@ -139,6 +144,6 @@ int yywrap() {  /* called on EOF, return 1 to terminate */
     return 1;
 }
 
-void yyerror ( char * s ) {
+void yyerror (const char * s ) {
     printf("Line %d, column %lu: %s: %s\n", row, column-strlen(yytext)+1, s, yytext);
 }
