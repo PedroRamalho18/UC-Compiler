@@ -91,19 +91,19 @@ TypeSpec: CHAR {;}
     ;
 
 Declarator: IDENTIFIER {;}
-    | IDENTIFIER ASSIGN Expr {;}
+    | IDENTIFIER ASSIGN ExprList {;}
     ;
 
 Statement: LBRACE error RBRACE {;}
     | SEMI {;}
-    | Expr SEMI {;}
+    | ExprList SEMI {;}
     | LBRACE RBRACE {;}
     | LBRACE Statements RBRACE {;}
-    | IF LPAR Expr RPAR StatementError {;}
-    | IF LPAR Expr RPAR StatementError ELSE StatementError {;}
-    | WHILE LPAR Expr RPAR StatementError {;}
+    | IF LPAR ExprList RPAR StatementError {;}
+    | IF LPAR ExprList RPAR StatementError ELSE StatementError {;}
+    | WHILE LPAR ExprList RPAR StatementError {;}
     | RETURN SEMI {;}
-    | RETURN Expr SEMI {;}
+    | RETURN ExprList SEMI {;}
     ;
 
 StatementError: error SEMI {;}
@@ -119,9 +119,8 @@ Expr: IDENTIFIER LPAR error RPAR {;}
     | NATURAL {;}
     | CHRLIT {;}
     | DECIMAL {;}
-    | LPAR Expr RPAR {;}
+    | LPAR ExprList RPAR {;}
     | Expr ASSIGN Expr {;}
-    | Expr COMMA Expr {;}
     | Expr PLUS Expr {;}
     | Expr MINUS Expr {;}
     | Expr MUL Expr {;}
@@ -141,11 +140,11 @@ Expr: IDENTIFIER LPAR error RPAR {;}
     | MINUS Expr {;}
     | PLUS Expr {;}
     | NOT Expr {;}
-    | IDENTIFIER LPAR RPAR {;} 
+    | IDENTIFIER LPAR RPAR {;}
     | IDENTIFIER LPAR ExprList RPAR {;}
     ;
 
-ExprList: COMMA Expr {;}
+ExprList: Expr {;}
     | ExprList COMMA Expr {;}
     ;
 

@@ -8,8 +8,8 @@ StatementsErrors.uc
 test_emptyComments.uc
 test_emptySpaces.uc
 zerobytes.uc
+errors.uc
+expr_test.uc
 
 Chumbados:
-errors.uc -> dá um erro a mais aqui-> putchar(i); -> diz que o i é sintax error
-expr_test.uc -> está a dar erros a mais (é capaz que seja aquela cena do ExpressionComma) Deve ser erro na gramatica na parte de várias expressions e , dentro de ()
 syntax_errors.uc -> está a dar unrecognized characters ([)(]) a mais e está a dar um unrecognized character em vez de sintax error aqui no [	int a[10]; 

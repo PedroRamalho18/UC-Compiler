@@ -109,7 +109,7 @@
 "}"                 { if(flag1==1)  printf("RBRACE\n");if(flag2==1) return RBRACE; }
 ")"                 { if(flag1==1)  printf("RPAR\n");if(flag2==1) return RPAR; }
 ";"                 { if(flag1==1)  printf("SEMI\n");if(flag2==1) return SEMI; }
-"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"|"_Bool"|"_Complex"|"_Imaginary"|"_inline" {
+"++"|"--"|"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"inrow"|"int"|"long"|"register"|"restrict"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while"|"bool"|"complex"|"imaginary"|"_Bool"|"_Complex"|"_Imaginary"|"_inline"|"["|"]" {
                     if(flag1==1)  printf("RESERVED(%s)\n",yytext);PASS_TOKEN();if(flag2==1) return RESERVED;
                 }
 [a-zA-Z_][a-zA-Z_0-9]* {
@@ -133,7 +133,6 @@ int main(int argc, char* argv[]) {
     } else{
         flag2=1;
         yyparse(); /* run the lexical analysis automaton */
-        yylex_destroy();
     }
 
     return 0;
