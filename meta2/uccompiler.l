@@ -65,7 +65,7 @@
 <chrlit><<EOF>>                       { BEGIN(INITIAL); printf("Line %d, column %d: unterminated char constant\n",row, column_chr);}
 <chrlit>.                             { strcat(palavra, yytext); error += 1; }
 
-[ \t\n\r\f\\]+   {
+[ \t\n\r\f\\]   {
                     if (*yytext == '\n') {
                         row += 1;
                         column = 0;
@@ -144,5 +144,5 @@ int yywrap() {  /* called on EOF, return 1 to terminate */
 }
 
 void yyerror (const char * s ) {
-    printf("Line %d, column %lu: %s: %s\n", row, column-strlen(yytext)+1, s, yytext);
+    printf("Line %d, column %d: %s: %s\n", row, (int)(column-strlen(yytext)+1), s, yytext);
 }

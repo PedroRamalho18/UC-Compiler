@@ -1,9 +1,15 @@
 Passados:
-
-
-
+DecDefErrors.uc ->illegal character ou unrecognized character?
+declarations.uc
+empty_with_spaces.uc
+errors2_2.uc ->illegal character ou unrecognized character?
+expressions.uc
+StatementsErrors.uc
+test_emptyComments.uc
+test_emptySpaces.uc
+zerobytes.uc
 
 Chumbados:
-DecDefErrors.uc ->illegal
-empty_with_spaces.uc -> linhas mal
-declarations.uc -> linhas e colunas mal
+errors.uc -> dá um erro a mais aqui-> putchar(i); -> diz que o i é sintax error
+expr_test.uc -> está a dar erros a mais (é capaz que seja aquela cena do ExpressionComma) Deve ser erro na gramatica na parte de várias expressions e , dentro de ()
+syntax_errors.uc -> está a dar unrecognized characters ([)(]) a mais e está a dar um unrecognized character em vez de sintax error aqui no [	int a[10]; 
