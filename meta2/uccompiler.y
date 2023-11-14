@@ -6,7 +6,7 @@
 
 int yylex();
 void yyerror(const char *);
-struct node *program;
+struct node *node;
 
 extern char *yytext;
 %}
@@ -115,10 +115,10 @@ Statements: StatementError {;}
 
 Expr: IDENTIFIER LPAR error RPAR {;}
     | LPAR error RPAR {;}
-    | IDENTIFIER {;}
-    | NATURAL {;}
-    | CHRLIT {;}
-    | DECIMAL {;}
+    | IDENTIFIER {$$=newnode(Identifier,$1);}
+    | NATURAL {$$=newnode(Natural,$1);}
+    | CHRLIT {$$=newnode(Chrlit,$1);}
+    | DECIMAL {$$=newnode(Decimal,$1);}
     | LPAR ExprList RPAR {;}
     | Expr ASSIGN Expr {;}
     | Expr PLUS Expr {;}

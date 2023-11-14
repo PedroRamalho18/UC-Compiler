@@ -74,7 +74,7 @@
 
 int yylex();
 void yyerror(const char *);
-struct node *program;
+struct node *node;
 
 extern char *yytext;
 
@@ -1680,25 +1680,25 @@ yyreduce:
 
   case 49: /* Expr: IDENTIFIER  */
 #line 118 "uccompiler.y"
-                 {;}
+                 {(yyval.node)=newnode(Identifier,(yyvsp[0].token));}
 #line 1685 "y.tab.c"
     break;
 
   case 50: /* Expr: NATURAL  */
 #line 119 "uccompiler.y"
-              {;}
+              {(yyval.node)=newnode(Natural,(yyvsp[0].token));}
 #line 1691 "y.tab.c"
     break;
 
   case 51: /* Expr: CHRLIT  */
 #line 120 "uccompiler.y"
-             {;}
+             {(yyval.node)=newnode(Chrlit,(yyvsp[0].token));}
 #line 1697 "y.tab.c"
     break;
 
   case 52: /* Expr: DECIMAL  */
 #line 121 "uccompiler.y"
-              {;}
+              {(yyval.node)=newnode(Decimal,(yyvsp[0].token));}
 #line 1703 "y.tab.c"
     break;
 

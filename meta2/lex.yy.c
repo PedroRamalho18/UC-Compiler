@@ -621,7 +621,7 @@ char *yytext;
 
     int yyparse();
 
-    extern struct node *program;
+    extern struct node *raiz;
 
 
 #line 628 "lex.yy.c"

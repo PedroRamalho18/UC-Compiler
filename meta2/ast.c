@@ -23,3 +23,14 @@ void addchild(struct node *parent, struct node *child) {
         children = children->next;
     children->next = new;
 }
+
+// append a node to the list of siblings of the given node
+void addbrother(struct node *node, struct node *brother) {
+    struct node_list *new = malloc(sizeof(struct node_list));
+    new->node = brother;
+    new->next = NULL;
+    struct node_list *brothers = node->children;
+    while(brothers->next != NULL)
+        brothers = brothers->next;
+    brothers->next = new;
+}

@@ -18,7 +18,7 @@
 
     int yyparse();
 
-    extern struct node *program;
+    extern struct node *raiz;
 
 
 %}

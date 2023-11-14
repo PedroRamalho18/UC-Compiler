@@ -10,6 +10,7 @@ test_emptySpaces.uc
 zerobytes.uc
 errors.uc
 expr_test.uc
+syntax_errors.uc
 
 Chumbados:
-syntax_errors.uc -> está a dar unrecognized characters ([)(]) a mais e está a dar um unrecognized character em vez de sintax error aqui no [	int a[10]; 
+
