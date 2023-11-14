@@ -1716,13 +1716,13 @@ yyreduce:
 
   case 55: /* Expr: Expr PLUS Expr  */
 #line 124 "uccompiler.y"
-                     {(yyval.node) = newnode(Plus, NULL); addchild((yyval.node), (yyvsp[-2].node)); addchild((yyval.node), (yyvsp[0].node));}
+                     {(yyval.node) = newnode(Plus, NULL); addchild((yyval.node), (yyvsp[-2].node)); addbrother((yyvsp[-2].node),(yyvsp[0].node));}
 #line 1721 "y.tab.c"
     break;
 
   case 56: /* Expr: Expr MINUS Expr  */
 #line 125 "uccompiler.y"
-                      {(yyval.node) = newnode(Minus, NULL); addchild((yyval.node), (yyvsp[-2].node)); addchild((yyval.node), (yyvsp[0].node));}
+                      {(yyval.node) = newnode(Minus, NULL); addchild((yyval.node), (yyvsp[-2].node)); addbrother((yyvsp[-2].node),(yyvsp[0].node));}
 #line 1727 "y.tab.c"
     break;
 

@@ -121,8 +121,8 @@ Expr: IDENTIFIER LPAR error RPAR {syntax_error=1;}
     | DECIMAL {$$ = newnode(Decimal,$1);}
     | LPAR ExprList RPAR {$$ = $2;}
     | Expr ASSIGN Expr {;}
-    | Expr PLUS Expr {$$ = newnode(Plus, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr MINUS Expr {$$ = newnode(Minus, NULL); addchild($$, $1); addchild($$, $3);}
+    | Expr PLUS Expr {$$ = newnode(Plus, NULL); addchild($$, $1); addbrother($1,$3);}
+    | Expr MINUS Expr {$$ = newnode(Minus, NULL); addchild($$, $1); addbrother($1,$3);}
     | Expr MUL Expr {$$ = newnode(Mul, NULL); addchild($$, $1); addchild($$, $3);}
     | Expr DIV Expr {$$ = newnode(Div, NULL); addchild($$, $1); addchild($$, $3);}
     | Expr MOD Expr {$$ = newnode(Mod, NULL); addchild($$, $1); addchild($$, $3);}
