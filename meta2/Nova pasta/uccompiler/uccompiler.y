@@ -6,9 +6,9 @@
 
 int yylex();
 void yyerror(const char *);
-struct node *node;
+struct node *program;
+
 extern char *yytext;
-int syntax_error=0;
 %}
 
 %token CHAR DOUBLE INT SHORT ELSE WHILE IF RETURN VOID BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN MUL COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI error
@@ -75,7 +75,7 @@ ParameterDeclaration: TypeSpec IDENTIFIER {;}
     | TypeSpec {;}
     ;
 
-Declaration: error SEMI {syntax_error=1;} 
+Declaration: error SEMI {;} 
     | TypeSpec Declarations SEMI {;}
     ;
 
@@ -83,18 +83,18 @@ Declarations: Declarator {;}
     | Declarations COMMA Declarator {;}
     ;
 
-TypeSpec: CHAR {$$=newnode(Char,NULL);}
-    | INT {$$=newnode(Int,NULL);}
-    | VOID {$$=newnode(Void,NULL);}
-    | SHORT {$$=newnode(Short,NULL);}
-    | DOUBLE {$$=newnode(Double,NULL);}
+TypeSpec: CHAR {;}
+    | INT {;}
+    | VOID {;}
+    | SHORT {;}
+    | DOUBLE {;}
     ;
 
 Declarator: IDENTIFIER {;}
     | IDENTIFIER ASSIGN ExprList {;}
     ;
 
-Statement: LBRACE error RBRACE {syntax_error=1;}
+Statement: LBRACE error RBRACE {;}
     | SEMI {;}
     | ExprList SEMI {;}
     | LBRACE RBRACE {;}
@@ -106,46 +106,46 @@ Statement: LBRACE error RBRACE {syntax_error=1;}
     | RETURN ExprList SEMI {;}
     ;
 
-StatementError: error SEMI {syntax_error=1;}
+StatementError: error SEMI {;}
     | Statement {;}
 
 Statements: StatementError {;}
     | Statements StatementError {;}
     ;
 
-Expr: IDENTIFIER LPAR error RPAR {syntax_error=1;}
-    | LPAR error RPAR {syntax_error=1;}
-    | IDENTIFIER {$$ = newnode(Identifier,$1);}
-    | NATURAL {$$ = newnode(Natural,$1);}
-    | CHRLIT {$$ = newnode(ChrLit,$1);}
-    | DECIMAL {$$ = newnode(Decimal,$1);}
-    | LPAR ExprList RPAR {$$ = $2;}
+Expr: IDENTIFIER LPAR error RPAR {;}
+    | LPAR error RPAR {;}
+    | IDENTIFIER {;}
+    | NATURAL {;}
+    | CHRLIT {;}
+    | DECIMAL {;}
+    | LPAR ExprList RPAR {;}
     | Expr ASSIGN Expr {;}
-    | Expr PLUS Expr {$$ = newnode(Plus, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr MINUS Expr {$$ = newnode(Minus, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr MUL Expr {$$ = newnode(Mul, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr DIV Expr {$$ = newnode(Div, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr MOD Expr {$$ = newnode(Mod, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr OR Expr {$$ = newnode(Or, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr AND Expr {$$ = newnode(And, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr BITWISEOR Expr {$$ = newnode(BitWiseOr, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr BITWISEXOR Expr {$$ = newnode(BitWiseXor, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr BITWISEAND Expr {$$ = newnode(BitWiseAnd, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr EQ Expr {$$ = newnode(Eq, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr NE Expr {$$ = newnode(Ne, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr LE Expr {$$ = newnode(Lt, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr GE Expr {$$ = newnode(Ge, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr LT Expr {$$ = newnode(Lt, NULL); addchild($$, $1); addchild($$, $3);}
-    | Expr GT Expr {$$ = newnode(Gt, NULL); addchild($$, $1); addchild($$, $3);}
-    | MINUS Expr {$$ = newnode(Minus, NULL); addchild($$, $2);}
-    | PLUS Expr {$$ = newnode(Plus, NULL); addchild($$, $2);}
-    | NOT Expr {$$ = newnode(Not, NULL); addchild($$, $2);}
-    | IDENTIFIER LPAR RPAR {$$ = newnode(Call, NULL); addchild($$, newnode(Identifier, $1));}
-    | IDENTIFIER LPAR ExprList RPAR {$$ = newnode(Call, NULL); addchild($$, newnode(Identifier, $1)); addchild($$, $3);}
+    | Expr PLUS Expr {;}
+    | Expr MINUS Expr {;}
+    | Expr MUL Expr {;}
+    | Expr DIV Expr {;}
+    | Expr MOD Expr {;}
+    | Expr OR Expr {;}
+    | Expr AND Expr {;}
+    | Expr BITWISEOR Expr {;}
+    | Expr BITWISEXOR Expr {;}
+    | Expr BITWISEAND Expr {;}
+    | Expr EQ Expr {;}
+    | Expr NE Expr {;}
+    | Expr LE Expr {;}
+    | Expr GE Expr {;}
+    | Expr LT Expr {;}
+    | Expr GT Expr {;}
+    | MINUS Expr {;}
+    | PLUS Expr {;}
+    | NOT Expr {;}
+    | IDENTIFIER LPAR RPAR {;}
+    | IDENTIFIER LPAR ExprList RPAR {;}
     ;
 
-ExprList: Expr {$$ = $1;}
-    | ExprList COMMA Expr {$$ = newnode(Comma, NULL); addchild($$, $1); addchild($$, $3);}
+ExprList: Expr {;}
+    | ExprList COMMA Expr {;}
     ;
 
 

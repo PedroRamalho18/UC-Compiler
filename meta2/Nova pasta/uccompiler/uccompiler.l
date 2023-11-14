@@ -17,8 +17,8 @@
     char palavra[100];
 
     int yyparse();
-    extern int syntax_error;
-    extern struct node *raiz;
+
+    extern struct node *program;
 
 
 %}
@@ -127,11 +127,8 @@ int main(int argc, char* argv[]) {
             yylex();
         }
         if(strcmp(argv[1],"-t")==0 ){
-            flag2=1;
             yyparse();
-            if(syntax_error!=1){
-                //show();
-            }
+            flag2=1;
         }
     } else{
         flag2=1;

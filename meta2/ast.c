@@ -24,7 +24,7 @@ void addchild(struct node *parent, struct node *child) {
     children->next = new;
 }
 
-// append a node to the list of siblings of the given node
+// append a node to the list of brothers of the given node
 void addbrother(struct node *node, struct node *brother) {
     struct node_list *new = malloc(sizeof(struct node_list));
     new->node = brother;
@@ -33,4 +33,25 @@ void addbrother(struct node *node, struct node *brother) {
     while(brothers->next != NULL)
         brothers = brothers->next;
     brothers->next = new;
+}
+
+void print_tabs(int depth) {
+    for (int i = 0; i < depth; i++) {
+        printf("\t");
+    }
+}
+
+void show(struct node *node, int depth) {
+    if (node == NULL) {
+        return;
+    }
+
+    print_tabs(depth);
+    printf("Category: %d, Token: %s\n", node->category, node->token);
+
+    struct node_list *children = node->children;
+    while (children != NULL) {
+        show(children->node, depth + 1);
+        children = children->next;
+    }
 }
