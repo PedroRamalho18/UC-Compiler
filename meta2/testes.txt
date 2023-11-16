@@ -1,3 +1,4 @@
+Gramática:
 Passados:
 DecDefErrors.uc ->illegal character ou unrecognized character?
 declarations.uc
@@ -12,5 +13,6 @@ errors.uc
 expr_test.uc
 syntax_errors.uc
 
-Chumbados:
+AST:
+
 

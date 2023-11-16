@@ -42,14 +42,14 @@ Grammar
    23 Declarations: Declarator
    24             | Declarations COMMA Declarator
 
-   25 TypeSpec: CHAR
-   26         | INT
-   27         | VOID
-   28         | SHORT
-   29         | DOUBLE
+   25 Declarator: IDENTIFIER
+   26           | IDENTIFIER ASSIGN ExprList
 
-   30 Declarator: IDENTIFIER
-   31           | IDENTIFIER ASSIGN ExprList
+   27 TypeSpec: CHAR
+   28         | INT
+   29         | VOID
+   30         | SHORT
+   31         | DOUBLE
 
    32 Statement: LBRACE error RBRACE
    33          | SEMI
@@ -106,20 +106,20 @@ Terminals, with rules where they appear
 
     $end (0) 0
     error (256) 21 32 42 46 47
-    CHAR (258) 25
-    DOUBLE (259) 29
-    INT (260) 26
-    SHORT (261) 28
+    CHAR (258) 27
+    DOUBLE (259) 31
+    INT (260) 28
+    SHORT (261) 30
     ELSE (262) 38
     WHILE (263) 39
     IF (264) 37 38
     RETURN (265) 40 41
-    VOID (266) 27
+    VOID (266) 29
     BITWISEAND (267) 63
     BITWISEOR (268) 61
     BITWISEXOR (269) 62
     AND (270) 60
-    ASSIGN (271) 31 53
+    ASSIGN (271) 26 53
     MUL (272) 56
     COMMA (273) 18 24 76
     DIV (274) 57
@@ -139,7 +139,7 @@ Terminals, with rules where they appear
     RBRACE (288) 9 10 32 35 36
     RPAR (289) 16 37 38 39 46 47 52 73 74
     SEMI (290) 15 21 22 33 34 40 41 42
-    IDENTIFIER <token> (291) 16 19 30 31 46 48 73 74
+    IDENTIFIER <token> (291) 16 19 25 26 46 48 73 74
     NATURAL <token> (292) 49
     DECIMAL <token> (293) 51
     CHRLIT <token> (294) 50
@@ -183,16 +183,16 @@ Nonterminals, with rules where they appear
     Declarations <node> (52)
         on left: 23 24
         on right: 22 24
-    TypeSpec <node> (53)
-        on left: 25 26 27 28 29
-        on right: 8 15 19 20 22
-    Declarator <node> (54)
-        on left: 30 31
+    Declarator <node> (53)
+        on left: 25 26
         on right: 23 24
+    TypeSpec <node> (54)
+        on left: 27 28 29 30 31
+        on right: 8 15 19 20 22
     Statement <node> (55)
         on left: 32 33 34 35 36 37 38 39 40 41
         on right: 11 13 43
-    StatementError (56)
+    StatementError <node> (56)
         on left: 42 43
         on right: 37 38 39 44 45
     Statements <node> (57)
@@ -203,7 +203,7 @@ Nonterminals, with rules where they appear
         on right: 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 75 76
     ExprList <node> (59)
         on left: 75 76
-        on right: 31 34 37 38 39 41 52 74 76
+        on right: 26 34 37 38 39 41 52 74 76
 
 
 State 0
@@ -220,11 +220,11 @@ State 0
    15 FunctionDeclaration: • TypeSpec FunctionDeclarator SEMI
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   25 TypeSpec: • CHAR
-   26         | • INT
-   27         | • VOID
-   28         | • SHORT
-   29         | • DOUBLE
+   27 TypeSpec: • CHAR
+   28         | • INT
+   29         | • VOID
+   30         | • SHORT
+   31         | • DOUBLE
 
     error   shift, and go to state 1
     CHAR    shift, and go to state 2
@@ -250,37 +250,37 @@ State 1
 
 State 2
 
-   25 TypeSpec: CHAR •
+   27 TypeSpec: CHAR •
 
-    $default  reduce using rule 25 (TypeSpec)
+    $default  reduce using rule 27 (TypeSpec)
 
 
 State 3
 
-   29 TypeSpec: DOUBLE •
+   31 TypeSpec: DOUBLE •
 
-    $default  reduce using rule 29 (TypeSpec)
+    $default  reduce using rule 31 (TypeSpec)
 
 
 State 4
 
-   26 TypeSpec: INT •
-
-    $default  reduce using rule 26 (TypeSpec)
-
-
-State 5
-
-   28 TypeSpec: SHORT •
+   28 TypeSpec: INT •
 
     $default  reduce using rule 28 (TypeSpec)
 
 
+State 5
+
+   30 TypeSpec: SHORT •
+
+    $default  reduce using rule 30 (TypeSpec)
+
+
 State 6
 
-   27 TypeSpec: VOID •
+   29 TypeSpec: VOID •
 
-    $default  reduce using rule 27 (TypeSpec)
+    $default  reduce using rule 29 (TypeSpec)
 
 
 State 7
@@ -300,11 +300,11 @@ State 8
    15 FunctionDeclaration: • TypeSpec FunctionDeclarator SEMI
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   25 TypeSpec: • CHAR
-   26         | • INT
-   27         | • VOID
-   28         | • SHORT
-   29         | • DOUBLE
+   27 TypeSpec: • CHAR
+   28         | • INT
+   29         | • VOID
+   30         | • SHORT
+   31         | • DOUBLE
 
     error   shift, and go to state 1
     CHAR    shift, and go to state 2
@@ -350,8 +350,8 @@ State 12
    22 Declaration: TypeSpec • Declarations SEMI
    23 Declarations: • Declarator
    24             | • Declarations COMMA Declarator
-   30 Declarator: • IDENTIFIER
-   31           | • IDENTIFIER ASSIGN ExprList
+   25 Declarator: • IDENTIFIER
+   26           | • IDENTIFIER ASSIGN ExprList
 
     IDENTIFIER  shift, and go to state 18
 
@@ -398,13 +398,13 @@ State 17
 State 18
 
    16 FunctionDeclarator: IDENTIFIER • LPAR ParameterList RPAR
-   30 Declarator: IDENTIFIER •  [COMMA, SEMI]
-   31           | IDENTIFIER • ASSIGN ExprList
+   25 Declarator: IDENTIFIER •  [COMMA, SEMI]
+   26           | IDENTIFIER • ASSIGN ExprList
 
     ASSIGN  shift, and go to state 22
     LPAR    shift, and go to state 23
 
-    $default  reduce using rule 30 (Declarator)
+    $default  reduce using rule 25 (Declarator)
 
 
 State 19
@@ -438,7 +438,7 @@ State 21
 
 State 22
 
-   31 Declarator: IDENTIFIER ASSIGN • ExprList
+   26 Declarator: IDENTIFIER ASSIGN • ExprList
    46 Expr: • IDENTIFIER LPAR error RPAR
    47     | • LPAR error RPAR
    48     | • IDENTIFIER
@@ -491,11 +491,11 @@ State 23
    18              | • ParameterList COMMA ParameterDeclaration
    19 ParameterDeclaration: • TypeSpec IDENTIFIER
    20                     | • TypeSpec
-   25 TypeSpec: • CHAR
-   26         | • INT
-   27         | • VOID
-   28         | • SHORT
-   29         | • DOUBLE
+   27 TypeSpec: • CHAR
+   28         | • INT
+   29         | • VOID
+   30         | • SHORT
+   31         | • DOUBLE
 
     CHAR    shift, and go to state 2
     DOUBLE  shift, and go to state 3
@@ -518,11 +518,11 @@ State 24
    14                          | • Declaration
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   25 TypeSpec: • CHAR
-   26         | • INT
-   27         | • VOID
-   28         | • SHORT
-   29         | • DOUBLE
+   27 TypeSpec: • CHAR
+   28         | • INT
+   29         | • VOID
+   30         | • SHORT
+   31         | • DOUBLE
    32 Statement: • LBRACE error RBRACE
    33          | • SEMI
    34          | • ExprList SEMI
@@ -611,8 +611,8 @@ State 26
 State 27
 
    24 Declarations: Declarations COMMA • Declarator
-   30 Declarator: • IDENTIFIER
-   31           | • IDENTIFIER ASSIGN ExprList
+   25 Declarator: • IDENTIFIER
+   26           | • IDENTIFIER ASSIGN ExprList
 
     IDENTIFIER  shift, and go to state 53
 
@@ -888,12 +888,12 @@ State 37
 
 State 38
 
-   31 Declarator: IDENTIFIER ASSIGN ExprList •  [COMMA, SEMI]
+   26 Declarator: IDENTIFIER ASSIGN ExprList •  [COMMA, SEMI]
    76 ExprList: ExprList • COMMA Expr
 
-    $default  reduce using rule 31 (Declarator)
+    $default  reduce using rule 26 (Declarator)
 
-    Conflict between rule 31 and token COMMA resolved as reduce (COMMA < ASSIGN).
+    Conflict between rule 26 and token COMMA resolved as reduce (COMMA < ASSIGN).
 
 
 State 39
@@ -1082,11 +1082,11 @@ State 48
    12                          | DeclarationsAndStatements • Declaration
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   25 TypeSpec: • CHAR
-   26         | • INT
-   27         | • VOID
-   28         | • SHORT
-   29         | • DOUBLE
+   27 TypeSpec: • CHAR
+   28         | • INT
+   29         | • VOID
+   30         | • SHORT
+   31         | • DOUBLE
    32 Statement: • LBRACE error RBRACE
    33          | • SEMI
    34          | • ExprList SEMI
@@ -1169,8 +1169,8 @@ State 50
    22 Declaration: TypeSpec • Declarations SEMI
    23 Declarations: • Declarator
    24             | • Declarations COMMA Declarator
-   30 Declarator: • IDENTIFIER
-   31           | • IDENTIFIER ASSIGN ExprList
+   25 Declarator: • IDENTIFIER
+   26           | • IDENTIFIER ASSIGN ExprList
 
     IDENTIFIER  shift, and go to state 53
 
@@ -1196,12 +1196,12 @@ State 52
 
 State 53
 
-   30 Declarator: IDENTIFIER •  [COMMA, SEMI]
-   31           | IDENTIFIER • ASSIGN ExprList
+   25 Declarator: IDENTIFIER •  [COMMA, SEMI]
+   26           | IDENTIFIER • ASSIGN ExprList
 
     ASSIGN  shift, and go to state 22
 
-    $default  reduce using rule 30 (Declarator)
+    $default  reduce using rule 25 (Declarator)
 
 
 State 54
@@ -2228,11 +2228,11 @@ State 79
    18 ParameterList: ParameterList COMMA • ParameterDeclaration
    19 ParameterDeclaration: • TypeSpec IDENTIFIER
    20                     | • TypeSpec
-   25 TypeSpec: • CHAR
-   26         | • INT
-   27         | • VOID
-   28         | • SHORT
-   29         | • DOUBLE
+   27 TypeSpec: • CHAR
+   28         | • INT
+   29         | • VOID
+   30         | • SHORT
+   31         | • DOUBLE
 
     CHAR    shift, and go to state 2
     DOUBLE  shift, and go to state 3

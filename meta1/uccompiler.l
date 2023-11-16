@@ -103,8 +103,6 @@ erro .
 
 {NATURAL}+              { if(flag==1) printf("NATURAL(%s)\n",yytext); }
 {DECIMAL}               { if(flag==1) printf("DECIMAL(%s)\n",yytext); }
-
-
 {CHAR}                  {if(flag==1)   printf("CHAR\n");}
 {ELSE}                  {if(flag==1)   printf("ELSE\n");}
 {WHILE}                 {if(flag==1)   printf("WHILE\n");}

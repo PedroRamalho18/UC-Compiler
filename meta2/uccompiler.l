@@ -18,7 +18,7 @@
 
     int yyparse();
     extern int syntax_error;
-    extern struct node *raiz;
+    extern struct node *node;
 
 
 %}
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
             flag2=1;
             yyparse();
             if(syntax_error!=1){
-                //show();
+                show(node,0);
             }
         }
     } else{
