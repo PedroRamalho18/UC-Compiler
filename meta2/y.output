@@ -42,14 +42,14 @@ Grammar
    23 Declarations: Declarator
    24             | Declarations COMMA Declarator
 
-   25 Declarator: IDENTIFIER
-   26           | IDENTIFIER ASSIGN ExprList
+   25 TypeSpec: CHAR
+   26         | INT
+   27         | VOID
+   28         | SHORT
+   29         | DOUBLE
 
-   27 TypeSpec: CHAR
-   28         | INT
-   29         | VOID
-   30         | SHORT
-   31         | DOUBLE
+   30 Declarator: IDENTIFIER
+   31           | IDENTIFIER ASSIGN ExprList
 
    32 Statement: LBRACE error RBRACE
    33          | SEMI
@@ -68,81 +68,81 @@ Grammar
    44 Statements: StatementError
    45           | Statements StatementError
 
-   46 Expr: IDENTIFIER LPAR error RPAR
-   47     | LPAR error RPAR
-   48     | IDENTIFIER
-   49     | NATURAL
-   50     | CHRLIT
-   51     | DECIMAL
-   52     | LPAR ExprList RPAR
-   53     | Expr ASSIGN Expr
-   54     | Expr PLUS Expr
-   55     | Expr MINUS Expr
-   56     | Expr MUL Expr
-   57     | Expr DIV Expr
-   58     | Expr MOD Expr
-   59     | Expr OR Expr
-   60     | Expr AND Expr
-   61     | Expr BITWISEOR Expr
-   62     | Expr BITWISEXOR Expr
-   63     | Expr BITWISEAND Expr
-   64     | Expr EQ Expr
-   65     | Expr NE Expr
-   66     | Expr LE Expr
-   67     | Expr GE Expr
-   68     | Expr LT Expr
-   69     | Expr GT Expr
-   70     | MINUS Expr
-   71     | PLUS Expr
-   72     | NOT Expr
-   73     | IDENTIFIER LPAR RPAR
-   74     | IDENTIFIER LPAR ExprList RPAR
+   46 ExprList: Expr
+   47         | ExprList COMMA Expr
 
-   75 ExprList: Expr
-   76         | ExprList COMMA Expr
+   48 Expr: IDENTIFIER LPAR error RPAR
+   49     | LPAR error RPAR
+   50     | IDENTIFIER
+   51     | NATURAL
+   52     | CHRLIT
+   53     | DECIMAL
+   54     | LPAR ExprList RPAR
+   55     | Expr ASSIGN Expr
+   56     | Expr PLUS Expr
+   57     | Expr MINUS Expr
+   58     | Expr MUL Expr
+   59     | Expr DIV Expr
+   60     | Expr MOD Expr
+   61     | Expr OR Expr
+   62     | Expr AND Expr
+   63     | Expr BITWISEOR Expr
+   64     | Expr BITWISEXOR Expr
+   65     | Expr BITWISEAND Expr
+   66     | Expr EQ Expr
+   67     | Expr NE Expr
+   68     | Expr LE Expr
+   69     | Expr GE Expr
+   70     | Expr LT Expr
+   71     | Expr GT Expr
+   72     | MINUS Expr
+   73     | PLUS Expr
+   74     | NOT Expr
+   75     | IDENTIFIER LPAR RPAR
+   76     | IDENTIFIER LPAR ExprList RPAR
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    error (256) 21 32 42 46 47
-    CHAR (258) 27
-    DOUBLE (259) 31
-    INT (260) 28
-    SHORT (261) 30
+    error (256) 21 32 42 48 49
+    CHAR (258) 25
+    DOUBLE (259) 29
+    INT (260) 26
+    SHORT (261) 28
     ELSE (262) 38
     WHILE (263) 39
     IF (264) 37 38
     RETURN (265) 40 41
-    VOID (266) 29
-    BITWISEAND (267) 63
-    BITWISEOR (268) 61
-    BITWISEXOR (269) 62
-    AND (270) 60
-    ASSIGN (271) 26 53
-    MUL (272) 56
-    COMMA (273) 18 24 76
-    DIV (274) 57
-    EQ (275) 64
-    GE (276) 67
-    GT (277) 69
+    VOID (266) 27
+    BITWISEAND (267) 65
+    BITWISEOR (268) 63
+    BITWISEXOR (269) 64
+    AND (270) 62
+    ASSIGN (271) 31 55
+    MUL (272) 58
+    COMMA (273) 18 24 47
+    DIV (274) 59
+    EQ (275) 66
+    GE (276) 69
+    GT (277) 71
     LBRACE (278) 9 10 32 35 36
-    LE (279) 66
-    LPAR (280) 16 37 38 39 46 47 52 73 74
-    LT (281) 68
-    MINUS (282) 55 70
-    MOD (283) 58
-    NE (284) 65
-    NOT (285) 72
-    OR (286) 59
-    PLUS (287) 54 71
+    LE (279) 68
+    LPAR (280) 16 37 38 39 48 49 54 75 76
+    LT (281) 70
+    MINUS (282) 57 72
+    MOD (283) 60
+    NE (284) 67
+    NOT (285) 74
+    OR (286) 61
+    PLUS (287) 56 73
     RBRACE (288) 9 10 32 35 36
-    RPAR (289) 16 37 38 39 46 47 52 73 74
+    RPAR (289) 16 37 38 39 48 49 54 75 76
     SEMI (290) 15 21 22 33 34 40 41 42
-    IDENTIFIER <token> (291) 16 19 25 26 46 48 73 74
-    NATURAL <token> (292) 49
-    DECIMAL <token> (293) 51
-    CHRLIT <token> (294) 50
+    IDENTIFIER <token> (291) 16 19 30 31 48 50 75 76
+    NATURAL <token> (292) 51
+    DECIMAL <token> (293) 53
+    CHRLIT <token> (294) 52
     RESERVED <token> (295)
 
 
@@ -183,12 +183,12 @@ Nonterminals, with rules where they appear
     Declarations <node> (52)
         on left: 23 24
         on right: 22 24
-    Declarator <node> (53)
-        on left: 25 26
-        on right: 23 24
-    TypeSpec <node> (54)
-        on left: 27 28 29 30 31
+    TypeSpec <node> (53)
+        on left: 25 26 27 28 29
         on right: 8 15 19 20 22
+    Declarator <node> (54)
+        on left: 30 31
+        on right: 23 24
     Statement <node> (55)
         on left: 32 33 34 35 36 37 38 39 40 41
         on right: 11 13 43
@@ -198,12 +198,12 @@ Nonterminals, with rules where they appear
     Statements <node> (57)
         on left: 44 45
         on right: 36 45
-    Expr <node> (58)
-        on left: 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
-        on right: 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 75 76
-    ExprList <node> (59)
-        on left: 75 76
-        on right: 26 34 37 38 39 41 52 74 76
+    ExprList <node> (58)
+        on left: 46 47
+        on right: 31 34 37 38 39 41 47 54 76
+    Expr <node> (59)
+        on left: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76
+        on right: 46 47 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
 
 
 State 0
@@ -220,11 +220,11 @@ State 0
    15 FunctionDeclaration: • TypeSpec FunctionDeclarator SEMI
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   27 TypeSpec: • CHAR
-   28         | • INT
-   29         | • VOID
-   30         | • SHORT
-   31         | • DOUBLE
+   25 TypeSpec: • CHAR
+   26         | • INT
+   27         | • VOID
+   28         | • SHORT
+   29         | • DOUBLE
 
     error   shift, and go to state 1
     CHAR    shift, and go to state 2
@@ -250,37 +250,37 @@ State 1
 
 State 2
 
-   27 TypeSpec: CHAR •
+   25 TypeSpec: CHAR •
 
-    $default  reduce using rule 27 (TypeSpec)
+    $default  reduce using rule 25 (TypeSpec)
 
 
 State 3
 
-   31 TypeSpec: DOUBLE •
+   29 TypeSpec: DOUBLE •
 
-    $default  reduce using rule 31 (TypeSpec)
+    $default  reduce using rule 29 (TypeSpec)
 
 
 State 4
 
-   28 TypeSpec: INT •
+   26 TypeSpec: INT •
 
-    $default  reduce using rule 28 (TypeSpec)
+    $default  reduce using rule 26 (TypeSpec)
 
 
 State 5
 
-   30 TypeSpec: SHORT •
+   28 TypeSpec: SHORT •
 
-    $default  reduce using rule 30 (TypeSpec)
+    $default  reduce using rule 28 (TypeSpec)
 
 
 State 6
 
-   29 TypeSpec: VOID •
+   27 TypeSpec: VOID •
 
-    $default  reduce using rule 29 (TypeSpec)
+    $default  reduce using rule 27 (TypeSpec)
 
 
 State 7
@@ -300,11 +300,11 @@ State 8
    15 FunctionDeclaration: • TypeSpec FunctionDeclarator SEMI
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   27 TypeSpec: • CHAR
-   28         | • INT
-   29         | • VOID
-   30         | • SHORT
-   31         | • DOUBLE
+   25 TypeSpec: • CHAR
+   26         | • INT
+   27         | • VOID
+   28         | • SHORT
+   29         | • DOUBLE
 
     error   shift, and go to state 1
     CHAR    shift, and go to state 2
@@ -350,8 +350,8 @@ State 12
    22 Declaration: TypeSpec • Declarations SEMI
    23 Declarations: • Declarator
    24             | • Declarations COMMA Declarator
-   25 Declarator: • IDENTIFIER
-   26           | • IDENTIFIER ASSIGN ExprList
+   30 Declarator: • IDENTIFIER
+   31           | • IDENTIFIER ASSIGN ExprList
 
     IDENTIFIER  shift, and go to state 18
 
@@ -398,13 +398,13 @@ State 17
 State 18
 
    16 FunctionDeclarator: IDENTIFIER • LPAR ParameterList RPAR
-   25 Declarator: IDENTIFIER •  [COMMA, SEMI]
-   26           | IDENTIFIER • ASSIGN ExprList
+   30 Declarator: IDENTIFIER •  [COMMA, SEMI]
+   31           | IDENTIFIER • ASSIGN ExprList
 
     ASSIGN  shift, and go to state 22
     LPAR    shift, and go to state 23
 
-    $default  reduce using rule 25 (Declarator)
+    $default  reduce using rule 30 (Declarator)
 
 
 State 19
@@ -438,38 +438,38 @@ State 21
 
 State 22
 
-   26 Declarator: IDENTIFIER ASSIGN • ExprList
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   31 Declarator: IDENTIFIER ASSIGN • ExprList
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -480,8 +480,8 @@ State 22
     DECIMAL     shift, and go to state 35
     CHRLIT      shift, and go to state 36
 
-    Expr      go to state 37
-    ExprList  go to state 38
+    ExprList  go to state 37
+    Expr      go to state 38
 
 
 State 23
@@ -491,11 +491,11 @@ State 23
    18              | • ParameterList COMMA ParameterDeclaration
    19 ParameterDeclaration: • TypeSpec IDENTIFIER
    20                     | • TypeSpec
-   27 TypeSpec: • CHAR
-   28         | • INT
-   29         | • VOID
-   30         | • SHORT
-   31         | • DOUBLE
+   25 TypeSpec: • CHAR
+   26         | • INT
+   27         | • VOID
+   28         | • SHORT
+   29         | • DOUBLE
 
     CHAR    shift, and go to state 2
     DOUBLE  shift, and go to state 3
@@ -518,11 +518,11 @@ State 24
    14                          | • Declaration
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   27 TypeSpec: • CHAR
-   28         | • INT
-   29         | • VOID
-   30         | • SHORT
-   31         | • DOUBLE
+   25 TypeSpec: • CHAR
+   26         | • INT
+   27         | • VOID
+   28         | • SHORT
+   29         | • DOUBLE
    32 Statement: • LBRACE error RBRACE
    33          | • SEMI
    34          | • ExprList SEMI
@@ -533,37 +533,37 @@ State 24
    39          | • WHILE LPAR ExprList RPAR StatementError
    40          | • RETURN SEMI
    41          | • RETURN ExprList SEMI
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 1
     CHAR        shift, and go to state 2
@@ -590,8 +590,8 @@ State 24
     Declaration                go to state 49
     TypeSpec                   go to state 50
     Statement                  go to state 51
-    Expr                       go to state 37
     ExprList                   go to state 52
+    Expr                       go to state 38
 
 
 State 25
@@ -611,8 +611,8 @@ State 26
 State 27
 
    24 Declarations: Declarations COMMA • Declarator
-   25 Declarator: • IDENTIFIER
-   26           | • IDENTIFIER ASSIGN ExprList
+   30 Declarator: • IDENTIFIER
+   31           | • IDENTIFIER ASSIGN ExprList
 
     IDENTIFIER  shift, and go to state 53
 
@@ -628,39 +628,39 @@ State 28
 
 State 29
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   47     | LPAR • error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   52     | LPAR • ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   49     | LPAR • error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   54     | LPAR • ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 55
     LPAR        shift, and go to state 29
@@ -672,42 +672,42 @@ State 29
     DECIMAL     shift, and go to state 35
     CHRLIT      shift, and go to state 36
 
-    Expr      go to state 37
     ExprList  go to state 56
+    Expr      go to state 38
 
 
 State 30
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   70     | MINUS • Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   72     | MINUS • Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -723,36 +723,36 @@ State 30
 
 State 31
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   72     | NOT • Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   74     | NOT • Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -768,36 +768,36 @@ State 31
 
 State 32
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   71     | PLUS • Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   73     | PLUS • Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -813,87 +813,87 @@ State 32
 
 State 33
 
-   46 Expr: IDENTIFIER • LPAR error RPAR
-   48     | IDENTIFIER •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
-   73     | IDENTIFIER • LPAR RPAR
-   74     | IDENTIFIER • LPAR ExprList RPAR
+   48 Expr: IDENTIFIER • LPAR error RPAR
+   50     | IDENTIFIER •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
+   75     | IDENTIFIER • LPAR RPAR
+   76     | IDENTIFIER • LPAR ExprList RPAR
 
     LPAR  shift, and go to state 60
-
-    $default  reduce using rule 48 (Expr)
-
-
-State 34
-
-   49 Expr: NATURAL •
-
-    $default  reduce using rule 49 (Expr)
-
-
-State 35
-
-   51 Expr: DECIMAL •
-
-    $default  reduce using rule 51 (Expr)
-
-
-State 36
-
-   50 Expr: CHRLIT •
 
     $default  reduce using rule 50 (Expr)
 
 
+State 34
+
+   51 Expr: NATURAL •
+
+    $default  reduce using rule 51 (Expr)
+
+
+State 35
+
+   53 Expr: DECIMAL •
+
+    $default  reduce using rule 53 (Expr)
+
+
+State 36
+
+   52 Expr: CHRLIT •
+
+    $default  reduce using rule 52 (Expr)
+
+
 State 37
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
-   75 ExprList: Expr •  [COMMA, RPAR, SEMI]
+   31 Declarator: IDENTIFIER ASSIGN ExprList •  [COMMA, SEMI]
+   47 ExprList: ExprList • COMMA Expr
 
-    BITWISEAND  shift, and go to state 61
-    BITWISEOR   shift, and go to state 62
-    BITWISEXOR  shift, and go to state 63
-    AND         shift, and go to state 64
-    ASSIGN      shift, and go to state 65
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    OR          shift, and go to state 76
-    PLUS        shift, and go to state 77
+    $default  reduce using rule 31 (Declarator)
 
-    $default  reduce using rule 75 (ExprList)
+    Conflict between rule 31 and token COMMA resolved as reduce (COMMA < ASSIGN).
 
 
 State 38
 
-   26 Declarator: IDENTIFIER ASSIGN ExprList •  [COMMA, SEMI]
-   76 ExprList: ExprList • COMMA Expr
+   46 ExprList: Expr •  [COMMA, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    $default  reduce using rule 26 (Declarator)
+    BITWISEAND  shift, and go to state 62
+    BITWISEOR   shift, and go to state 63
+    BITWISEXOR  shift, and go to state 64
+    AND         shift, and go to state 65
+    ASSIGN      shift, and go to state 66
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    OR          shift, and go to state 77
+    PLUS        shift, and go to state 78
 
-    Conflict between rule 26 and token COMMA resolved as reduce (COMMA < ASSIGN).
+    $default  reduce using rule 46 (ExprList)
 
 
 State 39
@@ -941,37 +941,37 @@ State 44
 
    40 Statement: RETURN • SEMI
    41          | RETURN • ExprList SEMI
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -983,8 +983,8 @@ State 44
     DECIMAL     shift, and go to state 35
     CHRLIT      shift, and go to state 36
 
-    Expr      go to state 37
     ExprList  go to state 85
+    Expr      go to state 38
 
 
 State 45
@@ -1006,37 +1006,37 @@ State 45
    43               | • Statement
    44 Statements: • StatementError
    45           | • Statements StatementError
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 86
     WHILE       shift, and go to state 42
@@ -1057,8 +1057,8 @@ State 45
     Statement       go to state 88
     StatementError  go to state 89
     Statements      go to state 90
-    Expr            go to state 37
     ExprList        go to state 52
+    Expr            go to state 38
 
 
 State 46
@@ -1082,11 +1082,11 @@ State 48
    12                          | DeclarationsAndStatements • Declaration
    21 Declaration: • error SEMI
    22            | • TypeSpec Declarations SEMI
-   27 TypeSpec: • CHAR
-   28         | • INT
-   29         | • VOID
-   30         | • SHORT
-   31         | • DOUBLE
+   25 TypeSpec: • CHAR
+   26         | • INT
+   27         | • VOID
+   28         | • SHORT
+   29         | • DOUBLE
    32 Statement: • LBRACE error RBRACE
    33          | • SEMI
    34          | • ExprList SEMI
@@ -1097,37 +1097,37 @@ State 48
    39          | • WHILE LPAR ExprList RPAR StatementError
    40          | • RETURN SEMI
    41          | • RETURN ExprList SEMI
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 1
     CHAR        shift, and go to state 2
@@ -1153,8 +1153,8 @@ State 48
     Declaration  go to state 92
     TypeSpec     go to state 50
     Statement    go to state 93
-    Expr         go to state 37
     ExprList     go to state 52
+    Expr         go to state 38
 
 
 State 49
@@ -1169,8 +1169,8 @@ State 50
    22 Declaration: TypeSpec • Declarations SEMI
    23 Declarations: • Declarator
    24             | • Declarations COMMA Declarator
-   25 Declarator: • IDENTIFIER
-   26           | • IDENTIFIER ASSIGN ExprList
+   30 Declarator: • IDENTIFIER
+   31           | • IDENTIFIER ASSIGN ExprList
 
     IDENTIFIER  shift, and go to state 53
 
@@ -1188,20 +1188,20 @@ State 51
 State 52
 
    34 Statement: ExprList • SEMI
-   76 ExprList: ExprList • COMMA Expr
+   47 ExprList: ExprList • COMMA Expr
 
-    COMMA  shift, and go to state 78
+    COMMA  shift, and go to state 61
     SEMI   shift, and go to state 94
 
 
 State 53
 
-   25 Declarator: IDENTIFIER •  [COMMA, SEMI]
-   26           | IDENTIFIER • ASSIGN ExprList
+   30 Declarator: IDENTIFIER •  [COMMA, SEMI]
+   31           | IDENTIFIER • ASSIGN ExprList
 
     ASSIGN  shift, and go to state 22
 
-    $default  reduce using rule 25 (Declarator)
+    $default  reduce using rule 30 (Declarator)
 
 
 State 54
@@ -1213,190 +1213,190 @@ State 54
 
 State 55
 
-   47 Expr: LPAR error • RPAR
+   49 Expr: LPAR error • RPAR
 
     RPAR  shift, and go to state 95
 
 
 State 56
 
-   52 Expr: LPAR ExprList • RPAR
-   76 ExprList: ExprList • COMMA Expr
+   47 ExprList: ExprList • COMMA Expr
+   54 Expr: LPAR ExprList • RPAR
 
-    COMMA  shift, and go to state 78
+    COMMA  shift, and go to state 61
     RPAR   shift, and go to state 96
 
 
 State 57
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
-   70     | MINUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
+   72     | MINUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
 
-    MUL  shift, and go to state 66
-    DIV  shift, and go to state 67
-    MOD  shift, and go to state 74
+    MUL  shift, and go to state 67
+    DIV  shift, and go to state 68
+    MOD  shift, and go to state 75
 
-    $default  reduce using rule 70 (Expr)
+    $default  reduce using rule 72 (Expr)
 
-    Conflict between rule 70 and token BITWISEAND resolved as reduce (BITWISEAND < MINUS).
-    Conflict between rule 70 and token BITWISEOR resolved as reduce (BITWISEOR < MINUS).
-    Conflict between rule 70 and token BITWISEXOR resolved as reduce (BITWISEXOR < MINUS).
-    Conflict between rule 70 and token AND resolved as reduce (AND < MINUS).
-    Conflict between rule 70 and token ASSIGN resolved as reduce (ASSIGN < MINUS).
-    Conflict between rule 70 and token MUL resolved as shift (MINUS < MUL).
-    Conflict between rule 70 and token DIV resolved as shift (MINUS < DIV).
-    Conflict between rule 70 and token EQ resolved as reduce (EQ < MINUS).
-    Conflict between rule 70 and token GE resolved as reduce (GE < MINUS).
-    Conflict between rule 70 and token GT resolved as reduce (GT < MINUS).
-    Conflict between rule 70 and token LE resolved as reduce (LE < MINUS).
-    Conflict between rule 70 and token LT resolved as reduce (LT < MINUS).
-    Conflict between rule 70 and token MINUS resolved as reduce (%left MINUS).
-    Conflict between rule 70 and token MOD resolved as shift (MINUS < MOD).
-    Conflict between rule 70 and token NE resolved as reduce (NE < MINUS).
-    Conflict between rule 70 and token OR resolved as reduce (OR < MINUS).
-    Conflict between rule 70 and token PLUS resolved as reduce (%left PLUS).
+    Conflict between rule 72 and token BITWISEAND resolved as reduce (BITWISEAND < MINUS).
+    Conflict between rule 72 and token BITWISEOR resolved as reduce (BITWISEOR < MINUS).
+    Conflict between rule 72 and token BITWISEXOR resolved as reduce (BITWISEXOR < MINUS).
+    Conflict between rule 72 and token AND resolved as reduce (AND < MINUS).
+    Conflict between rule 72 and token ASSIGN resolved as reduce (ASSIGN < MINUS).
+    Conflict between rule 72 and token MUL resolved as shift (MINUS < MUL).
+    Conflict between rule 72 and token DIV resolved as shift (MINUS < DIV).
+    Conflict between rule 72 and token EQ resolved as reduce (EQ < MINUS).
+    Conflict between rule 72 and token GE resolved as reduce (GE < MINUS).
+    Conflict between rule 72 and token GT resolved as reduce (GT < MINUS).
+    Conflict between rule 72 and token LE resolved as reduce (LE < MINUS).
+    Conflict between rule 72 and token LT resolved as reduce (LT < MINUS).
+    Conflict between rule 72 and token MINUS resolved as reduce (%left MINUS).
+    Conflict between rule 72 and token MOD resolved as shift (MINUS < MOD).
+    Conflict between rule 72 and token NE resolved as reduce (NE < MINUS).
+    Conflict between rule 72 and token OR resolved as reduce (OR < MINUS).
+    Conflict between rule 72 and token PLUS resolved as reduce (%left PLUS).
 
 
 State 58
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
-   72     | NOT Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
+   74     | NOT Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
 
-    $default  reduce using rule 72 (Expr)
+    $default  reduce using rule 74 (Expr)
 
-    Conflict between rule 72 and token BITWISEAND resolved as reduce (BITWISEAND < NOT).
-    Conflict between rule 72 and token BITWISEOR resolved as reduce (BITWISEOR < NOT).
-    Conflict between rule 72 and token BITWISEXOR resolved as reduce (BITWISEXOR < NOT).
-    Conflict between rule 72 and token AND resolved as reduce (AND < NOT).
-    Conflict between rule 72 and token ASSIGN resolved as reduce (ASSIGN < NOT).
-    Conflict between rule 72 and token MUL resolved as reduce (MUL < NOT).
-    Conflict between rule 72 and token DIV resolved as reduce (DIV < NOT).
-    Conflict between rule 72 and token EQ resolved as reduce (EQ < NOT).
-    Conflict between rule 72 and token GE resolved as reduce (GE < NOT).
-    Conflict between rule 72 and token GT resolved as reduce (GT < NOT).
-    Conflict between rule 72 and token LE resolved as reduce (LE < NOT).
-    Conflict between rule 72 and token LT resolved as reduce (LT < NOT).
-    Conflict between rule 72 and token MINUS resolved as reduce (MINUS < NOT).
-    Conflict between rule 72 and token MOD resolved as reduce (MOD < NOT).
-    Conflict between rule 72 and token NE resolved as reduce (NE < NOT).
-    Conflict between rule 72 and token OR resolved as reduce (OR < NOT).
-    Conflict between rule 72 and token PLUS resolved as reduce (PLUS < NOT).
+    Conflict between rule 74 and token BITWISEAND resolved as reduce (BITWISEAND < NOT).
+    Conflict between rule 74 and token BITWISEOR resolved as reduce (BITWISEOR < NOT).
+    Conflict between rule 74 and token BITWISEXOR resolved as reduce (BITWISEXOR < NOT).
+    Conflict between rule 74 and token AND resolved as reduce (AND < NOT).
+    Conflict between rule 74 and token ASSIGN resolved as reduce (ASSIGN < NOT).
+    Conflict between rule 74 and token MUL resolved as reduce (MUL < NOT).
+    Conflict between rule 74 and token DIV resolved as reduce (DIV < NOT).
+    Conflict between rule 74 and token EQ resolved as reduce (EQ < NOT).
+    Conflict between rule 74 and token GE resolved as reduce (GE < NOT).
+    Conflict between rule 74 and token GT resolved as reduce (GT < NOT).
+    Conflict between rule 74 and token LE resolved as reduce (LE < NOT).
+    Conflict between rule 74 and token LT resolved as reduce (LT < NOT).
+    Conflict between rule 74 and token MINUS resolved as reduce (MINUS < NOT).
+    Conflict between rule 74 and token MOD resolved as reduce (MOD < NOT).
+    Conflict between rule 74 and token NE resolved as reduce (NE < NOT).
+    Conflict between rule 74 and token OR resolved as reduce (OR < NOT).
+    Conflict between rule 74 and token PLUS resolved as reduce (PLUS < NOT).
 
 
 State 59
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
-   71     | PLUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
+   73     | PLUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
 
-    MUL  shift, and go to state 66
-    DIV  shift, and go to state 67
-    MOD  shift, and go to state 74
+    MUL  shift, and go to state 67
+    DIV  shift, and go to state 68
+    MOD  shift, and go to state 75
 
-    $default  reduce using rule 71 (Expr)
+    $default  reduce using rule 73 (Expr)
 
-    Conflict between rule 71 and token BITWISEAND resolved as reduce (BITWISEAND < PLUS).
-    Conflict between rule 71 and token BITWISEOR resolved as reduce (BITWISEOR < PLUS).
-    Conflict between rule 71 and token BITWISEXOR resolved as reduce (BITWISEXOR < PLUS).
-    Conflict between rule 71 and token AND resolved as reduce (AND < PLUS).
-    Conflict between rule 71 and token ASSIGN resolved as reduce (ASSIGN < PLUS).
-    Conflict between rule 71 and token MUL resolved as shift (PLUS < MUL).
-    Conflict between rule 71 and token DIV resolved as shift (PLUS < DIV).
-    Conflict between rule 71 and token EQ resolved as reduce (EQ < PLUS).
-    Conflict between rule 71 and token GE resolved as reduce (GE < PLUS).
-    Conflict between rule 71 and token GT resolved as reduce (GT < PLUS).
-    Conflict between rule 71 and token LE resolved as reduce (LE < PLUS).
-    Conflict between rule 71 and token LT resolved as reduce (LT < PLUS).
-    Conflict between rule 71 and token MINUS resolved as reduce (%left MINUS).
-    Conflict between rule 71 and token MOD resolved as shift (PLUS < MOD).
-    Conflict between rule 71 and token NE resolved as reduce (NE < PLUS).
-    Conflict between rule 71 and token OR resolved as reduce (OR < PLUS).
-    Conflict between rule 71 and token PLUS resolved as reduce (%left PLUS).
+    Conflict between rule 73 and token BITWISEAND resolved as reduce (BITWISEAND < PLUS).
+    Conflict between rule 73 and token BITWISEOR resolved as reduce (BITWISEOR < PLUS).
+    Conflict between rule 73 and token BITWISEXOR resolved as reduce (BITWISEXOR < PLUS).
+    Conflict between rule 73 and token AND resolved as reduce (AND < PLUS).
+    Conflict between rule 73 and token ASSIGN resolved as reduce (ASSIGN < PLUS).
+    Conflict between rule 73 and token MUL resolved as shift (PLUS < MUL).
+    Conflict between rule 73 and token DIV resolved as shift (PLUS < DIV).
+    Conflict between rule 73 and token EQ resolved as reduce (EQ < PLUS).
+    Conflict between rule 73 and token GE resolved as reduce (GE < PLUS).
+    Conflict between rule 73 and token GT resolved as reduce (GT < PLUS).
+    Conflict between rule 73 and token LE resolved as reduce (LE < PLUS).
+    Conflict between rule 73 and token LT resolved as reduce (LT < PLUS).
+    Conflict between rule 73 and token MINUS resolved as reduce (%left MINUS).
+    Conflict between rule 73 and token MOD resolved as shift (PLUS < MOD).
+    Conflict between rule 73 and token NE resolved as reduce (NE < PLUS).
+    Conflict between rule 73 and token OR resolved as reduce (OR < PLUS).
+    Conflict between rule 73 and token PLUS resolved as reduce (%left PLUS).
 
 
 State 60
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   46     | IDENTIFIER LPAR • error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   73     | IDENTIFIER LPAR • RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   74     | IDENTIFIER LPAR • ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   48     | IDENTIFIER LPAR • error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   75     | IDENTIFIER LPAR • RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
+   76     | IDENTIFIER LPAR • ExprList RPAR
 
     error       shift, and go to state 97
     LPAR        shift, and go to state 29
@@ -1409,42 +1409,42 @@ State 60
     DECIMAL     shift, and go to state 35
     CHRLIT      shift, and go to state 36
 
-    Expr      go to state 37
     ExprList  go to state 99
+    Expr      go to state 38
 
 
 State 61
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   63     | Expr BITWISEAND • Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   47 ExprList: ExprList COMMA • Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1460,36 +1460,36 @@ State 61
 
 State 62
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   61     | Expr BITWISEOR • Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   65     | Expr BITWISEAND • Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1505,36 +1505,36 @@ State 62
 
 State 63
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   62     | Expr BITWISEXOR • Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   63     | Expr BITWISEOR • Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1550,36 +1550,36 @@ State 63
 
 State 64
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   60     | Expr AND • Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   64     | Expr BITWISEXOR • Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1595,36 +1595,36 @@ State 64
 
 State 65
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   53     | Expr ASSIGN • Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   62     | Expr AND • Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1640,36 +1640,36 @@ State 65
 
 State 66
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   56     | Expr MUL • Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   55     | Expr ASSIGN • Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1685,36 +1685,36 @@ State 66
 
 State 67
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   57     | Expr DIV • Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   58     | Expr MUL • Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1730,36 +1730,36 @@ State 67
 
 State 68
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   64     | Expr EQ • Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   59     | Expr DIV • Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1775,36 +1775,36 @@ State 68
 
 State 69
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   67     | Expr GE • Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   66     | Expr EQ • Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1820,36 +1820,36 @@ State 69
 
 State 70
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   69     | Expr GT • Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   69     | Expr GE • Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1865,36 +1865,36 @@ State 70
 
 State 71
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   66     | Expr LE • Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   71     | Expr GT • Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1910,36 +1910,36 @@ State 71
 
 State 72
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   68     | Expr LT • Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   68     | Expr LE • Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -1955,36 +1955,36 @@ State 72
 
 State 73
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   55     | Expr MINUS • Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   70     | Expr LT • Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2000,36 +2000,36 @@ State 73
 
 State 74
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   58     | Expr MOD • Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   57     | Expr MINUS • Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2045,36 +2045,36 @@ State 74
 
 State 75
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   65     | Expr NE • Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   60     | Expr MOD • Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2090,36 +2090,36 @@ State 75
 
 State 76
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   59     | Expr OR • Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   67     | Expr NE • Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2135,36 +2135,36 @@ State 76
 
 State 77
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   54     | Expr PLUS • Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   61     | Expr OR • Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2180,36 +2180,36 @@ State 77
 
 State 78
 
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   76 ExprList: ExprList COMMA • Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   56     | Expr PLUS • Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2228,11 +2228,11 @@ State 79
    18 ParameterList: ParameterList COMMA • ParameterDeclaration
    19 ParameterDeclaration: • TypeSpec IDENTIFIER
    20                     | • TypeSpec
-   27 TypeSpec: • CHAR
-   28         | • INT
-   29         | • VOID
-   30         | • SHORT
-   31         | • DOUBLE
+   25 TypeSpec: • CHAR
+   26         | • INT
+   27         | • VOID
+   28         | • SHORT
+   29         | • DOUBLE
 
     CHAR    shift, and go to state 2
     DOUBLE  shift, and go to state 3
@@ -2261,37 +2261,37 @@ State 81
 State 82
 
    39 Statement: WHILE LPAR • ExprList RPAR StatementError
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2302,45 +2302,45 @@ State 82
     DECIMAL     shift, and go to state 35
     CHRLIT      shift, and go to state 36
 
-    Expr      go to state 37
     ExprList  go to state 119
+    Expr      go to state 38
 
 
 State 83
 
    37 Statement: IF LPAR • ExprList RPAR StatementError
    38          | IF LPAR • ExprList RPAR StatementError ELSE StatementError
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     LPAR        shift, and go to state 29
     MINUS       shift, and go to state 30
@@ -2351,8 +2351,8 @@ State 83
     DECIMAL     shift, and go to state 35
     CHRLIT      shift, and go to state 36
 
-    Expr      go to state 37
     ExprList  go to state 120
+    Expr      go to state 38
 
 
 State 84
@@ -2365,9 +2365,9 @@ State 84
 State 85
 
    41 Statement: RETURN ExprList • SEMI
-   76 ExprList: ExprList • COMMA Expr
+   47 ExprList: ExprList • COMMA Expr
 
-    COMMA  shift, and go to state 78
+    COMMA  shift, and go to state 61
     SEMI   shift, and go to state 121
 
 
@@ -2417,37 +2417,37 @@ State 90
    42 StatementError: • error SEMI
    43               | • Statement
    45 Statements: Statements • StatementError
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 124
     WHILE       shift, and go to state 42
@@ -2467,8 +2467,8 @@ State 90
 
     Statement       go to state 88
     StatementError  go to state 126
-    Expr            go to state 37
     ExprList        go to state 52
+    Expr            go to state 38
 
 
 State 91
@@ -2501,935 +2501,935 @@ State 94
 
 State 95
 
-   47 Expr: LPAR error RPAR •
+   49 Expr: LPAR error RPAR •
 
-    $default  reduce using rule 47 (Expr)
+    $default  reduce using rule 49 (Expr)
 
 
 State 96
 
-   52 Expr: LPAR ExprList RPAR •
+   54 Expr: LPAR ExprList RPAR •
 
-    $default  reduce using rule 52 (Expr)
+    $default  reduce using rule 54 (Expr)
 
 
 State 97
 
-   46 Expr: IDENTIFIER LPAR error • RPAR
+   48 Expr: IDENTIFIER LPAR error • RPAR
 
     RPAR  shift, and go to state 127
 
 
 State 98
 
-   73 Expr: IDENTIFIER LPAR RPAR •
+   75 Expr: IDENTIFIER LPAR RPAR •
 
-    $default  reduce using rule 73 (Expr)
+    $default  reduce using rule 75 (Expr)
 
 
 State 99
 
-   74 Expr: IDENTIFIER LPAR ExprList • RPAR
-   76 ExprList: ExprList • COMMA Expr
+   47 ExprList: ExprList • COMMA Expr
+   76 Expr: IDENTIFIER LPAR ExprList • RPAR
 
-    COMMA  shift, and go to state 78
+    COMMA  shift, and go to state 61
     RPAR   shift, and go to state 128
 
 
 State 100
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   63     | Expr BITWISEAND Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, OR, RPAR, SEMI]
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   47 ExprList: ExprList COMMA Expr •  [COMMA, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    EQ     shift, and go to state 68
-    GE     shift, and go to state 69
-    GT     shift, and go to state 70
-    LE     shift, and go to state 71
-    LT     shift, and go to state 72
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    NE     shift, and go to state 75
-    PLUS   shift, and go to state 77
+    BITWISEAND  shift, and go to state 62
+    BITWISEOR   shift, and go to state 63
+    BITWISEXOR  shift, and go to state 64
+    AND         shift, and go to state 65
+    ASSIGN      shift, and go to state 66
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    OR          shift, and go to state 77
+    PLUS        shift, and go to state 78
 
-    $default  reduce using rule 63 (Expr)
-
-    Conflict between rule 63 and token BITWISEAND resolved as reduce (%left BITWISEAND).
-    Conflict between rule 63 and token BITWISEOR resolved as reduce (BITWISEOR < BITWISEAND).
-    Conflict between rule 63 and token BITWISEXOR resolved as reduce (BITWISEXOR < BITWISEAND).
-    Conflict between rule 63 and token AND resolved as reduce (AND < BITWISEAND).
-    Conflict between rule 63 and token ASSIGN resolved as reduce (ASSIGN < BITWISEAND).
-    Conflict between rule 63 and token MUL resolved as shift (BITWISEAND < MUL).
-    Conflict between rule 63 and token DIV resolved as shift (BITWISEAND < DIV).
-    Conflict between rule 63 and token EQ resolved as shift (BITWISEAND < EQ).
-    Conflict between rule 63 and token GE resolved as shift (BITWISEAND < GE).
-    Conflict between rule 63 and token GT resolved as shift (BITWISEAND < GT).
-    Conflict between rule 63 and token LE resolved as shift (BITWISEAND < LE).
-    Conflict between rule 63 and token LT resolved as shift (BITWISEAND < LT).
-    Conflict between rule 63 and token MINUS resolved as shift (BITWISEAND < MINUS).
-    Conflict between rule 63 and token MOD resolved as shift (BITWISEAND < MOD).
-    Conflict between rule 63 and token NE resolved as shift (BITWISEAND < NE).
-    Conflict between rule 63 and token OR resolved as reduce (OR < BITWISEAND).
-    Conflict between rule 63 and token PLUS resolved as shift (BITWISEAND < PLUS).
+    $default  reduce using rule 47 (ExprList)
 
 
 State 101
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   61     | Expr BITWISEOR Expr •  [BITWISEOR, AND, ASSIGN, COMMA, OR, RPAR, SEMI]
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   65     | Expr BITWISEAND Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, OR, RPAR, SEMI]
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 61
-    BITWISEXOR  shift, and go to state 63
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    PLUS        shift, and go to state 77
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    EQ     shift, and go to state 69
+    GE     shift, and go to state 70
+    GT     shift, and go to state 71
+    LE     shift, and go to state 72
+    LT     shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    NE     shift, and go to state 76
+    PLUS   shift, and go to state 78
 
-    $default  reduce using rule 61 (Expr)
+    $default  reduce using rule 65 (Expr)
 
-    Conflict between rule 61 and token BITWISEAND resolved as shift (BITWISEOR < BITWISEAND).
-    Conflict between rule 61 and token BITWISEOR resolved as reduce (%left BITWISEOR).
-    Conflict between rule 61 and token BITWISEXOR resolved as shift (BITWISEOR < BITWISEXOR).
-    Conflict between rule 61 and token AND resolved as reduce (AND < BITWISEOR).
-    Conflict between rule 61 and token ASSIGN resolved as reduce (ASSIGN < BITWISEOR).
-    Conflict between rule 61 and token MUL resolved as shift (BITWISEOR < MUL).
-    Conflict between rule 61 and token DIV resolved as shift (BITWISEOR < DIV).
-    Conflict between rule 61 and token EQ resolved as shift (BITWISEOR < EQ).
-    Conflict between rule 61 and token GE resolved as shift (BITWISEOR < GE).
-    Conflict between rule 61 and token GT resolved as shift (BITWISEOR < GT).
-    Conflict between rule 61 and token LE resolved as shift (BITWISEOR < LE).
-    Conflict between rule 61 and token LT resolved as shift (BITWISEOR < LT).
-    Conflict between rule 61 and token MINUS resolved as shift (BITWISEOR < MINUS).
-    Conflict between rule 61 and token MOD resolved as shift (BITWISEOR < MOD).
-    Conflict between rule 61 and token NE resolved as shift (BITWISEOR < NE).
-    Conflict between rule 61 and token OR resolved as reduce (OR < BITWISEOR).
-    Conflict between rule 61 and token PLUS resolved as shift (BITWISEOR < PLUS).
+    Conflict between rule 65 and token BITWISEAND resolved as reduce (%left BITWISEAND).
+    Conflict between rule 65 and token BITWISEOR resolved as reduce (BITWISEOR < BITWISEAND).
+    Conflict between rule 65 and token BITWISEXOR resolved as reduce (BITWISEXOR < BITWISEAND).
+    Conflict between rule 65 and token AND resolved as reduce (AND < BITWISEAND).
+    Conflict between rule 65 and token ASSIGN resolved as reduce (ASSIGN < BITWISEAND).
+    Conflict between rule 65 and token MUL resolved as shift (BITWISEAND < MUL).
+    Conflict between rule 65 and token DIV resolved as shift (BITWISEAND < DIV).
+    Conflict between rule 65 and token EQ resolved as shift (BITWISEAND < EQ).
+    Conflict between rule 65 and token GE resolved as shift (BITWISEAND < GE).
+    Conflict between rule 65 and token GT resolved as shift (BITWISEAND < GT).
+    Conflict between rule 65 and token LE resolved as shift (BITWISEAND < LE).
+    Conflict between rule 65 and token LT resolved as shift (BITWISEAND < LT).
+    Conflict between rule 65 and token MINUS resolved as shift (BITWISEAND < MINUS).
+    Conflict between rule 65 and token MOD resolved as shift (BITWISEAND < MOD).
+    Conflict between rule 65 and token NE resolved as shift (BITWISEAND < NE).
+    Conflict between rule 65 and token OR resolved as reduce (OR < BITWISEAND).
+    Conflict between rule 65 and token PLUS resolved as shift (BITWISEAND < PLUS).
 
 
 State 102
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   62     | Expr BITWISEXOR Expr •  [BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, OR, RPAR, SEMI]
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   63     | Expr BITWISEOR Expr •  [BITWISEOR, AND, ASSIGN, COMMA, OR, RPAR, SEMI]
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 61
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    PLUS        shift, and go to state 77
+    BITWISEAND  shift, and go to state 62
+    BITWISEXOR  shift, and go to state 64
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    PLUS        shift, and go to state 78
 
-    $default  reduce using rule 62 (Expr)
+    $default  reduce using rule 63 (Expr)
 
-    Conflict between rule 62 and token BITWISEAND resolved as shift (BITWISEXOR < BITWISEAND).
-    Conflict between rule 62 and token BITWISEOR resolved as reduce (BITWISEOR < BITWISEXOR).
-    Conflict between rule 62 and token BITWISEXOR resolved as reduce (%left BITWISEXOR).
-    Conflict between rule 62 and token AND resolved as reduce (AND < BITWISEXOR).
-    Conflict between rule 62 and token ASSIGN resolved as reduce (ASSIGN < BITWISEXOR).
-    Conflict between rule 62 and token MUL resolved as shift (BITWISEXOR < MUL).
-    Conflict between rule 62 and token DIV resolved as shift (BITWISEXOR < DIV).
-    Conflict between rule 62 and token EQ resolved as shift (BITWISEXOR < EQ).
-    Conflict between rule 62 and token GE resolved as shift (BITWISEXOR < GE).
-    Conflict between rule 62 and token GT resolved as shift (BITWISEXOR < GT).
-    Conflict between rule 62 and token LE resolved as shift (BITWISEXOR < LE).
-    Conflict between rule 62 and token LT resolved as shift (BITWISEXOR < LT).
-    Conflict between rule 62 and token MINUS resolved as shift (BITWISEXOR < MINUS).
-    Conflict between rule 62 and token MOD resolved as shift (BITWISEXOR < MOD).
-    Conflict between rule 62 and token NE resolved as shift (BITWISEXOR < NE).
-    Conflict between rule 62 and token OR resolved as reduce (OR < BITWISEXOR).
-    Conflict between rule 62 and token PLUS resolved as shift (BITWISEXOR < PLUS).
+    Conflict between rule 63 and token BITWISEAND resolved as shift (BITWISEOR < BITWISEAND).
+    Conflict between rule 63 and token BITWISEOR resolved as reduce (%left BITWISEOR).
+    Conflict between rule 63 and token BITWISEXOR resolved as shift (BITWISEOR < BITWISEXOR).
+    Conflict between rule 63 and token AND resolved as reduce (AND < BITWISEOR).
+    Conflict between rule 63 and token ASSIGN resolved as reduce (ASSIGN < BITWISEOR).
+    Conflict between rule 63 and token MUL resolved as shift (BITWISEOR < MUL).
+    Conflict between rule 63 and token DIV resolved as shift (BITWISEOR < DIV).
+    Conflict between rule 63 and token EQ resolved as shift (BITWISEOR < EQ).
+    Conflict between rule 63 and token GE resolved as shift (BITWISEOR < GE).
+    Conflict between rule 63 and token GT resolved as shift (BITWISEOR < GT).
+    Conflict between rule 63 and token LE resolved as shift (BITWISEOR < LE).
+    Conflict between rule 63 and token LT resolved as shift (BITWISEOR < LT).
+    Conflict between rule 63 and token MINUS resolved as shift (BITWISEOR < MINUS).
+    Conflict between rule 63 and token MOD resolved as shift (BITWISEOR < MOD).
+    Conflict between rule 63 and token NE resolved as shift (BITWISEOR < NE).
+    Conflict between rule 63 and token OR resolved as reduce (OR < BITWISEOR).
+    Conflict between rule 63 and token PLUS resolved as shift (BITWISEOR < PLUS).
 
 
 State 103
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   60     | Expr AND Expr •  [AND, ASSIGN, COMMA, OR, RPAR, SEMI]
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   64     | Expr BITWISEXOR Expr •  [BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, OR, RPAR, SEMI]
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 61
-    BITWISEOR   shift, and go to state 62
-    BITWISEXOR  shift, and go to state 63
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    PLUS        shift, and go to state 77
+    BITWISEAND  shift, and go to state 62
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    PLUS        shift, and go to state 78
 
-    $default  reduce using rule 60 (Expr)
+    $default  reduce using rule 64 (Expr)
 
-    Conflict between rule 60 and token BITWISEAND resolved as shift (AND < BITWISEAND).
-    Conflict between rule 60 and token BITWISEOR resolved as shift (AND < BITWISEOR).
-    Conflict between rule 60 and token BITWISEXOR resolved as shift (AND < BITWISEXOR).
-    Conflict between rule 60 and token AND resolved as reduce (%left AND).
-    Conflict between rule 60 and token ASSIGN resolved as reduce (ASSIGN < AND).
-    Conflict between rule 60 and token MUL resolved as shift (AND < MUL).
-    Conflict between rule 60 and token DIV resolved as shift (AND < DIV).
-    Conflict between rule 60 and token EQ resolved as shift (AND < EQ).
-    Conflict between rule 60 and token GE resolved as shift (AND < GE).
-    Conflict between rule 60 and token GT resolved as shift (AND < GT).
-    Conflict between rule 60 and token LE resolved as shift (AND < LE).
-    Conflict between rule 60 and token LT resolved as shift (AND < LT).
-    Conflict between rule 60 and token MINUS resolved as shift (AND < MINUS).
-    Conflict between rule 60 and token MOD resolved as shift (AND < MOD).
-    Conflict between rule 60 and token NE resolved as shift (AND < NE).
-    Conflict between rule 60 and token OR resolved as reduce (OR < AND).
-    Conflict between rule 60 and token PLUS resolved as shift (AND < PLUS).
+    Conflict between rule 64 and token BITWISEAND resolved as shift (BITWISEXOR < BITWISEAND).
+    Conflict between rule 64 and token BITWISEOR resolved as reduce (BITWISEOR < BITWISEXOR).
+    Conflict between rule 64 and token BITWISEXOR resolved as reduce (%left BITWISEXOR).
+    Conflict between rule 64 and token AND resolved as reduce (AND < BITWISEXOR).
+    Conflict between rule 64 and token ASSIGN resolved as reduce (ASSIGN < BITWISEXOR).
+    Conflict between rule 64 and token MUL resolved as shift (BITWISEXOR < MUL).
+    Conflict between rule 64 and token DIV resolved as shift (BITWISEXOR < DIV).
+    Conflict between rule 64 and token EQ resolved as shift (BITWISEXOR < EQ).
+    Conflict between rule 64 and token GE resolved as shift (BITWISEXOR < GE).
+    Conflict between rule 64 and token GT resolved as shift (BITWISEXOR < GT).
+    Conflict between rule 64 and token LE resolved as shift (BITWISEXOR < LE).
+    Conflict between rule 64 and token LT resolved as shift (BITWISEXOR < LT).
+    Conflict between rule 64 and token MINUS resolved as shift (BITWISEXOR < MINUS).
+    Conflict between rule 64 and token MOD resolved as shift (BITWISEXOR < MOD).
+    Conflict between rule 64 and token NE resolved as shift (BITWISEXOR < NE).
+    Conflict between rule 64 and token OR resolved as reduce (OR < BITWISEXOR).
+    Conflict between rule 64 and token PLUS resolved as shift (BITWISEXOR < PLUS).
 
 
 State 104
 
-   53 Expr: Expr • ASSIGN Expr
-   53     | Expr ASSIGN Expr •  [COMMA, RPAR, SEMI]
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   62     | Expr AND Expr •  [AND, ASSIGN, COMMA, OR, RPAR, SEMI]
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 61
-    BITWISEOR   shift, and go to state 62
-    BITWISEXOR  shift, and go to state 63
-    AND         shift, and go to state 64
-    ASSIGN      shift, and go to state 65
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    OR          shift, and go to state 76
-    PLUS        shift, and go to state 77
+    BITWISEAND  shift, and go to state 62
+    BITWISEOR   shift, and go to state 63
+    BITWISEXOR  shift, and go to state 64
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    PLUS        shift, and go to state 78
 
-    $default  reduce using rule 53 (Expr)
+    $default  reduce using rule 62 (Expr)
 
-    Conflict between rule 53 and token BITWISEAND resolved as shift (ASSIGN < BITWISEAND).
-    Conflict between rule 53 and token BITWISEOR resolved as shift (ASSIGN < BITWISEOR).
-    Conflict between rule 53 and token BITWISEXOR resolved as shift (ASSIGN < BITWISEXOR).
-    Conflict between rule 53 and token AND resolved as shift (ASSIGN < AND).
-    Conflict between rule 53 and token ASSIGN resolved as shift (%right ASSIGN).
-    Conflict between rule 53 and token MUL resolved as shift (ASSIGN < MUL).
-    Conflict between rule 53 and token DIV resolved as shift (ASSIGN < DIV).
-    Conflict between rule 53 and token EQ resolved as shift (ASSIGN < EQ).
-    Conflict between rule 53 and token GE resolved as shift (ASSIGN < GE).
-    Conflict between rule 53 and token GT resolved as shift (ASSIGN < GT).
-    Conflict between rule 53 and token LE resolved as shift (ASSIGN < LE).
-    Conflict between rule 53 and token LT resolved as shift (ASSIGN < LT).
-    Conflict between rule 53 and token MINUS resolved as shift (ASSIGN < MINUS).
-    Conflict between rule 53 and token MOD resolved as shift (ASSIGN < MOD).
-    Conflict between rule 53 and token NE resolved as shift (ASSIGN < NE).
-    Conflict between rule 53 and token OR resolved as shift (ASSIGN < OR).
-    Conflict between rule 53 and token PLUS resolved as shift (ASSIGN < PLUS).
+    Conflict between rule 62 and token BITWISEAND resolved as shift (AND < BITWISEAND).
+    Conflict between rule 62 and token BITWISEOR resolved as shift (AND < BITWISEOR).
+    Conflict between rule 62 and token BITWISEXOR resolved as shift (AND < BITWISEXOR).
+    Conflict between rule 62 and token AND resolved as reduce (%left AND).
+    Conflict between rule 62 and token ASSIGN resolved as reduce (ASSIGN < AND).
+    Conflict between rule 62 and token MUL resolved as shift (AND < MUL).
+    Conflict between rule 62 and token DIV resolved as shift (AND < DIV).
+    Conflict between rule 62 and token EQ resolved as shift (AND < EQ).
+    Conflict between rule 62 and token GE resolved as shift (AND < GE).
+    Conflict between rule 62 and token GT resolved as shift (AND < GT).
+    Conflict between rule 62 and token LE resolved as shift (AND < LE).
+    Conflict between rule 62 and token LT resolved as shift (AND < LT).
+    Conflict between rule 62 and token MINUS resolved as shift (AND < MINUS).
+    Conflict between rule 62 and token MOD resolved as shift (AND < MOD).
+    Conflict between rule 62 and token NE resolved as shift (AND < NE).
+    Conflict between rule 62 and token OR resolved as reduce (OR < AND).
+    Conflict between rule 62 and token PLUS resolved as shift (AND < PLUS).
 
 
 State 105
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   56     | Expr MUL Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   55     | Expr ASSIGN Expr •  [COMMA, RPAR, SEMI]
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    $default  reduce using rule 56 (Expr)
+    BITWISEAND  shift, and go to state 62
+    BITWISEOR   shift, and go to state 63
+    BITWISEXOR  shift, and go to state 64
+    AND         shift, and go to state 65
+    ASSIGN      shift, and go to state 66
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    OR          shift, and go to state 77
+    PLUS        shift, and go to state 78
 
-    Conflict between rule 56 and token BITWISEAND resolved as reduce (BITWISEAND < MUL).
-    Conflict between rule 56 and token BITWISEOR resolved as reduce (BITWISEOR < MUL).
-    Conflict between rule 56 and token BITWISEXOR resolved as reduce (BITWISEXOR < MUL).
-    Conflict between rule 56 and token AND resolved as reduce (AND < MUL).
-    Conflict between rule 56 and token ASSIGN resolved as reduce (ASSIGN < MUL).
-    Conflict between rule 56 and token MUL resolved as reduce (%left MUL).
-    Conflict between rule 56 and token DIV resolved as reduce (%left DIV).
-    Conflict between rule 56 and token EQ resolved as reduce (EQ < MUL).
-    Conflict between rule 56 and token GE resolved as reduce (GE < MUL).
-    Conflict between rule 56 and token GT resolved as reduce (GT < MUL).
-    Conflict between rule 56 and token LE resolved as reduce (LE < MUL).
-    Conflict between rule 56 and token LT resolved as reduce (LT < MUL).
-    Conflict between rule 56 and token MINUS resolved as reduce (MINUS < MUL).
-    Conflict between rule 56 and token MOD resolved as reduce (%left MOD).
-    Conflict between rule 56 and token NE resolved as reduce (NE < MUL).
-    Conflict between rule 56 and token OR resolved as reduce (OR < MUL).
-    Conflict between rule 56 and token PLUS resolved as reduce (PLUS < MUL).
+    $default  reduce using rule 55 (Expr)
+
+    Conflict between rule 55 and token BITWISEAND resolved as shift (ASSIGN < BITWISEAND).
+    Conflict between rule 55 and token BITWISEOR resolved as shift (ASSIGN < BITWISEOR).
+    Conflict between rule 55 and token BITWISEXOR resolved as shift (ASSIGN < BITWISEXOR).
+    Conflict between rule 55 and token AND resolved as shift (ASSIGN < AND).
+    Conflict between rule 55 and token ASSIGN resolved as shift (%right ASSIGN).
+    Conflict between rule 55 and token MUL resolved as shift (ASSIGN < MUL).
+    Conflict between rule 55 and token DIV resolved as shift (ASSIGN < DIV).
+    Conflict between rule 55 and token EQ resolved as shift (ASSIGN < EQ).
+    Conflict between rule 55 and token GE resolved as shift (ASSIGN < GE).
+    Conflict between rule 55 and token GT resolved as shift (ASSIGN < GT).
+    Conflict between rule 55 and token LE resolved as shift (ASSIGN < LE).
+    Conflict between rule 55 and token LT resolved as shift (ASSIGN < LT).
+    Conflict between rule 55 and token MINUS resolved as shift (ASSIGN < MINUS).
+    Conflict between rule 55 and token MOD resolved as shift (ASSIGN < MOD).
+    Conflict between rule 55 and token NE resolved as shift (ASSIGN < NE).
+    Conflict between rule 55 and token OR resolved as shift (ASSIGN < OR).
+    Conflict between rule 55 and token PLUS resolved as shift (ASSIGN < PLUS).
 
 
 State 106
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   57     | Expr DIV Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   58     | Expr MUL Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    $default  reduce using rule 57 (Expr)
+    $default  reduce using rule 58 (Expr)
 
-    Conflict between rule 57 and token BITWISEAND resolved as reduce (BITWISEAND < DIV).
-    Conflict between rule 57 and token BITWISEOR resolved as reduce (BITWISEOR < DIV).
-    Conflict between rule 57 and token BITWISEXOR resolved as reduce (BITWISEXOR < DIV).
-    Conflict between rule 57 and token AND resolved as reduce (AND < DIV).
-    Conflict between rule 57 and token ASSIGN resolved as reduce (ASSIGN < DIV).
-    Conflict between rule 57 and token MUL resolved as reduce (%left MUL).
-    Conflict between rule 57 and token DIV resolved as reduce (%left DIV).
-    Conflict between rule 57 and token EQ resolved as reduce (EQ < DIV).
-    Conflict between rule 57 and token GE resolved as reduce (GE < DIV).
-    Conflict between rule 57 and token GT resolved as reduce (GT < DIV).
-    Conflict between rule 57 and token LE resolved as reduce (LE < DIV).
-    Conflict between rule 57 and token LT resolved as reduce (LT < DIV).
-    Conflict between rule 57 and token MINUS resolved as reduce (MINUS < DIV).
-    Conflict between rule 57 and token MOD resolved as reduce (%left MOD).
-    Conflict between rule 57 and token NE resolved as reduce (NE < DIV).
-    Conflict between rule 57 and token OR resolved as reduce (OR < DIV).
-    Conflict between rule 57 and token PLUS resolved as reduce (PLUS < DIV).
+    Conflict between rule 58 and token BITWISEAND resolved as reduce (BITWISEAND < MUL).
+    Conflict between rule 58 and token BITWISEOR resolved as reduce (BITWISEOR < MUL).
+    Conflict between rule 58 and token BITWISEXOR resolved as reduce (BITWISEXOR < MUL).
+    Conflict between rule 58 and token AND resolved as reduce (AND < MUL).
+    Conflict between rule 58 and token ASSIGN resolved as reduce (ASSIGN < MUL).
+    Conflict between rule 58 and token MUL resolved as reduce (%left MUL).
+    Conflict between rule 58 and token DIV resolved as reduce (%left DIV).
+    Conflict between rule 58 and token EQ resolved as reduce (EQ < MUL).
+    Conflict between rule 58 and token GE resolved as reduce (GE < MUL).
+    Conflict between rule 58 and token GT resolved as reduce (GT < MUL).
+    Conflict between rule 58 and token LE resolved as reduce (LE < MUL).
+    Conflict between rule 58 and token LT resolved as reduce (LT < MUL).
+    Conflict between rule 58 and token MINUS resolved as reduce (MINUS < MUL).
+    Conflict between rule 58 and token MOD resolved as reduce (%left MOD).
+    Conflict between rule 58 and token NE resolved as reduce (NE < MUL).
+    Conflict between rule 58 and token OR resolved as reduce (OR < MUL).
+    Conflict between rule 58 and token PLUS resolved as reduce (PLUS < MUL).
 
 
 State 107
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   64     | Expr EQ Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, NE, OR, RPAR, SEMI]
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   59     | Expr DIV Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    GE     shift, and go to state 69
-    GT     shift, and go to state 70
-    LE     shift, and go to state 71
-    LT     shift, and go to state 72
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    PLUS   shift, and go to state 77
+    $default  reduce using rule 59 (Expr)
 
-    $default  reduce using rule 64 (Expr)
-
-    Conflict between rule 64 and token BITWISEAND resolved as reduce (BITWISEAND < EQ).
-    Conflict between rule 64 and token BITWISEOR resolved as reduce (BITWISEOR < EQ).
-    Conflict between rule 64 and token BITWISEXOR resolved as reduce (BITWISEXOR < EQ).
-    Conflict between rule 64 and token AND resolved as reduce (AND < EQ).
-    Conflict between rule 64 and token ASSIGN resolved as reduce (ASSIGN < EQ).
-    Conflict between rule 64 and token MUL resolved as shift (EQ < MUL).
-    Conflict between rule 64 and token DIV resolved as shift (EQ < DIV).
-    Conflict between rule 64 and token EQ resolved as reduce (%left EQ).
-    Conflict between rule 64 and token GE resolved as shift (EQ < GE).
-    Conflict between rule 64 and token GT resolved as shift (EQ < GT).
-    Conflict between rule 64 and token LE resolved as shift (EQ < LE).
-    Conflict between rule 64 and token LT resolved as shift (EQ < LT).
-    Conflict between rule 64 and token MINUS resolved as shift (EQ < MINUS).
-    Conflict between rule 64 and token MOD resolved as shift (EQ < MOD).
-    Conflict between rule 64 and token NE resolved as reduce (%left NE).
-    Conflict between rule 64 and token OR resolved as reduce (OR < EQ).
-    Conflict between rule 64 and token PLUS resolved as shift (EQ < PLUS).
+    Conflict between rule 59 and token BITWISEAND resolved as reduce (BITWISEAND < DIV).
+    Conflict between rule 59 and token BITWISEOR resolved as reduce (BITWISEOR < DIV).
+    Conflict between rule 59 and token BITWISEXOR resolved as reduce (BITWISEXOR < DIV).
+    Conflict between rule 59 and token AND resolved as reduce (AND < DIV).
+    Conflict between rule 59 and token ASSIGN resolved as reduce (ASSIGN < DIV).
+    Conflict between rule 59 and token MUL resolved as reduce (%left MUL).
+    Conflict between rule 59 and token DIV resolved as reduce (%left DIV).
+    Conflict between rule 59 and token EQ resolved as reduce (EQ < DIV).
+    Conflict between rule 59 and token GE resolved as reduce (GE < DIV).
+    Conflict between rule 59 and token GT resolved as reduce (GT < DIV).
+    Conflict between rule 59 and token LE resolved as reduce (LE < DIV).
+    Conflict between rule 59 and token LT resolved as reduce (LT < DIV).
+    Conflict between rule 59 and token MINUS resolved as reduce (MINUS < DIV).
+    Conflict between rule 59 and token MOD resolved as reduce (%left MOD).
+    Conflict between rule 59 and token NE resolved as reduce (NE < DIV).
+    Conflict between rule 59 and token OR resolved as reduce (OR < DIV).
+    Conflict between rule 59 and token PLUS resolved as reduce (PLUS < DIV).
 
 
 State 108
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   67     | Expr GE Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   66     | Expr EQ Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, NE, OR, RPAR, SEMI]
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    PLUS   shift, and go to state 77
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    GE     shift, and go to state 70
+    GT     shift, and go to state 71
+    LE     shift, and go to state 72
+    LT     shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    PLUS   shift, and go to state 78
 
-    $default  reduce using rule 67 (Expr)
+    $default  reduce using rule 66 (Expr)
 
-    Conflict between rule 67 and token BITWISEAND resolved as reduce (BITWISEAND < GE).
-    Conflict between rule 67 and token BITWISEOR resolved as reduce (BITWISEOR < GE).
-    Conflict between rule 67 and token BITWISEXOR resolved as reduce (BITWISEXOR < GE).
-    Conflict between rule 67 and token AND resolved as reduce (AND < GE).
-    Conflict between rule 67 and token ASSIGN resolved as reduce (ASSIGN < GE).
-    Conflict between rule 67 and token MUL resolved as shift (GE < MUL).
-    Conflict between rule 67 and token DIV resolved as shift (GE < DIV).
-    Conflict between rule 67 and token EQ resolved as reduce (EQ < GE).
-    Conflict between rule 67 and token GE resolved as reduce (%left GE).
-    Conflict between rule 67 and token GT resolved as reduce (%left GT).
-    Conflict between rule 67 and token LE resolved as reduce (%left LE).
-    Conflict between rule 67 and token LT resolved as reduce (%left LT).
-    Conflict between rule 67 and token MINUS resolved as shift (GE < MINUS).
-    Conflict between rule 67 and token MOD resolved as shift (GE < MOD).
-    Conflict between rule 67 and token NE resolved as reduce (NE < GE).
-    Conflict between rule 67 and token OR resolved as reduce (OR < GE).
-    Conflict between rule 67 and token PLUS resolved as shift (GE < PLUS).
+    Conflict between rule 66 and token BITWISEAND resolved as reduce (BITWISEAND < EQ).
+    Conflict between rule 66 and token BITWISEOR resolved as reduce (BITWISEOR < EQ).
+    Conflict between rule 66 and token BITWISEXOR resolved as reduce (BITWISEXOR < EQ).
+    Conflict between rule 66 and token AND resolved as reduce (AND < EQ).
+    Conflict between rule 66 and token ASSIGN resolved as reduce (ASSIGN < EQ).
+    Conflict between rule 66 and token MUL resolved as shift (EQ < MUL).
+    Conflict between rule 66 and token DIV resolved as shift (EQ < DIV).
+    Conflict between rule 66 and token EQ resolved as reduce (%left EQ).
+    Conflict between rule 66 and token GE resolved as shift (EQ < GE).
+    Conflict between rule 66 and token GT resolved as shift (EQ < GT).
+    Conflict between rule 66 and token LE resolved as shift (EQ < LE).
+    Conflict between rule 66 and token LT resolved as shift (EQ < LT).
+    Conflict between rule 66 and token MINUS resolved as shift (EQ < MINUS).
+    Conflict between rule 66 and token MOD resolved as shift (EQ < MOD).
+    Conflict between rule 66 and token NE resolved as reduce (%left NE).
+    Conflict between rule 66 and token OR resolved as reduce (OR < EQ).
+    Conflict between rule 66 and token PLUS resolved as shift (EQ < PLUS).
 
 
 State 109
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
-   69     | Expr GT Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   69     | Expr GE Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    PLUS   shift, and go to state 77
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    PLUS   shift, and go to state 78
 
     $default  reduce using rule 69 (Expr)
 
-    Conflict between rule 69 and token BITWISEAND resolved as reduce (BITWISEAND < GT).
-    Conflict between rule 69 and token BITWISEOR resolved as reduce (BITWISEOR < GT).
-    Conflict between rule 69 and token BITWISEXOR resolved as reduce (BITWISEXOR < GT).
-    Conflict between rule 69 and token AND resolved as reduce (AND < GT).
-    Conflict between rule 69 and token ASSIGN resolved as reduce (ASSIGN < GT).
-    Conflict between rule 69 and token MUL resolved as shift (GT < MUL).
-    Conflict between rule 69 and token DIV resolved as shift (GT < DIV).
-    Conflict between rule 69 and token EQ resolved as reduce (EQ < GT).
+    Conflict between rule 69 and token BITWISEAND resolved as reduce (BITWISEAND < GE).
+    Conflict between rule 69 and token BITWISEOR resolved as reduce (BITWISEOR < GE).
+    Conflict between rule 69 and token BITWISEXOR resolved as reduce (BITWISEXOR < GE).
+    Conflict between rule 69 and token AND resolved as reduce (AND < GE).
+    Conflict between rule 69 and token ASSIGN resolved as reduce (ASSIGN < GE).
+    Conflict between rule 69 and token MUL resolved as shift (GE < MUL).
+    Conflict between rule 69 and token DIV resolved as shift (GE < DIV).
+    Conflict between rule 69 and token EQ resolved as reduce (EQ < GE).
     Conflict between rule 69 and token GE resolved as reduce (%left GE).
     Conflict between rule 69 and token GT resolved as reduce (%left GT).
     Conflict between rule 69 and token LE resolved as reduce (%left LE).
     Conflict between rule 69 and token LT resolved as reduce (%left LT).
-    Conflict between rule 69 and token MINUS resolved as shift (GT < MINUS).
-    Conflict between rule 69 and token MOD resolved as shift (GT < MOD).
-    Conflict between rule 69 and token NE resolved as reduce (NE < GT).
-    Conflict between rule 69 and token OR resolved as reduce (OR < GT).
-    Conflict between rule 69 and token PLUS resolved as shift (GT < PLUS).
+    Conflict between rule 69 and token MINUS resolved as shift (GE < MINUS).
+    Conflict between rule 69 and token MOD resolved as shift (GE < MOD).
+    Conflict between rule 69 and token NE resolved as reduce (NE < GE).
+    Conflict between rule 69 and token OR resolved as reduce (OR < GE).
+    Conflict between rule 69 and token PLUS resolved as shift (GE < PLUS).
 
 
 State 110
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   66     | Expr LE Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
+   71     | Expr GT Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    PLUS   shift, and go to state 77
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    PLUS   shift, and go to state 78
 
-    $default  reduce using rule 66 (Expr)
+    $default  reduce using rule 71 (Expr)
 
-    Conflict between rule 66 and token BITWISEAND resolved as reduce (BITWISEAND < LE).
-    Conflict between rule 66 and token BITWISEOR resolved as reduce (BITWISEOR < LE).
-    Conflict between rule 66 and token BITWISEXOR resolved as reduce (BITWISEXOR < LE).
-    Conflict between rule 66 and token AND resolved as reduce (AND < LE).
-    Conflict between rule 66 and token ASSIGN resolved as reduce (ASSIGN < LE).
-    Conflict between rule 66 and token MUL resolved as shift (LE < MUL).
-    Conflict between rule 66 and token DIV resolved as shift (LE < DIV).
-    Conflict between rule 66 and token EQ resolved as reduce (EQ < LE).
-    Conflict between rule 66 and token GE resolved as reduce (%left GE).
-    Conflict between rule 66 and token GT resolved as reduce (%left GT).
-    Conflict between rule 66 and token LE resolved as reduce (%left LE).
-    Conflict between rule 66 and token LT resolved as reduce (%left LT).
-    Conflict between rule 66 and token MINUS resolved as shift (LE < MINUS).
-    Conflict between rule 66 and token MOD resolved as shift (LE < MOD).
-    Conflict between rule 66 and token NE resolved as reduce (NE < LE).
-    Conflict between rule 66 and token OR resolved as reduce (OR < LE).
-    Conflict between rule 66 and token PLUS resolved as shift (LE < PLUS).
+    Conflict between rule 71 and token BITWISEAND resolved as reduce (BITWISEAND < GT).
+    Conflict between rule 71 and token BITWISEOR resolved as reduce (BITWISEOR < GT).
+    Conflict between rule 71 and token BITWISEXOR resolved as reduce (BITWISEXOR < GT).
+    Conflict between rule 71 and token AND resolved as reduce (AND < GT).
+    Conflict between rule 71 and token ASSIGN resolved as reduce (ASSIGN < GT).
+    Conflict between rule 71 and token MUL resolved as shift (GT < MUL).
+    Conflict between rule 71 and token DIV resolved as shift (GT < DIV).
+    Conflict between rule 71 and token EQ resolved as reduce (EQ < GT).
+    Conflict between rule 71 and token GE resolved as reduce (%left GE).
+    Conflict between rule 71 and token GT resolved as reduce (%left GT).
+    Conflict between rule 71 and token LE resolved as reduce (%left LE).
+    Conflict between rule 71 and token LT resolved as reduce (%left LT).
+    Conflict between rule 71 and token MINUS resolved as shift (GT < MINUS).
+    Conflict between rule 71 and token MOD resolved as shift (GT < MOD).
+    Conflict between rule 71 and token NE resolved as reduce (NE < GT).
+    Conflict between rule 71 and token OR resolved as reduce (OR < GT).
+    Conflict between rule 71 and token PLUS resolved as shift (GT < PLUS).
 
 
 State 111
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   68     | Expr LT Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   68     | Expr LE Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    PLUS   shift, and go to state 77
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    PLUS   shift, and go to state 78
 
     $default  reduce using rule 68 (Expr)
 
-    Conflict between rule 68 and token BITWISEAND resolved as reduce (BITWISEAND < LT).
-    Conflict between rule 68 and token BITWISEOR resolved as reduce (BITWISEOR < LT).
-    Conflict between rule 68 and token BITWISEXOR resolved as reduce (BITWISEXOR < LT).
-    Conflict between rule 68 and token AND resolved as reduce (AND < LT).
-    Conflict between rule 68 and token ASSIGN resolved as reduce (ASSIGN < LT).
-    Conflict between rule 68 and token MUL resolved as shift (LT < MUL).
-    Conflict between rule 68 and token DIV resolved as shift (LT < DIV).
-    Conflict between rule 68 and token EQ resolved as reduce (EQ < LT).
+    Conflict between rule 68 and token BITWISEAND resolved as reduce (BITWISEAND < LE).
+    Conflict between rule 68 and token BITWISEOR resolved as reduce (BITWISEOR < LE).
+    Conflict between rule 68 and token BITWISEXOR resolved as reduce (BITWISEXOR < LE).
+    Conflict between rule 68 and token AND resolved as reduce (AND < LE).
+    Conflict between rule 68 and token ASSIGN resolved as reduce (ASSIGN < LE).
+    Conflict between rule 68 and token MUL resolved as shift (LE < MUL).
+    Conflict between rule 68 and token DIV resolved as shift (LE < DIV).
+    Conflict between rule 68 and token EQ resolved as reduce (EQ < LE).
     Conflict between rule 68 and token GE resolved as reduce (%left GE).
     Conflict between rule 68 and token GT resolved as reduce (%left GT).
     Conflict between rule 68 and token LE resolved as reduce (%left LE).
     Conflict between rule 68 and token LT resolved as reduce (%left LT).
-    Conflict between rule 68 and token MINUS resolved as shift (LT < MINUS).
-    Conflict between rule 68 and token MOD resolved as shift (LT < MOD).
-    Conflict between rule 68 and token NE resolved as reduce (NE < LT).
-    Conflict between rule 68 and token OR resolved as reduce (OR < LT).
-    Conflict between rule 68 and token PLUS resolved as shift (LT < PLUS).
+    Conflict between rule 68 and token MINUS resolved as shift (LE < MINUS).
+    Conflict between rule 68 and token MOD resolved as shift (LE < MOD).
+    Conflict between rule 68 and token NE resolved as reduce (NE < LE).
+    Conflict between rule 68 and token OR resolved as reduce (OR < LE).
+    Conflict between rule 68 and token PLUS resolved as shift (LE < PLUS).
 
 
 State 112
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   55     | Expr MINUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   70     | Expr LT Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, NE, OR, RPAR, SEMI]
+   71     | Expr • GT Expr
 
-    MUL  shift, and go to state 66
-    DIV  shift, and go to state 67
-    MOD  shift, and go to state 74
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    PLUS   shift, and go to state 78
 
-    $default  reduce using rule 55 (Expr)
+    $default  reduce using rule 70 (Expr)
 
-    Conflict between rule 55 and token BITWISEAND resolved as reduce (BITWISEAND < MINUS).
-    Conflict between rule 55 and token BITWISEOR resolved as reduce (BITWISEOR < MINUS).
-    Conflict between rule 55 and token BITWISEXOR resolved as reduce (BITWISEXOR < MINUS).
-    Conflict between rule 55 and token AND resolved as reduce (AND < MINUS).
-    Conflict between rule 55 and token ASSIGN resolved as reduce (ASSIGN < MINUS).
-    Conflict between rule 55 and token MUL resolved as shift (MINUS < MUL).
-    Conflict between rule 55 and token DIV resolved as shift (MINUS < DIV).
-    Conflict between rule 55 and token EQ resolved as reduce (EQ < MINUS).
-    Conflict between rule 55 and token GE resolved as reduce (GE < MINUS).
-    Conflict between rule 55 and token GT resolved as reduce (GT < MINUS).
-    Conflict between rule 55 and token LE resolved as reduce (LE < MINUS).
-    Conflict between rule 55 and token LT resolved as reduce (LT < MINUS).
-    Conflict between rule 55 and token MINUS resolved as reduce (%left MINUS).
-    Conflict between rule 55 and token MOD resolved as shift (MINUS < MOD).
-    Conflict between rule 55 and token NE resolved as reduce (NE < MINUS).
-    Conflict between rule 55 and token OR resolved as reduce (OR < MINUS).
-    Conflict between rule 55 and token PLUS resolved as reduce (%left PLUS).
+    Conflict between rule 70 and token BITWISEAND resolved as reduce (BITWISEAND < LT).
+    Conflict between rule 70 and token BITWISEOR resolved as reduce (BITWISEOR < LT).
+    Conflict between rule 70 and token BITWISEXOR resolved as reduce (BITWISEXOR < LT).
+    Conflict between rule 70 and token AND resolved as reduce (AND < LT).
+    Conflict between rule 70 and token ASSIGN resolved as reduce (ASSIGN < LT).
+    Conflict between rule 70 and token MUL resolved as shift (LT < MUL).
+    Conflict between rule 70 and token DIV resolved as shift (LT < DIV).
+    Conflict between rule 70 and token EQ resolved as reduce (EQ < LT).
+    Conflict between rule 70 and token GE resolved as reduce (%left GE).
+    Conflict between rule 70 and token GT resolved as reduce (%left GT).
+    Conflict between rule 70 and token LE resolved as reduce (%left LE).
+    Conflict between rule 70 and token LT resolved as reduce (%left LT).
+    Conflict between rule 70 and token MINUS resolved as shift (LT < MINUS).
+    Conflict between rule 70 and token MOD resolved as shift (LT < MOD).
+    Conflict between rule 70 and token NE resolved as reduce (NE < LT).
+    Conflict between rule 70 and token OR resolved as reduce (OR < LT).
+    Conflict between rule 70 and token PLUS resolved as shift (LT < PLUS).
 
 
 State 113
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   58     | Expr MOD Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   57     | Expr MINUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    $default  reduce using rule 58 (Expr)
+    MUL  shift, and go to state 67
+    DIV  shift, and go to state 68
+    MOD  shift, and go to state 75
 
-    Conflict between rule 58 and token BITWISEAND resolved as reduce (BITWISEAND < MOD).
-    Conflict between rule 58 and token BITWISEOR resolved as reduce (BITWISEOR < MOD).
-    Conflict between rule 58 and token BITWISEXOR resolved as reduce (BITWISEXOR < MOD).
-    Conflict between rule 58 and token AND resolved as reduce (AND < MOD).
-    Conflict between rule 58 and token ASSIGN resolved as reduce (ASSIGN < MOD).
-    Conflict between rule 58 and token MUL resolved as reduce (%left MUL).
-    Conflict between rule 58 and token DIV resolved as reduce (%left DIV).
-    Conflict between rule 58 and token EQ resolved as reduce (EQ < MOD).
-    Conflict between rule 58 and token GE resolved as reduce (GE < MOD).
-    Conflict between rule 58 and token GT resolved as reduce (GT < MOD).
-    Conflict between rule 58 and token LE resolved as reduce (LE < MOD).
-    Conflict between rule 58 and token LT resolved as reduce (LT < MOD).
-    Conflict between rule 58 and token MINUS resolved as reduce (MINUS < MOD).
-    Conflict between rule 58 and token MOD resolved as reduce (%left MOD).
-    Conflict between rule 58 and token NE resolved as reduce (NE < MOD).
-    Conflict between rule 58 and token OR resolved as reduce (OR < MOD).
-    Conflict between rule 58 and token PLUS resolved as reduce (PLUS < MOD).
+    $default  reduce using rule 57 (Expr)
+
+    Conflict between rule 57 and token BITWISEAND resolved as reduce (BITWISEAND < MINUS).
+    Conflict between rule 57 and token BITWISEOR resolved as reduce (BITWISEOR < MINUS).
+    Conflict between rule 57 and token BITWISEXOR resolved as reduce (BITWISEXOR < MINUS).
+    Conflict between rule 57 and token AND resolved as reduce (AND < MINUS).
+    Conflict between rule 57 and token ASSIGN resolved as reduce (ASSIGN < MINUS).
+    Conflict between rule 57 and token MUL resolved as shift (MINUS < MUL).
+    Conflict between rule 57 and token DIV resolved as shift (MINUS < DIV).
+    Conflict between rule 57 and token EQ resolved as reduce (EQ < MINUS).
+    Conflict between rule 57 and token GE resolved as reduce (GE < MINUS).
+    Conflict between rule 57 and token GT resolved as reduce (GT < MINUS).
+    Conflict between rule 57 and token LE resolved as reduce (LE < MINUS).
+    Conflict between rule 57 and token LT resolved as reduce (LT < MINUS).
+    Conflict between rule 57 and token MINUS resolved as reduce (%left MINUS).
+    Conflict between rule 57 and token MOD resolved as shift (MINUS < MOD).
+    Conflict between rule 57 and token NE resolved as reduce (NE < MINUS).
+    Conflict between rule 57 and token OR resolved as reduce (OR < MINUS).
+    Conflict between rule 57 and token PLUS resolved as reduce (%left PLUS).
 
 
 State 114
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   65     | Expr NE Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, NE, OR, RPAR, SEMI]
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   60     | Expr MOD Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, MUL, COMMA, DIV, EQ, GE, GT, LE, LT, MINUS, MOD, NE, OR, PLUS, RPAR, SEMI]
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL    shift, and go to state 66
-    DIV    shift, and go to state 67
-    GE     shift, and go to state 69
-    GT     shift, and go to state 70
-    LE     shift, and go to state 71
-    LT     shift, and go to state 72
-    MINUS  shift, and go to state 73
-    MOD    shift, and go to state 74
-    PLUS   shift, and go to state 77
+    $default  reduce using rule 60 (Expr)
 
-    $default  reduce using rule 65 (Expr)
-
-    Conflict between rule 65 and token BITWISEAND resolved as reduce (BITWISEAND < NE).
-    Conflict between rule 65 and token BITWISEOR resolved as reduce (BITWISEOR < NE).
-    Conflict between rule 65 and token BITWISEXOR resolved as reduce (BITWISEXOR < NE).
-    Conflict between rule 65 and token AND resolved as reduce (AND < NE).
-    Conflict between rule 65 and token ASSIGN resolved as reduce (ASSIGN < NE).
-    Conflict between rule 65 and token MUL resolved as shift (NE < MUL).
-    Conflict between rule 65 and token DIV resolved as shift (NE < DIV).
-    Conflict between rule 65 and token EQ resolved as reduce (%left EQ).
-    Conflict between rule 65 and token GE resolved as shift (NE < GE).
-    Conflict between rule 65 and token GT resolved as shift (NE < GT).
-    Conflict between rule 65 and token LE resolved as shift (NE < LE).
-    Conflict between rule 65 and token LT resolved as shift (NE < LT).
-    Conflict between rule 65 and token MINUS resolved as shift (NE < MINUS).
-    Conflict between rule 65 and token MOD resolved as shift (NE < MOD).
-    Conflict between rule 65 and token NE resolved as reduce (%left NE).
-    Conflict between rule 65 and token OR resolved as reduce (OR < NE).
-    Conflict between rule 65 and token PLUS resolved as shift (NE < PLUS).
+    Conflict between rule 60 and token BITWISEAND resolved as reduce (BITWISEAND < MOD).
+    Conflict between rule 60 and token BITWISEOR resolved as reduce (BITWISEOR < MOD).
+    Conflict between rule 60 and token BITWISEXOR resolved as reduce (BITWISEXOR < MOD).
+    Conflict between rule 60 and token AND resolved as reduce (AND < MOD).
+    Conflict between rule 60 and token ASSIGN resolved as reduce (ASSIGN < MOD).
+    Conflict between rule 60 and token MUL resolved as reduce (%left MUL).
+    Conflict between rule 60 and token DIV resolved as reduce (%left DIV).
+    Conflict between rule 60 and token EQ resolved as reduce (EQ < MOD).
+    Conflict between rule 60 and token GE resolved as reduce (GE < MOD).
+    Conflict between rule 60 and token GT resolved as reduce (GT < MOD).
+    Conflict between rule 60 and token LE resolved as reduce (LE < MOD).
+    Conflict between rule 60 and token LT resolved as reduce (LT < MOD).
+    Conflict between rule 60 and token MINUS resolved as reduce (MINUS < MOD).
+    Conflict between rule 60 and token MOD resolved as reduce (%left MOD).
+    Conflict between rule 60 and token NE resolved as reduce (NE < MOD).
+    Conflict between rule 60 and token OR resolved as reduce (OR < MOD).
+    Conflict between rule 60 and token PLUS resolved as reduce (PLUS < MOD).
 
 
 State 115
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   59     | Expr OR Expr •  [ASSIGN, COMMA, OR, RPAR, SEMI]
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   67     | Expr NE Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, NE, OR, RPAR, SEMI]
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 61
-    BITWISEOR   shift, and go to state 62
-    BITWISEXOR  shift, and go to state 63
-    AND         shift, and go to state 64
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    PLUS        shift, and go to state 77
+    MUL    shift, and go to state 67
+    DIV    shift, and go to state 68
+    GE     shift, and go to state 70
+    GT     shift, and go to state 71
+    LE     shift, and go to state 72
+    LT     shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MOD    shift, and go to state 75
+    PLUS   shift, and go to state 78
 
-    $default  reduce using rule 59 (Expr)
+    $default  reduce using rule 67 (Expr)
 
-    Conflict between rule 59 and token BITWISEAND resolved as shift (OR < BITWISEAND).
-    Conflict between rule 59 and token BITWISEOR resolved as shift (OR < BITWISEOR).
-    Conflict between rule 59 and token BITWISEXOR resolved as shift (OR < BITWISEXOR).
-    Conflict between rule 59 and token AND resolved as shift (OR < AND).
-    Conflict between rule 59 and token ASSIGN resolved as reduce (ASSIGN < OR).
-    Conflict between rule 59 and token MUL resolved as shift (OR < MUL).
-    Conflict between rule 59 and token DIV resolved as shift (OR < DIV).
-    Conflict between rule 59 and token EQ resolved as shift (OR < EQ).
-    Conflict between rule 59 and token GE resolved as shift (OR < GE).
-    Conflict between rule 59 and token GT resolved as shift (OR < GT).
-    Conflict between rule 59 and token LE resolved as shift (OR < LE).
-    Conflict between rule 59 and token LT resolved as shift (OR < LT).
-    Conflict between rule 59 and token MINUS resolved as shift (OR < MINUS).
-    Conflict between rule 59 and token MOD resolved as shift (OR < MOD).
-    Conflict between rule 59 and token NE resolved as shift (OR < NE).
-    Conflict between rule 59 and token OR resolved as reduce (%left OR).
-    Conflict between rule 59 and token PLUS resolved as shift (OR < PLUS).
+    Conflict between rule 67 and token BITWISEAND resolved as reduce (BITWISEAND < NE).
+    Conflict between rule 67 and token BITWISEOR resolved as reduce (BITWISEOR < NE).
+    Conflict between rule 67 and token BITWISEXOR resolved as reduce (BITWISEXOR < NE).
+    Conflict between rule 67 and token AND resolved as reduce (AND < NE).
+    Conflict between rule 67 and token ASSIGN resolved as reduce (ASSIGN < NE).
+    Conflict between rule 67 and token MUL resolved as shift (NE < MUL).
+    Conflict between rule 67 and token DIV resolved as shift (NE < DIV).
+    Conflict between rule 67 and token EQ resolved as reduce (%left EQ).
+    Conflict between rule 67 and token GE resolved as shift (NE < GE).
+    Conflict between rule 67 and token GT resolved as shift (NE < GT).
+    Conflict between rule 67 and token LE resolved as shift (NE < LE).
+    Conflict between rule 67 and token LT resolved as shift (NE < LT).
+    Conflict between rule 67 and token MINUS resolved as shift (NE < MINUS).
+    Conflict between rule 67 and token MOD resolved as shift (NE < MOD).
+    Conflict between rule 67 and token NE resolved as reduce (%left NE).
+    Conflict between rule 67 and token OR resolved as reduce (OR < NE).
+    Conflict between rule 67 and token PLUS resolved as shift (NE < PLUS).
 
 
 State 116
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   54     | Expr PLUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   61     | Expr OR Expr •  [ASSIGN, COMMA, OR, RPAR, SEMI]
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    MUL  shift, and go to state 66
-    DIV  shift, and go to state 67
-    MOD  shift, and go to state 74
+    BITWISEAND  shift, and go to state 62
+    BITWISEOR   shift, and go to state 63
+    BITWISEXOR  shift, and go to state 64
+    AND         shift, and go to state 65
+    MUL         shift, and go to state 67
+    DIV         shift, and go to state 68
+    EQ          shift, and go to state 69
+    GE          shift, and go to state 70
+    GT          shift, and go to state 71
+    LE          shift, and go to state 72
+    LT          shift, and go to state 73
+    MINUS       shift, and go to state 74
+    MOD         shift, and go to state 75
+    NE          shift, and go to state 76
+    PLUS        shift, and go to state 78
 
-    $default  reduce using rule 54 (Expr)
+    $default  reduce using rule 61 (Expr)
 
-    Conflict between rule 54 and token BITWISEAND resolved as reduce (BITWISEAND < PLUS).
-    Conflict between rule 54 and token BITWISEOR resolved as reduce (BITWISEOR < PLUS).
-    Conflict between rule 54 and token BITWISEXOR resolved as reduce (BITWISEXOR < PLUS).
-    Conflict between rule 54 and token AND resolved as reduce (AND < PLUS).
-    Conflict between rule 54 and token ASSIGN resolved as reduce (ASSIGN < PLUS).
-    Conflict between rule 54 and token MUL resolved as shift (PLUS < MUL).
-    Conflict between rule 54 and token DIV resolved as shift (PLUS < DIV).
-    Conflict between rule 54 and token EQ resolved as reduce (EQ < PLUS).
-    Conflict between rule 54 and token GE resolved as reduce (GE < PLUS).
-    Conflict between rule 54 and token GT resolved as reduce (GT < PLUS).
-    Conflict between rule 54 and token LE resolved as reduce (LE < PLUS).
-    Conflict between rule 54 and token LT resolved as reduce (LT < PLUS).
-    Conflict between rule 54 and token MINUS resolved as reduce (%left MINUS).
-    Conflict between rule 54 and token MOD resolved as shift (PLUS < MOD).
-    Conflict between rule 54 and token NE resolved as reduce (NE < PLUS).
-    Conflict between rule 54 and token OR resolved as reduce (OR < PLUS).
-    Conflict between rule 54 and token PLUS resolved as reduce (%left PLUS).
+    Conflict between rule 61 and token BITWISEAND resolved as shift (OR < BITWISEAND).
+    Conflict between rule 61 and token BITWISEOR resolved as shift (OR < BITWISEOR).
+    Conflict between rule 61 and token BITWISEXOR resolved as shift (OR < BITWISEXOR).
+    Conflict between rule 61 and token AND resolved as shift (OR < AND).
+    Conflict between rule 61 and token ASSIGN resolved as reduce (ASSIGN < OR).
+    Conflict between rule 61 and token MUL resolved as shift (OR < MUL).
+    Conflict between rule 61 and token DIV resolved as shift (OR < DIV).
+    Conflict between rule 61 and token EQ resolved as shift (OR < EQ).
+    Conflict between rule 61 and token GE resolved as shift (OR < GE).
+    Conflict between rule 61 and token GT resolved as shift (OR < GT).
+    Conflict between rule 61 and token LE resolved as shift (OR < LE).
+    Conflict between rule 61 and token LT resolved as shift (OR < LT).
+    Conflict between rule 61 and token MINUS resolved as shift (OR < MINUS).
+    Conflict between rule 61 and token MOD resolved as shift (OR < MOD).
+    Conflict between rule 61 and token NE resolved as shift (OR < NE).
+    Conflict between rule 61 and token OR resolved as reduce (%left OR).
+    Conflict between rule 61 and token PLUS resolved as shift (OR < PLUS).
 
 
 State 117
 
-   53 Expr: Expr • ASSIGN Expr
-   54     | Expr • PLUS Expr
-   55     | Expr • MINUS Expr
-   56     | Expr • MUL Expr
-   57     | Expr • DIV Expr
-   58     | Expr • MOD Expr
-   59     | Expr • OR Expr
-   60     | Expr • AND Expr
-   61     | Expr • BITWISEOR Expr
-   62     | Expr • BITWISEXOR Expr
-   63     | Expr • BITWISEAND Expr
-   64     | Expr • EQ Expr
-   65     | Expr • NE Expr
-   66     | Expr • LE Expr
-   67     | Expr • GE Expr
-   68     | Expr • LT Expr
-   69     | Expr • GT Expr
-   76 ExprList: ExprList COMMA Expr •  [COMMA, RPAR, SEMI]
+   55 Expr: Expr • ASSIGN Expr
+   56     | Expr • PLUS Expr
+   56     | Expr PLUS Expr •  [BITWISEAND, BITWISEOR, BITWISEXOR, AND, ASSIGN, COMMA, EQ, GE, GT, LE, LT, MINUS, NE, OR, PLUS, RPAR, SEMI]
+   57     | Expr • MINUS Expr
+   58     | Expr • MUL Expr
+   59     | Expr • DIV Expr
+   60     | Expr • MOD Expr
+   61     | Expr • OR Expr
+   62     | Expr • AND Expr
+   63     | Expr • BITWISEOR Expr
+   64     | Expr • BITWISEXOR Expr
+   65     | Expr • BITWISEAND Expr
+   66     | Expr • EQ Expr
+   67     | Expr • NE Expr
+   68     | Expr • LE Expr
+   69     | Expr • GE Expr
+   70     | Expr • LT Expr
+   71     | Expr • GT Expr
 
-    BITWISEAND  shift, and go to state 61
-    BITWISEOR   shift, and go to state 62
-    BITWISEXOR  shift, and go to state 63
-    AND         shift, and go to state 64
-    ASSIGN      shift, and go to state 65
-    MUL         shift, and go to state 66
-    DIV         shift, and go to state 67
-    EQ          shift, and go to state 68
-    GE          shift, and go to state 69
-    GT          shift, and go to state 70
-    LE          shift, and go to state 71
-    LT          shift, and go to state 72
-    MINUS       shift, and go to state 73
-    MOD         shift, and go to state 74
-    NE          shift, and go to state 75
-    OR          shift, and go to state 76
-    PLUS        shift, and go to state 77
+    MUL  shift, and go to state 67
+    DIV  shift, and go to state 68
+    MOD  shift, and go to state 75
 
-    $default  reduce using rule 76 (ExprList)
+    $default  reduce using rule 56 (Expr)
+
+    Conflict between rule 56 and token BITWISEAND resolved as reduce (BITWISEAND < PLUS).
+    Conflict between rule 56 and token BITWISEOR resolved as reduce (BITWISEOR < PLUS).
+    Conflict between rule 56 and token BITWISEXOR resolved as reduce (BITWISEXOR < PLUS).
+    Conflict between rule 56 and token AND resolved as reduce (AND < PLUS).
+    Conflict between rule 56 and token ASSIGN resolved as reduce (ASSIGN < PLUS).
+    Conflict between rule 56 and token MUL resolved as shift (PLUS < MUL).
+    Conflict between rule 56 and token DIV resolved as shift (PLUS < DIV).
+    Conflict between rule 56 and token EQ resolved as reduce (EQ < PLUS).
+    Conflict between rule 56 and token GE resolved as reduce (GE < PLUS).
+    Conflict between rule 56 and token GT resolved as reduce (GT < PLUS).
+    Conflict between rule 56 and token LE resolved as reduce (LE < PLUS).
+    Conflict between rule 56 and token LT resolved as reduce (LT < PLUS).
+    Conflict between rule 56 and token MINUS resolved as reduce (%left MINUS).
+    Conflict between rule 56 and token MOD resolved as shift (PLUS < MOD).
+    Conflict between rule 56 and token NE resolved as reduce (NE < PLUS).
+    Conflict between rule 56 and token OR resolved as reduce (OR < PLUS).
+    Conflict between rule 56 and token PLUS resolved as reduce (%left PLUS).
 
 
 State 118
@@ -3442,9 +3442,9 @@ State 118
 State 119
 
    39 Statement: WHILE LPAR ExprList • RPAR StatementError
-   76 ExprList: ExprList • COMMA Expr
+   47 ExprList: ExprList • COMMA Expr
 
-    COMMA  shift, and go to state 78
+    COMMA  shift, and go to state 61
     RPAR   shift, and go to state 129
 
 
@@ -3452,9 +3452,9 @@ State 120
 
    37 Statement: IF LPAR ExprList • RPAR StatementError
    38          | IF LPAR ExprList • RPAR StatementError ELSE StatementError
-   76 ExprList: ExprList • COMMA Expr
+   47 ExprList: ExprList • COMMA Expr
 
-    COMMA  shift, and go to state 78
+    COMMA  shift, and go to state 61
     RPAR   shift, and go to state 130
 
 
@@ -3502,16 +3502,16 @@ State 126
 
 State 127
 
-   46 Expr: IDENTIFIER LPAR error RPAR •
+   48 Expr: IDENTIFIER LPAR error RPAR •
 
-    $default  reduce using rule 46 (Expr)
+    $default  reduce using rule 48 (Expr)
 
 
 State 128
 
-   74 Expr: IDENTIFIER LPAR ExprList RPAR •
+   76 Expr: IDENTIFIER LPAR ExprList RPAR •
 
-    $default  reduce using rule 74 (Expr)
+    $default  reduce using rule 76 (Expr)
 
 
 State 129
@@ -3529,37 +3529,37 @@ State 129
    41          | • RETURN ExprList SEMI
    42 StatementError: • error SEMI
    43               | • Statement
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 124
     WHILE       shift, and go to state 42
@@ -3578,8 +3578,8 @@ State 129
 
     Statement       go to state 88
     StatementError  go to state 131
-    Expr            go to state 37
     ExprList        go to state 52
+    Expr            go to state 38
 
 
 State 130
@@ -3598,37 +3598,37 @@ State 130
    41          | • RETURN ExprList SEMI
    42 StatementError: • error SEMI
    43               | • Statement
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 124
     WHILE       shift, and go to state 42
@@ -3647,8 +3647,8 @@ State 130
 
     Statement       go to state 88
     StatementError  go to state 132
-    Expr            go to state 37
     ExprList        go to state 52
+    Expr            go to state 38
 
 
 State 131
@@ -3685,37 +3685,37 @@ State 133
    41          | • RETURN ExprList SEMI
    42 StatementError: • error SEMI
    43               | • Statement
-   46 Expr: • IDENTIFIER LPAR error RPAR
-   47     | • LPAR error RPAR
-   48     | • IDENTIFIER
-   49     | • NATURAL
-   50     | • CHRLIT
-   51     | • DECIMAL
-   52     | • LPAR ExprList RPAR
-   53     | • Expr ASSIGN Expr
-   54     | • Expr PLUS Expr
-   55     | • Expr MINUS Expr
-   56     | • Expr MUL Expr
-   57     | • Expr DIV Expr
-   58     | • Expr MOD Expr
-   59     | • Expr OR Expr
-   60     | • Expr AND Expr
-   61     | • Expr BITWISEOR Expr
-   62     | • Expr BITWISEXOR Expr
-   63     | • Expr BITWISEAND Expr
-   64     | • Expr EQ Expr
-   65     | • Expr NE Expr
-   66     | • Expr LE Expr
-   67     | • Expr GE Expr
-   68     | • Expr LT Expr
-   69     | • Expr GT Expr
-   70     | • MINUS Expr
-   71     | • PLUS Expr
-   72     | • NOT Expr
-   73     | • IDENTIFIER LPAR RPAR
-   74     | • IDENTIFIER LPAR ExprList RPAR
-   75 ExprList: • Expr
-   76         | • ExprList COMMA Expr
+   46 ExprList: • Expr
+   47         | • ExprList COMMA Expr
+   48 Expr: • IDENTIFIER LPAR error RPAR
+   49     | • LPAR error RPAR
+   50     | • IDENTIFIER
+   51     | • NATURAL
+   52     | • CHRLIT
+   53     | • DECIMAL
+   54     | • LPAR ExprList RPAR
+   55     | • Expr ASSIGN Expr
+   56     | • Expr PLUS Expr
+   57     | • Expr MINUS Expr
+   58     | • Expr MUL Expr
+   59     | • Expr DIV Expr
+   60     | • Expr MOD Expr
+   61     | • Expr OR Expr
+   62     | • Expr AND Expr
+   63     | • Expr BITWISEOR Expr
+   64     | • Expr BITWISEXOR Expr
+   65     | • Expr BITWISEAND Expr
+   66     | • Expr EQ Expr
+   67     | • Expr NE Expr
+   68     | • Expr LE Expr
+   69     | • Expr GE Expr
+   70     | • Expr LT Expr
+   71     | • Expr GT Expr
+   72     | • MINUS Expr
+   73     | • PLUS Expr
+   74     | • NOT Expr
+   75     | • IDENTIFIER LPAR RPAR
+   76     | • IDENTIFIER LPAR ExprList RPAR
 
     error       shift, and go to state 124
     WHILE       shift, and go to state 42
@@ -3734,8 +3734,8 @@ State 133
 
     Statement       go to state 88
     StatementError  go to state 134
-    Expr            go to state 37
     ExprList        go to state 52
+    Expr            go to state 38
 
 
 State 134

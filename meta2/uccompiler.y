@@ -7,6 +7,8 @@ void yyerror(const char *);
 
 struct node *node;
 struct node *program;
+struct node* aux;
+struct node* aux1;
 
 extern char *yytext;
 %}
@@ -43,20 +45,20 @@ Program: FunctionsAndDeclarations {node = newnode(Program, NULL); addchild(node,
 FunctionsAndDeclarations: FunctionDefinition {$$ = $1;}
     | FunctionDeclaration {$$ = $1;}
     | Declaration {$$ = $1;}
-    | FunctionsAndDeclarations FunctionDefinition {$$=$1;addbrother($1,$2);}
-    | FunctionsAndDeclarations FunctionDeclaration {$$=$1;addbrother($1,$2);}
-    | FunctionsAndDeclarations Declaration {$$=$1;addbrother($1,$2);}
+    | FunctionsAndDeclarations FunctionDefinition {$$=$1;addbrother($$,$2);}
+    | FunctionsAndDeclarations FunctionDeclaration {$$=$1;addbrother($$,$2);}
+    | FunctionsAndDeclarations Declaration {$$=$1;addbrother($$,$2);}
     ;
 
-FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody {$$ = newnode(FuncDefinition, NULL); addchild($$,$1); addbrother($1,$2); addbrother($1,$3);}
+FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody {$$ = newnode(FuncDefinition, NULL); addchild($$,$1); addchild($$,$2); addchild($$,$3);}
     ;
 
 FunctionBody: LBRACE DeclarationsAndStatements RBRACE {$$ = newnode(FuncBody, NULL); addchild($$, $2);}
     | LBRACE RBRACE {$$ = newnode(FuncBody, NULL);}
     ;
 
-DeclarationsAndStatements: DeclarationsAndStatements Statement {$$=$1; addbrother($1,$2);}
-    | DeclarationsAndStatements Declaration {$$=$1; addbrother($1,$2);}
+DeclarationsAndStatements: DeclarationsAndStatements Statement {$$=$1; addbrother($$,$2);}
+    | DeclarationsAndStatements Declaration {$$=$1; addbrother($$,$2);}
     | Statement {$$ = $1;}
     | Declaration {$$ = $1;}
     ;
@@ -64,11 +66,12 @@ DeclarationsAndStatements: DeclarationsAndStatements Statement {$$=$1; addbrothe
 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {$$ = newnode(FuncDeclaration, NULL); addchild($$, $1); addbrother($$, $2);}
     ;
 
-FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR {$$ = newnode(Call, NULL); addchild($$, newnode(Identifier, $1)); addbrother($$, $3);}
+FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR {$$ = newnode(Identifier, $1); aux=newnode(ParamList,NULL); addchild(aux,$3); addbrother($$,aux);
+    }
     ;
 
 ParameterList: ParameterDeclaration {$$=$1;}
-    | ParameterList COMMA ParameterDeclaration  {$$=$1;addbrother($1,$3);}
+    | ParameterList COMMA ParameterDeclaration  {$$=$1; addbrother($$, $3);}
     ;
 
 ParameterDeclaration: TypeSpec IDENTIFIER {$$ = newnode(ParamDeclaration, NULL); addchild($$, $1); addbrother($$, newnode(Identifier, $2));}
@@ -76,17 +79,20 @@ ParameterDeclaration: TypeSpec IDENTIFIER {$$ = newnode(ParamDeclaration, NULL);
     ;
 
 Declaration: error SEMI {$$=newnode(Error,NULL);} 
-    | TypeSpec Declarations SEMI {$$ = newnode(Declaration, NULL); addchild($$, $1); addbrother($$, $2);}   //deve ser preciso um while
+    | TypeSpec Declarations SEMI {
+        $$ = $2;
+
+        aux=$$;
+        while(aux != NULL){
+            aux->token = $1->token;
+            aux=aux->brother;
+        }
+    }
     ;
 
 Declarations: Declarator {$$ = $1;}
-    | Declarations COMMA Declarator {$$=$1;addbrother($1,$3);}
+    | Declarations COMMA Declarator {$$=$1;addbrother($$,$3);}
     ;
-
-Declarator: IDENTIFIER {$$ = newnode(Declaration, NULL);addchild($$,newnode(Identifier,$1));}   //analisar melhor
-    | IDENTIFIER ASSIGN ExprList {$$ = newnode(Store, NULL); addchild($$, newnode(Identifier, $1)); addchild($$, $3);}  //analisar melhor
-    ;
-
 TypeSpec: CHAR {$$=newnode(Char,NULL);}
     | INT {$$=newnode(Int,NULL);}
     | VOID {$$=newnode(Void,NULL);}
@@ -94,15 +100,49 @@ TypeSpec: CHAR {$$=newnode(Char,NULL);}
     | DOUBLE {$$=newnode(Double,NULL);}
     ;
 
+Declarator: IDENTIFIER {$$ = newnode(Declaration, NULL); aux=newnode(Identifier,$1);aux1= newnode(AuxNode,NULL);addchild($$,aux1);addbrother(aux1,aux);}   
+    | IDENTIFIER ASSIGN ExprList {$$ = newnode(Declaration, NULL); addchild($$, newnode(Identifier, $1)); addchild($$, $3);}  
+    ;
+
 Statement: LBRACE error RBRACE {$$=newnode(Error,NULL);;}
     | SEMI {$$ = NULL;}
     | ExprList SEMI {$$ = $1;}
     | LBRACE RBRACE {$$ = NULL;}
     | LBRACE Statements RBRACE {$$ = newnode(StatList, NULL); addchild($$, $2);}
-    | IF LPAR ExprList RPAR StatementError {$$ = newnode(If, NULL); addchild($$, $3); addbrother($$, $5);}  //pode ser preciso if else
-    | IF LPAR ExprList RPAR StatementError ELSE StatementError {$$ = newnode(If, NULL); addchild($$, $3); addbrother($$, $5); addbrother($$, $7);}  //pode ser preciso if else
-    | WHILE LPAR ExprList RPAR StatementError {$$ = newnode(While, NULL); addchild($$, $3); addbrother($$, $5);}
-    | RETURN SEMI {$$=newnode(Return, NULL);}
+    | IF LPAR ExprList RPAR StatementError {
+        $$ = newnode(If, NULL); addchild($$, $3);
+        if($5 == NULL){
+            aux = newnode(Null,NULL);
+            addbrother($3,aux);
+        }else{
+            addbrother($3,$5);
+        }
+        addbrother($3,newnode(Null,NULL));
+    }
+    | IF LPAR ExprList RPAR StatementError ELSE StatementError {
+        $$ = newnode(If, NULL); addchild($$, $3);
+        if($5 == NULL){
+            aux=newnode(Null,NULL);
+            addbrother($3,aux);
+        }else{
+            addbrother($3,$5);
+        }  
+        if($7 == NULL){
+            aux=newnode(Null,NULL);
+            addbrother($3,aux);
+        }else{
+            addbrother($3,$7);
+        }
+    }
+    | WHILE LPAR ExprList RPAR StatementError {
+        $$ = newnode(While, NULL); addchild($$, $3);
+        if($5 == NULL){
+            addbrother($3,newnode(Null,NULL));
+        }else{
+            addbrother($3,$5);
+        }
+    }
+    | RETURN SEMI {$$=newnode(Return, NULL);addchild($$,newnode(Null,NULL));}
     | RETURN ExprList SEMI {$$=newnode(Return, NULL); addchild($$, $2);}
     ;
 
@@ -110,7 +150,11 @@ StatementError: error SEMI {$$=newnode(Error,NULL);}
     | Statement {$$ = $1;}
 
 Statements: StatementError {$$ = $1;}
-    | Statements StatementError {addbrother($1,$2);}
+    | Statements StatementError {$$=$1;addbrother($$,$2);}
+    ;
+
+ExprList: Expr {$$ = $1;}
+    | ExprList COMMA Expr {$$ = newnode(Comma, NULL); addchild($$, $1); addchild($$, $3);}
     ;
 
 Expr: IDENTIFIER LPAR error RPAR {$$=newnode(Error,NULL);}
@@ -143,10 +187,4 @@ Expr: IDENTIFIER LPAR error RPAR {$$=newnode(Error,NULL);}
     | IDENTIFIER LPAR RPAR {$$ = newnode(Call, NULL); addchild($$, newnode(Identifier, $1));}
     | IDENTIFIER LPAR ExprList RPAR {$$ = newnode(Call, NULL); addchild($$, newnode(Identifier, $1)); addbrother($$, $3);}
     ;
-
-ExprList: Expr {$$ = $1;}
-    | ExprList COMMA Expr {$$ = newnode(Comma, NULL); addchild($$, $1); addbrother($1, $3);}
-    ;
-
-
 %%

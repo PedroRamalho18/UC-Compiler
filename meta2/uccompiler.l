@@ -14,11 +14,9 @@
     int error=0,syntax_error=0;
     int flag1=0, flag2=0;
     char palavra[100];
-
-    int yyparse();
     extern struct node *node;
 
-
+    int yyparse();
 %}
 
 
@@ -130,6 +128,7 @@ int main(int argc, char* argv[]) {
             if(syntax_error!=1){
                 show(node,0);
             }
+            //deallocate(program);
         }
     } else{
         flag2=1;

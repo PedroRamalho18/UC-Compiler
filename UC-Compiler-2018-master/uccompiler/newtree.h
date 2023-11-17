@@ -6,7 +6,7 @@
 typedef struct no{
     struct no* brother;     //brother node
     struct no* child;       //child node
-    char *label;               //label of node
+    char *label;            //label of node
     char *value;            //value of the node if it has any         
     int nChildren;          //number of children of said node
 	int print_annotation;
