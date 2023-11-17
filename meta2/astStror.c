@@ -22,21 +22,7 @@ void addchild(struct node *parent, struct node *child) {
     while(children->next != NULL)
         children = children->next;
     children->next = new;
-    if (child->brother != NULL)
-    {
-        addchild(parent,child->brother);
-    }
 }
-void addbrother(struct node *existing_brother, struct node *new_brother) {
-    if(existing_brother == NULL || new_brother == NULL) return;
-
-    struct node *current = existing_brother;
-    while(current->brother !=NULL){
-        current=current->brother;
-    }
-    current->brother = new_brother;
-}
-
 
 // get a pointer to a specific child, numbered 0, 1, 2, ...
 struct node *getchild(struct node *parent, int position) {
@@ -55,6 +41,7 @@ int countchildren(struct node *node) {
     return i;
 }
 
+// category names #defined in ast.h
 char *category_name[] = names;
 
 // traverse the AST and print its content

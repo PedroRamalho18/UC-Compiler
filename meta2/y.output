@@ -5,9 +5,9 @@ Terminals unused in grammar
 
 Grammar
 
-    0 $accept: program $end
+    0 $accept: Program $end
 
-    1 program: FunctionsAndDeclarations
+    1 Program: FunctionsAndDeclarations
 
     2 FunctionsAndDeclarations: FunctionDefinition
     3                         | FunctionDeclaration
@@ -150,7 +150,7 @@ Nonterminals, with rules where they appear
 
     $accept (41)
         on left: 0
-    program <node> (42)
+    Program <node> (42)
         on left: 1
         on right: 0
     FunctionsAndDeclarations <node> (43)
@@ -208,8 +208,8 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: • program $end
-    1 program: • FunctionsAndDeclarations
+    0 $accept: • Program $end
+    1 Program: • FunctionsAndDeclarations
     2 FunctionsAndDeclarations: • FunctionDefinition
     3                         | • FunctionDeclaration
     4                         | • Declaration
@@ -233,7 +233,7 @@ State 0
     SHORT   shift, and go to state 5
     VOID    shift, and go to state 6
 
-    program                   go to state 7
+    Program                   go to state 7
     FunctionsAndDeclarations  go to state 8
     FunctionDefinition        go to state 9
     FunctionDeclaration       go to state 10
@@ -285,14 +285,14 @@ State 6
 
 State 7
 
-    0 $accept: program • $end
+    0 $accept: Program • $end
 
     $end  shift, and go to state 14
 
 
 State 8
 
-    1 program: FunctionsAndDeclarations •  [$end]
+    1 Program: FunctionsAndDeclarations •  [$end]
     5 FunctionsAndDeclarations: FunctionsAndDeclarations • FunctionDefinition
     6                         | FunctionsAndDeclarations • FunctionDeclaration
     7                         | FunctionsAndDeclarations • Declaration
@@ -313,7 +313,7 @@ State 8
     SHORT   shift, and go to state 5
     VOID    shift, and go to state 6
 
-    $end  reduce using rule 1 (program)
+    $end  reduce using rule 1 (Program)
 
     FunctionDefinition   go to state 15
     FunctionDeclaration  go to state 16
@@ -369,7 +369,7 @@ State 13
 
 State 14
 
-    0 $accept: program $end •
+    0 $accept: Program $end •
 
     $default  accept
 

@@ -11,13 +11,11 @@
     
     int row = 1, row_comment = 0;
     int column = 0, column_comment = 0, column_chr = 0;
-    int error=0;
+    int error=0,syntax_error=0;
     int flag1=0, flag2=0;
-
     char palavra[100];
 
     int yyparse();
-    extern int syntax_error;
     extern struct node *node;
 
 
@@ -146,5 +144,6 @@ int yywrap() {  /* called on EOF, return 1 to terminate */
 }
 
 void yyerror (const char * s ) {
+    syntax_error = 1;
     printf("Line %d, column %d: %s: %s\n", row, (int)(column-strlen(yytext)+1), s, yytext);
 }

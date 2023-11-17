@@ -15,4 +15,12 @@ syntax_errors.uc
 
 AST:
 
+Chumbados:
+AST_statements.uc ->segmentation fault
+DeclarationTests.uc -> acaba logo
+erros.c -> dá os dois primeiros erros e dá segmentation fault
+factorials.uc-> segmentation fault
+fdeclaritions.uc -> nem corre
+first.c -> segmentation fault
+
 
