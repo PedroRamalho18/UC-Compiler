@@ -10,6 +10,7 @@ struct node *newnode(enum category category, char *token) {
     new->children = malloc(sizeof(struct node_list));
     new->children->node = NULL;
     new->children->next = NULL;
+    new->brother = NULL;
     return new;
 }
 
@@ -29,6 +30,7 @@ void addchild(struct node *parent, struct node *child) {
     }
 
 }
+
 void addbrother(struct node *existing_brother, struct node *new_brother) {
     if(existing_brother == NULL || new_brother == NULL) return;
 
@@ -39,23 +41,6 @@ void addbrother(struct node *existing_brother, struct node *new_brother) {
     current->brother = new_brother;
 }
 
-
-// get a pointer to a specific child, numbered 0, 1, 2, ...
-struct node *getchild(struct node *parent, int position) {
-    struct node_list *children = parent->children;
-    while((children = children->next) != NULL)
-        if(position-- == 0)
-            return children->node;
-    return NULL;
-}
-
-// count the children of a node
-int countchildren(struct node *node) {
-    int i = 0;
-    while(getchild(node, i) != NULL)
-        i++;
-    return i;
-}
 
 char *category_name[] = names;
 

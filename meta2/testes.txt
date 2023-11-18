@@ -1,9 +1,9 @@
 Gramática:
 Passados:
-DecDefErrors.uc ->illegal character ou unrecognized character?
+DecDefErrors.uc 
 declarations.uc
 empty_with_spaces.uc
-errors2_2.uc ->illegal character ou unrecognized character?
+errors2_2.uc 
 expressions.uc
 StatementsErrors.uc
 test_emptyComments.uc
@@ -14,13 +14,9 @@ expr_test.uc
 syntax_errors.uc
 
 AST:
+Passados:
+AST_Statements.uc
 
 Chumbados:
-AST_statements.uc ->
-DeclarationTests.uc ->
-erros.c ->
-factorials.uc->
-fdeclaritions.uc ->
-first.c ->
-
+factotials.uc -> tudo bem mas faltam uns Natural(1) e um ChrLit('0)
 
