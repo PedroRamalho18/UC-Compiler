@@ -143,7 +143,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 39 "uccompiler.y"
+#line 41 "uccompiler.y"
 
     char *token;
     struct node *node;
