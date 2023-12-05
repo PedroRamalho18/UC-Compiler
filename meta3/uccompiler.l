@@ -4,6 +4,7 @@
 %{
     #include "y.tab.h"
     #include "ast.h"
+    #include "semantics.h"
 	#include <stdio.h>
 	#include <string.h>
     #define YY_USER_ACTION {column += yyleng;}
@@ -11,10 +12,10 @@
     
     int row = 1, row_comment = 0;
     int column = 0, column_comment = 0, column_chr = 0;
-    int error=0,syntax_error=0;
+    int errors = 0, error = 0;
     int flag1=0, flag2=0;
     char palavra[100];
-    extern struct node *node;
+    extern struct node *program;
 
     int yyparse();
 %}
@@ -130,13 +131,25 @@ int main(int argc, char* argv[]) {
         if(strcmp(argv[1],"-t")==0 ){
             flag2=1;
             yyparse();
-            if(syntax_error!=1){
-                show(node,0);
+            if(errors == 0){
+                show(program,0);
+            }
+            //deallocate(program);
+        }
+         if(strcmp(argv[1],"-s")==0 ){
+            flag2=1;
+            yyparse();
+            errors += check_program(program);
+            if(errors == 0){
+                show_symbol_table();
+                printf("\n");
+                show(program,0);
             }
             //deallocate(program);
         }
     } else{
         flag2=1;
+        errors += check_program(program);
         yyparse(); /* run the lexical analysis automaton */
     }
 
@@ -148,6 +161,6 @@ int yywrap() {  /* called on EOF, return 1 to terminate */
 }
 
 void yyerror (const char * s ) {
-    syntax_error = 1;
+    errors++;
     printf("Line %d, column %d: %s: %s\n", row, (int)(column-strlen(yytext)+1), s, yytext);
 }

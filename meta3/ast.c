@@ -1,5 +1,5 @@
- /*Pedro Tiago Gomes Ramalho 2019248594
-    André Rodrigues Costa Pinto 2021213497 */
+/*Pedro Tiago Gomes Ramalho 2019248594
+    AndrÃ© Rodrigues Costa Pinto 2021213497 */
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast.h"
@@ -9,6 +9,7 @@ struct node *newnode(enum category category, char *token) {
     struct node *new = malloc(sizeof(struct node));
     new->category = category;
     new->token = token;
+    new->type = no_type;
     new->children = malloc(sizeof(struct node_list));
     new->children->node = NULL;
     new->children->next = NULL;
@@ -43,6 +44,14 @@ void addbrother(struct node *existing_brother, struct node *new_brother) {
     current->brother = new_brother;
 }
 
+// get a pointer to a specific child, numbered 0, 1, 2, ...
+struct node *getchild(struct node *parent, int position) {
+    struct node_list *children = parent->children;
+    while((children = children->next) != NULL)
+        if(position-- == 0)
+            return children->node;
+    return NULL;
+}
 
 char *category_name[] = names;
 

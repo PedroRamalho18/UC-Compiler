@@ -7,10 +7,8 @@
 int yylex();
 void yyerror(const char *);
 
-struct node *node;
 struct node *program;
 struct node* aux;
-struct node* aux1;
 
 extern char *yytext;
 
@@ -44,7 +42,7 @@ int error_check = 0;
 }
 
 %%
-Program: FunctionsAndDeclarations {node = newnode(Program, NULL); addchild(node, $1);} 
+Program: FunctionsAndDeclarations {program = newnode(Program, NULL); addchild(program, $1);} 
     ;
 
 FunctionsAndDeclarations: FunctionDefinition {$$ = $1;}
@@ -71,8 +69,7 @@ DeclarationsAndStatements: DeclarationsAndStatements Statement {$$=$1; addbrothe
 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {$$ = newnode(FuncDeclaration, NULL); addchild($$, $1); addchild($$, $2);}
     ;
 
-FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR {$$ = newnode(Identifier, $1); aux=newnode(ParamList,NULL); addchild(aux,$3); addbrother($$,aux);
-    }
+FunctionDeclarator: IDENTIFIER LPAR ParameterList RPAR {$$ = newnode(Identifier, $1); aux=newnode(ParamList,NULL); addchild(aux,$3); addbrother($$,aux);}
     ;
 
 ParameterList: ParameterDeclaration {$$=$1;}
