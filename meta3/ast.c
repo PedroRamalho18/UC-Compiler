@@ -1,5 +1,5 @@
-/*Pedro Tiago Gomes Ramalho 2019248594
-    AndrÃ© Rodrigues Costa Pinto 2021213497 */
+ /*Pedro Tiago Gomes Ramalho 2019248594
+    André Rodrigues Costa Pinto 2021213497 */
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast.h"

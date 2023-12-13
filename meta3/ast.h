@@ -1,15 +1,15 @@
-/*Pedro Tiago Gomes Ramalho 2019248594
-    AndrÃ© Rodrigues Costa Pinto 2021213497 */
+ /*Pedro Tiago Gomes Ramalho 2019248594
+    André Rodrigues Costa Pinto 2021213497 */
 #ifndef _AST_H
 #define _AST_H
 
 
-enum category { Program, Declaration, FuncDeclaration, FuncDefinition, ParamList, FuncBody, ParamDeclaration, Statements, StatList, If, While, Return, Or, And, Eq, Ne, Lt, Gt, Le, Ge, Add, Sub, Mul, Div, Mod, Not, Minus, Plus, Store, Comma, Call, BitWiseAnd, BitWiseXor, BitWiseOr, Terminais, Char, ChrLit, Identifier, Int, Short, Natural, Double, Decimal, Void,Error,Null,AuxNode};
+enum category { Program, Declaration, FuncDeclaration, FuncDefinition, ParamList, FuncBody, ParamDeclaration, Statements, StatList, If, While, Return, Or, And, Eq, Ne, Lt, Gt, Le, Ge, Add, Sub, Mul, Div, Mod, Not, Minus, Plus, Store, Comma, Call, BitWiseAnd, BitWiseXor, BitWiseOr, Terminais, Char, ChrLit, Identifier, Int, Short, Natural, Double, Decimal, Void, Error, Null, AuxNode};
 #define names {"Program", "Declaration", "FuncDeclaration", "FuncDefinition", "ParamList", "FuncBody", "ParamDeclaration", "Statements", "StatList", "If", "While", "Return", "Or", "And", "Eq", "Ne", "Lt", "Gt", "Le", "Ge", "Add", "Sub", "Mul", "Div", "Mod", "Not", "Minus", "Plus", "Store", "Comma", "Call", "BitWiseAnd", "BitWiseXor", "BitWiseOr", "Terminais", "Char", "ChrLit", "Identifier", "Int", "Short", "Natural", "Double", "Decimal", "Void", "Error","Null","AuxNode"}
 
-enum type {integer_type, double_type, no_type};
-#define type_name(type) (type == integer_type ? "integer" : (type == double_type ? "double" : ""))
-#define category_type(category) (category == Int ? integer_type : (category == Double ? double_type : no_type))
+enum type {integer_type, double_type, void_type, short_type, char_type, no_type};
+#define type_name(type) (type == integer_type ? "int" : (type == double_type ? "double" : (type == void_type ? "void" : (type == short_type ? "short" : (type == char_type ? "char" : "")))))
+#define category_type(category) (category == Int ? integer_type : (category == Double ? double_type :  (category == Short ? short_type : (category == Void ? void_type : (category == Char ? char_type : no_type)))))
 
 struct node {
     enum category category;
