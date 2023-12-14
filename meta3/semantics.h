@@ -13,6 +13,7 @@ struct symbol_list {
 };
 
 struct symbol_table_list {
+	char *name;
 	struct symbol_list *table;
 	struct symbol_table_list *next;
 };

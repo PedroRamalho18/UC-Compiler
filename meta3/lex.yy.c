@@ -599,9 +599,9 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "uccompiler.l"
-#line 2 "uccompiler.l"
- /*Pedro Tiago Gomes Ramalho 2019248594
+/*Pedro Tiago Gomes Ramalho 2019248594
     André Rodrigues Costa Pinto 2021213497 */
+#line 5 "uccompiler.l"
     #include "y.tab.h"
     #include "ast.h"
     #include "semantics.h"
@@ -2242,11 +2242,11 @@ int main(int argc, char* argv[]) {
             flag2=1;
             yyparse();
             errors += check_program(program);
-            if(errors == 0){
-                show_symbol_table();
-                printf("\n");
-                show(program,0);
-            }
+
+            show_symbol_table();
+            printf("\n");
+            show_all(program,0);
+            
             //deallocate(program);
         }
     } else{

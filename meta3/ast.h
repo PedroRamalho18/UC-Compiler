@@ -1,5 +1,5 @@
- /*Pedro Tiago Gomes Ramalho 2019248594
-    André Rodrigues Costa Pinto 2021213497 */
+/*Pedro Tiago Gomes Ramalho 2019248594
+    AndrÃ© Rodrigues Costa Pinto 2021213497 */
 #ifndef _AST_H
 #define _AST_H
 
@@ -30,6 +30,7 @@ void addbrother(struct node *existing_brother, struct node *new_brother);
 struct node *getchild(struct node *parent, int position);
 int countchildren(struct node *node);
 void show(struct node *node, int depth);
+void show_all(struct node *node, int depth);
 void deallocate(struct node *node);
 
 #endif

@@ -1,5 +1,5 @@
- /*Pedro Tiago Gomes Ramalho 2019248594
-    André Rodrigues Costa Pinto 2021213497 */
+/*Pedro Tiago Gomes Ramalho 2019248594
+    AndrÃ© Rodrigues Costa Pinto 2021213497 */
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast.h"
@@ -67,6 +67,19 @@ void show(struct node *node, int depth) {
     struct node_list *child = node->children;
     while((child = child->next) != NULL)
         show(child->node, depth+1);
+}
+
+void show_all(struct node *node, int depth) {
+    int i;
+    for(i = 0; i < depth; i++)
+        printf("..");
+    if(node->token == NULL)
+        printf("%s\n", category_name[node->category]);
+    else
+        printf("%s(%s)\n", category_name[node->category], node->token);
+    struct node_list *child = node->children;
+    while((child = child->next) != NULL)
+        show_all(child->node, depth+1);
 }
 
 // free the AST

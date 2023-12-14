@@ -1,4 +1,4 @@
- /*Pedro Tiago Gomes Ramalho 2019248594
+/*Pedro Tiago Gomes Ramalho 2019248594
     André Rodrigues Costa Pinto 2021213497 */
 
 %{
@@ -140,11 +140,11 @@ int main(int argc, char* argv[]) {
             flag2=1;
             yyparse();
             errors += check_program(program);
-            if(errors == 0){
-                show_symbol_table();
-                printf("\n");
-                show(program,0);
-            }
+
+            show_symbol_table();
+            printf("\n");
+            show_all(program,0);
+            
             //deallocate(program);
         }
     } else{

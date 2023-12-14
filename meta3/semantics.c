@@ -42,8 +42,8 @@ void check_declaration(struct node *function){
     if(search_symbol(global_symbol_table, child_1->token) == NULL) {
         insert_symbol(global_symbol_table, child_1->token, category_type(child_0->category), NULL);
     } else {
-        printf("Function %s already declared\n", child_1->token); //mudar nome do erro
-        semantic_errors++;
+        //printf("Function %s already declared\n", child_1->token); //mudar nome do erro
+        //semantic_errors++;
     }
 }
 
@@ -66,8 +66,8 @@ void check_funcDefinition(struct node *function) {
                 if(search_symbol(function_symbol_table, getchild(param, 1)->token) == NULL){
                     insert_symbol(function_symbol_table, getchild(param, 1)->token, category_type(getchild(param, 0)->category), child_2);
                 } else {
-                    printf("Symbol %s already declared\n", getchild(param, 1)->token); //mudar nome do erro
-                    semantic_errors++;
+                    //printf("Symbol %s already declared\n", getchild(param, 1)->token); //mudar nome do erro
+                   // semantic_errors++;
                 }
             }
         }
@@ -78,14 +78,15 @@ void check_funcDefinition(struct node *function) {
                 if(search_symbol(function_symbol_table, getchild(declaration, 1)->token) == NULL){
                     insert_symbol(function_symbol_table, getchild(declaration, 1)->token, category_type(getchild(declaration, 0)->category), child_3);
                 } else {
-                    printf("Symbol %s already declared\n", getchild(declaration, 1)->token); //mudar nome do erro
-                    semantic_errors++;
+                    //printf("Symbol %s already declared\n", getchild(declaration, 1)->token); //mudar nome do erro
+                    //semantic_errors++;
                 }
             }
         }
 
         //adiciona a nova tabela função à struct das tabelas função
         struct symbol_table_list *new = (struct symbol_table_list*) malloc(sizeof(struct symbol_table_list));
+        new->name = child_1->token;
         new->table = function_symbol_table;
         new->next = NULL;
         struct symbol_table_list *function_table = function_tables;
@@ -95,8 +96,8 @@ void check_funcDefinition(struct node *function) {
         function_table->next = new;
 
     } else {
-        printf("Table function %s already declared\n", child_1->token); //mudar nome do erro
-        semantic_errors++;
+        //printf("Table function %s already declared\n", child_1->token); //mudar nome do erro
+        //semantic_errors++;
     }
 }
 
@@ -107,8 +108,8 @@ void check_funcDeclaration(struct node *function) {
     if(search_symbol(global_symbol_table, child_1->token) == NULL) {
         insert_symbol(global_symbol_table, child_1->token, category_type(child_0->category), child_2);
     } else {
-        printf("Function %s already declared\n", child_1->token); //mudar nome do erro
-        semantic_errors++;
+        //printf("Function %s already declared\n", child_1->token); //mudar nome do erro
+        //semantic_errors++;
     }
 }
 
@@ -179,7 +180,6 @@ struct symbol_table_list *search_table(struct symbol_table_list *tables, char *i
 }
 
 void show_symbol_table(){
-    
     printf("===== Global Symbol Table =====\n");
     struct symbol_list *symbol;
     for(symbol = global_symbol_table->next; symbol != NULL; symbol = symbol->next) {
@@ -190,34 +190,38 @@ void show_symbol_table(){
                 struct node_list *child = symbol->node->children;
                 while((child = child->next) != NULL){
                     if(child->next == NULL) printf("%s", type_name(category_type(child->node->children->next->node->category)));
-                    else printf("%s,",   type_name(category_type(child->node->children->next->node->category)));
+                    else printf("%s,", type_name(category_type(child->node->children->next->node->category)));
                 }
             }
             printf(")");
         }
         printf("\n");
     }
-    
-    struct symbol_table_list *table;
-    for(table = function_tables->next; table != NULL; table = table->next) {
-        printf("\n");
-        struct symbol_list *simbolo;
-        for(simbolo = table->table->next; simbolo != NULL; simbolo = simbolo->next) {
-            switch (simbolo->node->category){
-            case FuncDefinition:
-                printf("===== Function %s Symbol Table =====\n", getchild(simbolo->node, 1)->token);
-                printf("%s\t%s\n", simbolo->identifier, type_name(simbolo->type));
-                break;
-            case FuncBody:
-                printf("%s\t%s\n", simbolo->identifier, type_name(simbolo->type));
-                break;
-            case ParamList:
-                printf("%s\t%s\tparam\n", simbolo->identifier, type_name(simbolo->type));
-                break;
-            default:
-                break;
+
+    for(symbol = global_symbol_table->next; symbol != NULL; symbol = symbol->next) {
+        struct symbol_table_list *table;
+        for(table = function_tables->next; table != NULL; table = table->next) {
+            char *nome_func = table->name;
+            if(strcmp(symbol->identifier, nome_func) == 0){
+                printf("\n");
+                struct symbol_list *simbolo;
+                for(simbolo = table->table->next; simbolo != NULL; simbolo = simbolo->next) {
+                    switch (simbolo->node->category){
+                    case FuncDefinition:
+                        printf("===== Function %s Symbol Table =====\n", nome_func);
+                        printf("%s\t%s\n", simbolo->identifier, type_name(simbolo->type));
+                        break;
+                    case FuncBody:
+                        printf("%s\t%s\n", simbolo->identifier, type_name(simbolo->type));
+                        break;
+                    case ParamList:
+                        printf("%s\t%s\tparam\n", simbolo->identifier, type_name(simbolo->type));
+                        break;
+                    default:
+                        break;
+                    }
+                }
             }
         }
     }
-    
 }
