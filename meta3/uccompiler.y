@@ -1,5 +1,5 @@
  /*Pedro Tiago Gomes Ramalho 2019248594
-    André Rodrigues Costa Pinto 2021213497 */
+ André Rodrigues Costa Pinto 2021213497 */
 %{
 #include "ast.h"
 #include <stdio.h>
@@ -29,7 +29,7 @@ int error_check = 0;
 %left BITWISEAND
 %left EQ NE
 %left LT LE GE GT
-%left PLUS MINUS                
+%left PLUS MINUS
 %left MUL DIV MOD
 %right NOT
 %left LPAR RPAR
@@ -172,10 +172,10 @@ ExprCall: ExprCall COMMA Expr {$$ = $1; addbrother($$, $3);}
 
 Expr: IDENTIFIER LPAR error RPAR {$$=newnode(Error,NULL); error_check=1;}
     | LPAR error RPAR {$$=newnode(Error,NULL); error_check=1;}
-    | IDENTIFIER {$$ = newnode(Identifier,$1);}
-    | NATURAL {$$ = newnode(Natural,$1);}
-    | CHRLIT {$$ = newnode(ChrLit,$1);}
-    | DECIMAL {$$ = newnode(Decimal,$1);}
+    | IDENTIFIER {$$ = newnode(Identifier,$1); addchild($$, newnode(Expr,NULL));}
+    | NATURAL {$$ = newnode(Natural,$1); addchild($$, newnode(Expr,NULL));}
+    | CHRLIT {$$ = newnode(ChrLit,$1); addchild($$, newnode(Expr,NULL));}
+    | DECIMAL {$$ = newnode(Decimal,$1); addchild($$, newnode(Expr,NULL));}
     | LPAR ExprList RPAR {$$ = $2;}
     | Expr ASSIGN Expr {$$ = newnode(Store, NULL); addchild($$, $1); addchild($$, $3);}
     | Expr PLUS Expr {$$ = newnode(Add, NULL); addchild($$, $1); addchild($$, $3);}

@@ -28,6 +28,28 @@ A estrutura base é o nó (`struct node`), que contém informações essenciais 
 
 Cada nó pode ter filhos, que são armazenados numa lista ligada (`struct node_list`). A lista de nós representa os filhos de um nó específico. Cada elemento da lista contém um ponteiro para um nó e um ponteiro para o próximo elemento da lista.
 
-Funções de inserção na àrvore: `newnode`: Cria um novo nó com a categoria e token passados por parametro. `addchild`: Adiciona um nó filho a um nó pai. `addbrother`: Adiciona um novo nó irmão ao final da lista de irmãos de um nó. 
+Além disso, cada nó pode ter um ponteiro para seu nó pai (`struct node *parent`). Isso permite navegar de um nó para seu pai, facilitando operações que envolvem a análise ascendente na árvore.
+
+Funções de inserção na àrvore: `newnode`: Cria um novo nó com a categoria e token passados por parâmetro. `addchild`: Adiciona um nó filho a um nó pai. `addbrother`: Adiciona um novo nó irmão ao final da lista de irmãos de um nó.
 
 Funções de apresentação da àrvore: `show`: Exibe a AST de forma hierárquica, indicando a categoria e o token de cada nó. `show_all`: Similar a `show`, mas exibe todos os nós, incluindo os irmãos.
+
+A estrutura para análise semântica é definida nos arquivos "semantics.h" e "semantics.c". O foco principal é a criação e manipulação de tabelas de símbolos, bem como a verificação de erros semânticos relacionados à declaração e definição de funções.
+
+O arquivo "semantics.h" define as estruturas e funções relacionadas à análise semântica:
+
+1.  **Estruturas:**
+    
+    * `struct symbol_list`: Representa uma lista de símbolos, contendo informações como identificador, tipo, nó associado e um ponteiro para o próximo símbolo na lista.
+    * `struct symbol_table_list`: Representa uma lista de tabelas de símbolos, contendo o nome da tabela, a tabela em si e um ponteiro para a próxima tabela.
+2.  **Funções:**
+    
+    * `int check_program(struct node *program)`: Função principal para a análise semântica do programa. Cria as tabelas globais e das funções, verifica declarações e definições de funções, e retorna o número de erros semânticos encontrados.
+    * `struct symbol_list *insert_symbol(struct symbol_list *table, char *identifier, enum type type, struct node *node)`: Insere um novo símbolo em uma tabela, a menos que o símbolo já esteja presente. Retorna o novo símbolo inserido ou NULL se o símbolo já existir.
+    * `struct symbol_list *search_symbol(struct symbol_list *table, char *identifier)`: Procura um símbolo por identificador em uma tabela e retorna o símbolo encontrado ou NULL se não existir.
+    * `struct symbol_table_list *search_table(struct symbol_table_list *tables, char *identifier)`: Procura uma tabela de símbolos por identificador e retorna a tabela encontrada ou NULL se não existir.
+    * `void show_symbol_table()`: Exibe as tabelas de símbolos global e de funções, mostrando identificadores, tipos e, quando aplicável, informações adicionais.
+
+O arquivo "semantics.c" implementa essas funções, incluindo a criação das tabelas globais e de funções, verificação de declarações e definições de funções, e exibição das tabelas de símbolos.
+
+Essa estrutura permite uma análise semântica abrangente, verificando a consistência e validade das declarações e definições de funções no programa.

@@ -1752,25 +1752,25 @@ yyreduce:
 
   case 53: /* Expr: IDENTIFIER  */
 #line 175 "uccompiler.y"
-                 {(yyval.node) = newnode(Identifier,(yyvsp[0].token));}
+                 {(yyval.node) = newnode(Identifier,(yyvsp[0].token)); addchild((yyval.node), newnode(Expr,NULL));}
 #line 1757 "y.tab.c"
     break;
 
   case 54: /* Expr: NATURAL  */
 #line 176 "uccompiler.y"
-              {(yyval.node) = newnode(Natural,(yyvsp[0].token));}
+              {(yyval.node) = newnode(Natural,(yyvsp[0].token)); addchild((yyval.node), newnode(Expr,NULL));}
 #line 1763 "y.tab.c"
     break;
 
   case 55: /* Expr: CHRLIT  */
 #line 177 "uccompiler.y"
-             {(yyval.node) = newnode(ChrLit,(yyvsp[0].token));}
+             {(yyval.node) = newnode(ChrLit,(yyvsp[0].token)); addchild((yyval.node), newnode(Expr,NULL));}
 #line 1769 "y.tab.c"
     break;
 
   case 56: /* Expr: DECIMAL  */
 #line 178 "uccompiler.y"
-              {(yyval.node) = newnode(Decimal,(yyvsp[0].token));}
+              {(yyval.node) = newnode(Decimal,(yyvsp[0].token)); addchild((yyval.node), newnode(Expr,NULL));}
 #line 1775 "y.tab.c"
     break;
 

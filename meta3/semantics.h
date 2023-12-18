@@ -21,6 +21,7 @@ struct symbol_table_list {
 struct symbol_list *insert_symbol(struct symbol_list *symbol_table, char *identifier, enum type type, struct node *node);
 struct symbol_list *search_symbol(struct symbol_list *symbol_table, char *identifier);
 struct symbol_table_list *search_table(struct symbol_table_list *table_list, char *identifier);
+
 void show_symbol_table();
 
 #endif

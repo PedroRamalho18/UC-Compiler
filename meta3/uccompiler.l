@@ -1,6 +1,7 @@
 /*Pedro Tiago Gomes Ramalho 2019248594
     André Rodrigues Costa Pinto 2021213497 */
 
+
 %{
     #include "y.tab.h"
     #include "ast.h"
@@ -9,7 +10,7 @@
 	#include <string.h>
     #define YY_USER_ACTION {column += yyleng;}
     #define PASS_TOKEN() yylval.token = strdup(yytext);
-    
+
     int row = 1, row_comment = 0;
     int column = 0, column_comment = 0, column_chr = 0;
     int errors = 0, error = 0;
