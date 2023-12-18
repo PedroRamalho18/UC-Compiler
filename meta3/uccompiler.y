@@ -29,7 +29,7 @@ int error_check = 0;
 %left BITWISEAND
 %left EQ NE
 %left LT LE GE GT
-%left PLUS MINUS
+%left PLUS MINUS                
 %left MUL DIV MOD
 %right NOT
 %left LPAR RPAR
