@@ -1,5 +1,0 @@
-f literals
-
-os que falham:
-tabs
-
